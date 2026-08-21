@@ -4,13 +4,15 @@
 
 This public repository is an operator-owned registration scaffold for a future
 LoCoMo judge report. It is not a freeze, publication, benchmark result, audit
-release, or authorization to run one. No LoCoMo conversations, prompt bytes,
-screening outputs, candidate pool, seed, sampling commitment values, results,
-or audit datasets belong here.
+release, or authorization to run one. LoCoMo conversations, audit datasets,
+prompt bytes, screening outputs, candidate pools, seeds, commitment values,
+and results are absent now.
 
 The sole repository operator is `ritsukai`. A future commitment may be added
 only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
-Until then, this repository contains metadata and validation interfaces only.
+After separate authorization, a sampling commitment and selected, authorized
+snippets may be appended. Until then, this repository contains metadata and
+validation interfaces only.
 
 ## Scope
 

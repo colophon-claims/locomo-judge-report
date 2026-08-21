@@ -10,11 +10,12 @@ function walk(path) {
     if (skipped.has(entry)) continue;
     const full = join(path, entry);
     if (statSync(full).isDirectory()) walk(full);
-    else if (/\.(?:md|cff|json|txt|yml|yaml)$/u.test(entry) || entry === 'README') files.push(full);
+    else if (/\.(?:md|cff|json|txt|yml|yaml|mjs|js)$/u.test(entry) || entry === 'README' || entry === 'LICENSE') files.push(full);
   }
 }
 
 walk(root);
-const offenders = files.filter((path) => readFileSync(path, 'utf8').includes('—'));
+const prohibitedCharacter = String.fromCodePoint(0x2014);
+const offenders = files.filter((path) => readFileSync(path, 'utf8').includes(prohibitedCharacter));
 if (offenders.length > 0) throw new Error(`em dash is prohibited: ${offenders.join(', ')}`);
 console.log(`no em dash in ${files.length} documentation files`);
