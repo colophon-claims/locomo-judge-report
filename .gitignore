@@ -1,0 +1,15 @@
+# This repository is preparation-only. These paths must never be committed here.
+/freeze/
+/conversations/
+/datasets/
+/prompts/
+/screening/
+/seeds/
+/candidate-pool/
+/results/
+/audit/
+/artifacts/
+*.secret
+*.key
+.env
+.DS_Store

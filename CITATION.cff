@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this preparation scaffold, please cite it as follows."
+title: "LoCoMo judge report registration scaffold"
+authors:
+  - family-names: "RitsuKai"
+    given-names: "Ritsu"
+repository-code: "https://github.com/colophon-claims/locomo-judge-report"
+license: "CC-BY-NC-4.0"
+date-released: 2026-08-21
+abstract: "Preparation-only public registration scaffold; not a frozen benchmark record."
