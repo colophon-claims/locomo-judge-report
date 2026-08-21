@@ -4,9 +4,10 @@
 
 This public repository is an operator-owned registration scaffold for a future
 LoCoMo judge report. It is not a freeze, publication, benchmark result, audit
-release, or authorization to run one. LoCoMo conversations, audit datasets,
-prompt bytes, screening outputs, candidate pools, seeds, commitment values,
-and results are absent now.
+release, or authorization to run one. No real or operator commitment instance,
+seed, LoCoMo conversation, audit dataset, prompt bytes, screening output,
+candidate pool, or result is present now. Clearly named synthetic test fixtures
+may exercise validation only and are not a commitment or freeze.
 
 The sole repository operator is `ritsukai`. A future commitment may be added
 only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).

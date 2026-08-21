@@ -1,8 +1,9 @@
 # Sampling commitment interface
 
 This repository publishes only the schema and validator interface for a future
-sampling commitment. It contains no commitment values, seed, candidate pool,
-sampling output, or freeze record.
+sampling commitment. It contains no real or operator commitment values, seed,
+candidate pool, sampling output, or freeze record. Clearly named synthetic
+test fixtures may exercise the validator and are not a commitment or freeze.
 
 When separately authorized, a commitment instance must use the exact v1 schema
 identifier and provide a sorted, unique list of candidate item digests, the

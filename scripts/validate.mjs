@@ -25,6 +25,10 @@ const allowedFiles = new Map([
   ['source-register.json', ['application/json', 8192]],
   ['test/validate.test.mjs', ['application/javascript', 16384]],
 ]);
+const registerKeys = ['schema', 'sources'];
+const sourceKeys = ['id', 'includedLaterByOperatorDecision', 'license', 'licenseNote', 'promptBytesCopied', 'provenance', 'public', 'source', 'title', 'url'];
+const locatorKeys = ['commit', 'path', 'repository'];
+const provenanceKeys = ['role', 'url'];
 
 function expectedContentType(path) {
   if (path.endsWith('.md')) return 'text/markdown';
@@ -32,6 +36,19 @@ function expectedContentType(path) {
   if (path.endsWith('.mjs')) return 'application/javascript';
   if (path.endsWith('.yml') || path.endsWith('.cff')) return 'text/yaml';
   return 'text/plain';
+}
+
+function hasExactKeys(value, keys) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    && Object.keys(value).sort().join(',') === [...keys].sort().join(',');
+}
+
+function httpsUrl(value) {
+  try {
+    return typeof value === 'string' && new URL(value).protocol === 'https:';
+  } catch {
+    return false;
+  }
 }
 
 function canonical(value) {
@@ -67,9 +84,26 @@ for (const path of tracked) {
 
 const registerPath = join(root, 'source-register.json');
 const register = JSON.parse(readFileSync(registerPath, 'utf8'));
-if (readFileSync(registerPath, 'utf8') !== `${canonical(register)}\n`) throw new Error('source-register.json is not canonical JSON');
+const registerRaw = readFileSync(registerPath, 'utf8');
+
+export function validateSourceRegister(value, raw) {
+if (raw !== `${canonical(value)}\n`) throw new Error('source-register.json is not canonical JSON');
+const register = value;
+if (!hasExactKeys(register, registerKeys)) throw new Error('source register has unexpected root properties');
 if (register.schema !== 'https://colophon-claims.github.io/locomo-judge-report/source-register/v1') throw new Error('unexpected source register schema');
 if (!Array.isArray(register.sources) || register.sources.some((source, index) => !source || typeof source.id !== 'string' || source.id.length === 0 || (index > 0 && register.sources[index - 1].id >= source.id))) throw new Error('source register sources must be sorted and unique');
+for (const source of register.sources) {
+  if (!hasExactKeys(source, sourceKeys) || !hasExactKeys(source.source, locatorKeys)
+    || ['id', 'title', 'license', 'licenseNote'].some((key) => typeof source[key] !== 'string' || source[key].trim().length === 0)
+    || typeof source.public !== 'boolean' || typeof source.promptBytesCopied !== 'boolean' || typeof source.includedLaterByOperatorDecision !== 'boolean'
+    || !httpsUrl(source.url) || !httpsUrl(source.source.repository)
+    || !/^[a-f0-9]{40}$/u.test(source.source.commit) || typeof source.source.path !== 'string' || source.source.path.length === 0 || source.source.path.startsWith('/') || source.source.path.includes('..')) {
+    throw new Error('source register contains a malformed source row');
+  }
+  if (!Array.isArray(source.provenance) || source.provenance.length === 0 || source.provenance.some((provenance, index) => !hasExactKeys(provenance, provenanceKeys) || typeof provenance.role !== 'string' || provenance.role.length === 0 || !httpsUrl(provenance.url) || (index > 0 && source.provenance[index - 1].role >= provenance.role))) {
+    throw new Error('source register contains malformed provenance');
+  }
+}
 const backboard = register.sources.find((source) => source.id === 'backboard');
 if (!backboard || backboard.public !== true || backboard.license !== 'NOASSERTION'
   || backboard.licenseNote !== 'No license found in the public source metadata at registration time.'
@@ -77,9 +111,13 @@ if (!backboard || backboard.public !== true || backboard.license !== 'NOASSERTIO
   || backboard.source?.repository !== 'https://github.com/Backboard-io/Backboard-Locomo-Benchmark'
   || backboard.source?.commit !== '164d45c06f860d832bbe598f0dde0ea66b05f384'
   || backboard.source?.path !== 'locomo_ingest_eval.py'
-  || backboard.url !== 'https://github.com/Backboard-io/Backboard-Locomo-Benchmark/blob/164d45c06f860d832bbe598f0dde0ea66b05f384/locomo_ingest_eval.py') {
+  || backboard.url !== 'https://github.com/Backboard-io/Backboard-Locomo-Benchmark/blob/164d45c06f860d832bbe598f0dde0ea66b05f384/locomo_ingest_eval.py'
+  || canonical(backboard.provenance) !== canonical([{ role: 'public-quotation', url: 'https://github.com/snap-research/locomo/issues/23#issuecomment-3631413949' }, { role: 'repository-canonicality-and-license-context', url: 'https://github.com/snap-research/locomo/issues/23#issuecomment-5336303788' }])) {
   throw new Error('Backboard source facts are not the verified registration facts');
 }
+}
+
+validateSourceRegister(register, registerRaw);
 
 const expectedManifest = tracked.filter((path) => path !== 'MANIFEST.sha256').map((path) => {
   const digest = createHash('sha256').update(readFileSync(join(root, path))).digest('hex');
