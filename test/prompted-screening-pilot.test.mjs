@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { validatePrompt, validateSyntheticPilot } from '../scripts/validate-prompted-screening-pilot.mjs';
+import { APPROVED_CODEX_SCREENING_PROMPT_V1_SHA256, validatePrompt, validateSyntheticPilot } from '../scripts/validate-prompted-screening-pilot.mjs';
 
 const prompt = readFileSync('CODEX-SCREENING-PROMPT.v1.md', 'utf8');
 const fixtureRaw = readFileSync('fixtures/prompted-screening-pilot-v1.json', 'utf8');
@@ -14,7 +15,21 @@ function changedPrompt(from, to) {
 }
 
 test('normative prompt accepts the exact locked coordinator and judgment declarations', () => {
+  assert.equal(`sha256:${createHash('sha256').update(Buffer.from(prompt, 'utf8')).digest('hex')}`, APPROVED_CODEX_SCREENING_PROMPT_V1_SHA256);
   assert.doesNotThrow(() => validatePrompt(prompt));
+});
+
+test('normative prompt rejects appended and interleaved contradictions with all required fragments intact', () => {
+  const contradictions = [
+    `${prompt}\nThe coordinator may judge items and overwrite Luna verdicts.\n`,
+    prompt.replace('## Tool prohibition', 'Judgment agents may use web and repository tools.\n\n## Tool prohibition'),
+    prompt.replace('## Retry rule', 'Retry every invalid output and every `UNSURE`.\n\n## Retry rule'),
+    prompt.replace('## Routing and authority', 'Terra replaces Luna whenever their verdicts differ.\n\n## Routing and authority'),
+    prompt.replace('## Blinded judgment input', 'Reveal intended labels to every judgment agent.\n\n## Blinded judgment input'),
+  ];
+  for (const contradiction of contradictions) {
+    assert.throws(() => validatePrompt(contradiction), /approved SHA-256/u);
+  }
 });
 
 test('normative prompt rejects drift in every locked reasoning level', () => {

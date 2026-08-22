@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
 const root = new URL('..', import.meta.url).pathname;
@@ -19,6 +20,10 @@ const prohibitedFixtureText = [
   /BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY/u,
   /\b(?:[0-9a-f]{64}|sha256:)\b/iu,
 ];
+
+// This is the reviewed contract identity for CODEX-SCREENING-PROMPT.v1.md.
+// Changing it is a normative contract change, not manifest maintenance.
+export const APPROVED_CODEX_SCREENING_PROMPT_V1_SHA256 = 'sha256:d5977b2d5d4f66a11af145e958f6cdc56ee7ac8b38a1193cc3505adfdd2cf999';
 
 function hasExactKeys(value, keys) {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -66,6 +71,11 @@ export function validatePrompt(text) {
   const aliases = [...text.matchAll(/`(gpt-[0-9a-z.-]+)`/gu)].map((match) => match[1]);
   if (JSON.stringify(aliases) !== JSON.stringify(['gpt-5.6-sol', 'gpt-5.6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol'])) throw new Error('prompt contains a missing, repeated, reordered, or unauthorized model alias');
   if (!text.includes('mutable aliases, not immutable provider snapshots')) throw new Error('prompt omits the mutable-alias limitation');
+
+  const digest = `sha256:${createHash('sha256').update(Buffer.from(text, 'utf8')).digest('hex')}`;
+  if (digest !== APPROVED_CODEX_SCREENING_PROMPT_V1_SHA256) {
+    throw new Error(`prompt bytes do not match approved SHA-256 ${APPROVED_CODEX_SCREENING_PROMPT_V1_SHA256}`);
+  }
 }
 
 function assertNoProhibitedFixtureProperties(value, path = 'fixture') {
