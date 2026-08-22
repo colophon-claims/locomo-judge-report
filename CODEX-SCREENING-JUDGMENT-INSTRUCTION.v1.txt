@@ -1,0 +1,21 @@
+PROMPTED CODEX SCREENING JUDGMENT INSTRUCTION
+INSTRUCTION VERSION: 1
+ENCODING: UTF-8
+
+Judge only the blinded items supplied after this instruction.
+Do not use web, shell, repository, search, retrieval, or any other tool.
+Do not request or infer an intended label, candidate class, category stratum, main or reserve status, slot lineage, reserve order, sample membership, another agent output, or a Ritsu decision.
+
+For each item, decide whether candidateAnswer is correct with respect to question and referenceAnswer.
+The verdict alphabet is exactly CORRECT, WRONG, or UNSURE.
+
+Return exactly one compact JSON array followed by one LF byte and nothing else.
+The array must contain exactly one object per input item in input order.
+Every output object must have exactly two keys in this order: itemId, verdict.
+Copy itemId exactly from the corresponding input item.
+Do not return Markdown fences, prose, headings, or any other bytes.
+
+A missing, extra, duplicate, or reordered item; a changed itemId; an extra field; an invalid verdict; non-JSON; or any byte outside the required JSON array and final LF makes the affected output invalid and routes it to UNSURE.
+An invalid output is still a model output and is not retryable.
+
+The canonical blinded item JSON array begins at the first byte after this instruction's final LF.

@@ -1,0 +1,70 @@
+{
+  "schema": "local://colophon/prompted-screening-synthetic-pilot-results/v1",
+  "status": "PENDING_RITSU_NON_CONFORMANT_PROCESS",
+  "pilotAccepted": false,
+  "acceptanceDeclared": false,
+  "publicRepoHead": "730bb9048f0d8bd8141a0ebd4cabbe425bcc1e84",
+  "digests": {
+    "promptSha256": "d5977b2d5d4f66a11af145e958f6cdc56ee7ac8b38a1193cc3505adfdd2cf999",
+    "procedureSourceSha256": "d5977b2d5d4f66a11af145e958f6cdc56ee7ac8b38a1193cc3505adfdd2cf999",
+    "procedureValidatorSha256": "ce85a3faaf13941310b0d7e10e42c0e5f9ca55e980f5453a9b5515f6df0ab771",
+    "fixtureSha256": "6d372a2242b339991817f5660c9d53812c19978c51efb74f9036dd95d07d3813",
+    "transcriptSha256": "55792ab83caa3218605ce48b51d78a5920b919f9b991c8262fe54c94dbd28364",
+    "orderedBlindedInputsSha256": "c9f7bb5defcf7c428272c3a25577e4ff20c59bb8a53ee27eafc0afefb42edfc1",
+    "normativeJudgmentSectionSha256": "d9141739f7129cd660b9cce83e0e8e28a3ffe33fe30d4138031a25fc3b460509",
+    "dispatchedJudgmentSectionSha256": "edb0ab1face5c288f375fe5f4222843409d3836e73681178e00c0a746977a43f"
+  },
+  "intendedLabelDerivation": {
+    "performedAfterAllBlindedOutputs": true,
+    "rule": "candidateClass correct -> CORRECT; all fixture wrong classes -> WRONG"
+  },
+  "summary": {
+    "itemCount": 24,
+    "lunaScreeningVerdictCounts": {
+      "CORRECT": 8,
+      "WRONG": 16,
+      "UNSURE": 0
+    },
+    "threeModelAgreementCount": 24,
+    "modelDisagreementCount": 0,
+    "lunaIntendedLabelMismatchCount": 0,
+    "unsureItemCount": 0,
+    "invalidOutputItemCount": 0,
+    "missingOutputCount": 0,
+    "extraOutputCount": 0,
+    "duplicateOutputCount": 0,
+    "infrastructureFailureCount": 0,
+    "retryCount": 0,
+    "ritsuDecisionCount": 0
+  },
+  "processConformance": {
+    "outcome": "NON_CONFORMANT",
+    "materialIssue": "All judgment dispatches omitted the Markdown code-fence bytes around the normative example object; valid outputs were not rerun."
+  },
+  "items": [
+    {"itemId":"synthetic-correct-category-1-01","candidateClass":"correct","stratum":"category-1","permanentlyExcluded":true,"intendedLabel":"CORRECT","lunaRawVerdict":"CORRECT","screeningVerdict":"CORRECT","terraRawVerdict":"CORRECT","solRawVerdict":"CORRECT","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-correct-category-1-02","candidateClass":"correct","stratum":"category-1","permanentlyExcluded":true,"intendedLabel":"CORRECT","lunaRawVerdict":"CORRECT","screeningVerdict":"CORRECT","terraRawVerdict":"CORRECT","solRawVerdict":"CORRECT","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-correct-category-2-01","candidateClass":"correct","stratum":"category-2","permanentlyExcluded":true,"intendedLabel":"CORRECT","lunaRawVerdict":"CORRECT","screeningVerdict":"CORRECT","terraRawVerdict":"CORRECT","solRawVerdict":"CORRECT","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-correct-category-2-02","candidateClass":"correct","stratum":"category-2","permanentlyExcluded":true,"intendedLabel":"CORRECT","lunaRawVerdict":"CORRECT","screeningVerdict":"CORRECT","terraRawVerdict":"CORRECT","solRawVerdict":"CORRECT","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-correct-category-3-01","candidateClass":"correct","stratum":"category-3","permanentlyExcluded":true,"intendedLabel":"CORRECT","lunaRawVerdict":"CORRECT","screeningVerdict":"CORRECT","terraRawVerdict":"CORRECT","solRawVerdict":"CORRECT","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-correct-category-3-02","candidateClass":"correct","stratum":"category-3","permanentlyExcluded":true,"intendedLabel":"CORRECT","lunaRawVerdict":"CORRECT","screeningVerdict":"CORRECT","terraRawVerdict":"CORRECT","solRawVerdict":"CORRECT","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-correct-category-4-01","candidateClass":"correct","stratum":"category-4","permanentlyExcluded":true,"intendedLabel":"CORRECT","lunaRawVerdict":"CORRECT","screeningVerdict":"CORRECT","terraRawVerdict":"CORRECT","solRawVerdict":"CORRECT","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-correct-category-4-02","candidateClass":"correct","stratum":"category-4","permanentlyExcluded":true,"intendedLabel":"CORRECT","lunaRawVerdict":"CORRECT","screeningVerdict":"CORRECT","terraRawVerdict":"CORRECT","solRawVerdict":"CORRECT","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-specific-wrong-category-1-01","candidateClass":"specific-wrong","stratum":"category-1","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-specific-wrong-category-1-02","candidateClass":"specific-wrong","stratum":"category-1","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-specific-wrong-category-2-01","candidateClass":"specific-wrong","stratum":"category-2","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-specific-wrong-category-2-02","candidateClass":"specific-wrong","stratum":"category-2","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-specific-wrong-category-3-01","candidateClass":"specific-wrong","stratum":"category-3","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-specific-wrong-category-3-02","candidateClass":"specific-wrong","stratum":"category-3","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-specific-wrong-category-4-01","candidateClass":"specific-wrong","stratum":"category-4","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-specific-wrong-category-4-02","candidateClass":"specific-wrong","stratum":"category-4","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-vague-topical-wrong-category-1-01","candidateClass":"vague-topical-wrong","stratum":"category-1","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-vague-topical-wrong-category-1-02","candidateClass":"vague-topical-wrong","stratum":"category-1","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-vague-topical-wrong-category-2-01","candidateClass":"vague-topical-wrong","stratum":"category-2","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-vague-topical-wrong-category-2-02","candidateClass":"vague-topical-wrong","stratum":"category-2","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-vague-topical-wrong-category-3-01","candidateClass":"vague-topical-wrong","stratum":"category-3","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-vague-topical-wrong-category-3-02","candidateClass":"vague-topical-wrong","stratum":"category-3","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-vague-topical-wrong-category-4-01","candidateClass":"vague-topical-wrong","stratum":"category-4","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null},
+    {"itemId":"synthetic-vague-topical-wrong-category-4-02","candidateClass":"vague-topical-wrong","stratum":"category-4","permanentlyExcluded":true,"intendedLabel":"WRONG","lunaRawVerdict":"WRONG","screeningVerdict":"WRONG","terraRawVerdict":"WRONG","solRawVerdict":"WRONG","threeModelAgreement":true,"modelDisagreement":false,"lunaIntendedLabelMismatch":false,"hasUnsure":false,"invalid":{"luna":false,"terra":false,"sol":false},"ritsuDecision":null}
+  ]
+}

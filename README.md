@@ -5,11 +5,11 @@
 This public repository is an operator-owned registration scaffold for a future
 LoCoMo judge report. It is not a freeze, publication, benchmark result, audit
 release, or authorization to run one. No real or operator commitment instance,
-seed, LoCoMo conversation, audit dataset, screening output, candidate pool, or
-result is present now. The only prompt bytes are the Colophon-authored normative
-procedure in [CODEX-SCREENING-PROMPT.v1.md](CODEX-SCREENING-PROMPT.v1.md).
-Clearly named synthetic test fixtures may exercise validation only and are
-permanently ineligible for admission. Neither is a commitment or freeze.
+seed, LoCoMo conversation, audit dataset, real screening output, candidate pool,
+or benchmark result is present now. Versioned Colophon-authored prompt and
+instruction bytes define a future procedure. Clearly named synthetic fixtures
+and the preserved non-conformant synthetic pilot are permanently ineligible for
+admission. None is a commitment or freeze, and the pilot is not accepted.
 
 The sole repository operator is `ritsukai`. A future commitment may be added
 only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -21,11 +21,18 @@ validation interfaces only.
 
 - [source-register.json](source-register.json) is the canonical source register.
 - [CODEX-SCREENING-PROMPT.v1.md](CODEX-SCREENING-PROMPT.v1.md) records the
-  normative natural-language procedure source. It does not prove execution or
-  compliance.
+  immutable procedure source used by the non-conformant pilot. Version 1 is
+  superseded for future dispatches, not rewritten.
+- [CODEX-SCREENING-PROMPT.v2.md](CODEX-SCREENING-PROMPT.v2.md) records the
+  normative future coordinator procedure with mandatory byte-exact rendering.
+- [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt)
+  is the independent exact judgment-agent instruction used by version 2.
 - [fixtures/prompted-screening-pilot-v1.json](fixtures/prompted-screening-pilot-v1.json)
   contains only 24 synthetic, permanently excluded validation cases and no
   model output or operator decision.
+- [records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json](records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json)
+  preserves the failed synthetic pilot, its privacy-safe raw evidence, exact
+  artifact identities, zero Ritsu decisions, and non-acceptance.
 - [schemas/sampling-commitment.schema.json](schemas/sampling-commitment.schema.json)
   defines a validation interface, not a commitment instance.
 - [docs/software-heritage.md](docs/software-heritage.md) describes a future
@@ -37,6 +44,8 @@ Run the local checks with:
 ```sh
 node scripts/validate.mjs
 node scripts/validate-prompted-screening-pilot.mjs
+node scripts/render-prompted-screening-dispatch-v2.mjs
+node scripts/validate-synthetic-pilot-run-record.mjs
 node --test test/*.test.mjs
 ```
 

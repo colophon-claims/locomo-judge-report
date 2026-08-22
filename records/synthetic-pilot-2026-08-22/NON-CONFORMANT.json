@@ -1,0 +1,85 @@
+{
+  "schema": "https://colophon-claims.github.io/locomo-judge-report/synthetic-pilot-run-record/v1",
+  "runId": "prompted-screening-synthetic-pilot-2026-08-22",
+  "status": "NON-CONFORMANT",
+  "accepted": false,
+  "syntheticOnly": true,
+  "permanentlyExcluded": true,
+  "realCandidateScreening": false,
+  "sourcePublicHead": "730bb9048f0d8bd8141a0ebd4cabbe425bcc1e84",
+  "procedureVersion": "v1",
+  "defect": {
+    "kind": "exact-instruction-byte-omission",
+    "detail": "Every judgment dispatch omitted the opening and closing Markdown code-fence bytes around the normative example object.",
+    "disposition": "The valid model outputs were not rerun because retry is permitted only for infrastructure failure with no model output."
+  },
+  "judgmentStages": [
+    {
+      "stage": "Luna",
+      "modelAlias": "gpt-5.6-luna",
+      "reasoning": "medium",
+      "batchSizes": [
+        24
+      ],
+      "judgmentCount": 24
+    },
+    {
+      "stage": "Terra",
+      "modelAlias": "gpt-5.6-terra",
+      "reasoning": "high",
+      "batchSizes": [
+        16,
+        8
+      ],
+      "judgmentCount": 24
+    },
+    {
+      "stage": "Sol",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high",
+      "batchSizes": [
+        8,
+        8,
+        8
+      ],
+      "judgmentCount": 24
+    }
+  ],
+  "processAuditStage": {
+    "modelAlias": "gpt-5.6-sol",
+    "reasoning": "high",
+    "dispatchCount": 1,
+    "itemJudgmentCount": 0,
+    "afterAllJudgmentOutputs": true
+  },
+  "summary": {
+    "itemCount": 24,
+    "judgmentCount": 72,
+    "judgmentDispatchCount": 6,
+    "processAuditDispatchCount": 1,
+    "threeModelAgreementCount": 24,
+    "lunaIntendedLabelMatchCount": 24,
+    "errorCount": 0,
+    "unsureCount": 0,
+    "infrastructureFailureCount": 0,
+    "retryCount": 0,
+    "ritsuDecisionCount": 0
+  },
+  "artifacts": {
+    "coordinatorPromptV1Sha256": "sha256:d5977b2d5d4f66a11af145e958f6cdc56ee7ac8b38a1193cc3505adfdd2cf999",
+    "procedureValidatorSha256": "sha256:ce85a3faaf13941310b0d7e10e42c0e5f9ca55e980f5453a9b5515f6df0ab771",
+    "fixtureSha256": "sha256:6d372a2242b339991817f5660c9d53812c19978c51efb74f9036dd95d07d3813",
+    "orderedBlindedInputsSha256": "sha256:c9f7bb5defcf7c428272c3a25577e4ff20c59bb8a53ee27eafc0afefb42edfc1",
+    "normativeJudgmentSectionSha256": "sha256:d9141739f7129cd660b9cce83e0e8e28a3ffe33fe30d4138031a25fc3b460509",
+    "dispatchedJudgmentSectionSha256": "sha256:edb0ab1face5c288f375fe5f4222843409d3836e73681178e00c0a746977a43f",
+    "processAuditSha256": "sha256:fed58c364afb9ce281f04aaebd072f5aacee5d870926fe2792d7766ad7c8dbf4",
+    "rawResultsSha256": "sha256:41b505f8c1db9850e14df76fd335647caaf2f85e5cad62110411a7f1c7b74c19",
+    "rawTranscriptSha256": "sha256:55792ab83caa3218605ce48b51d78a5920b919f9b991c8262fe54c94dbd28364"
+  },
+  "publishedEvidence": {
+    "processAuditPath": "records/synthetic-pilot-2026-08-22/process-audit.md",
+    "rawResultsPath": "records/synthetic-pilot-2026-08-22/pilot-results.pending-ritsu.json",
+    "rawTranscriptIncluded": false,
+    "rawTranscriptOmissionReason": "The raw transcript contains an operator-local absolute filesystem path with a workstation username. Its exact digest is retained, but its bytes are not published."
+  }
+}

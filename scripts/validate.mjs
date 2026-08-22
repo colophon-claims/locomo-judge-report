@@ -1,7 +1,9 @@
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import './render-prompted-screening-dispatch-v2.mjs';
 import './validate-prompted-screening-pilot.mjs';
+import './validate-synthetic-pilot-run-record.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const manifestPath = join(root, 'MANIFEST.sha256');
@@ -13,7 +15,9 @@ const allowedFiles = new Map([
   ['.gitignore', ['text/plain', 4096]],
   ['ATTRIBUTION.md', ['text/markdown', 8192]],
   ['CITATION.cff', ['text/yaml', 4096]],
+  ['CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
   ['CODEX-SCREENING-PROMPT.v1.md', ['text/markdown', 16384]],
+  ['CODEX-SCREENING-PROMPT.v2.md', ['text/markdown', 16384]],
   ['CONTRIBUTING.md', ['text/markdown', 8192]],
   ['LICENSE', ['text/plain', 32768]],
   ['LICENSES/THIRD-PARTY-NOTICES.md', ['text/markdown', 8192]],
@@ -21,14 +25,21 @@ const allowedFiles = new Map([
   ['docs/sampling-commitment.md', ['text/markdown', 8192]],
   ['docs/software-heritage.md', ['text/markdown', 8192]],
   ['fixtures/prompted-screening-pilot-v1.json', ['application/json', 32768]],
+  ['records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json', ['application/json', 16384]],
+  ['records/synthetic-pilot-2026-08-22/pilot-results.pending-ritsu.json', ['application/json', 32768]],
+  ['records/synthetic-pilot-2026-08-22/process-audit.md', ['text/markdown', 8192]],
   ['schemas/sampling-commitment.schema.json', ['application/json', 8192]],
   ['scripts/check-no-em-dash.mjs', ['application/javascript', 8192]],
+  ['scripts/render-prompted-screening-dispatch-v2.mjs', ['application/javascript', 16384]],
   ['scripts/validate-prompted-screening-pilot.mjs', ['application/javascript', 16384]],
   ['scripts/validate-sampling-commitment.mjs', ['application/javascript', 8192]],
+  ['scripts/validate-synthetic-pilot-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate.mjs', ['application/javascript', 16384]],
   ['source-register.json', ['application/json', 8192]],
   ['test/validate.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-pilot.test.mjs', ['application/javascript', 16384]],
+  ['test/prompted-screening-dispatch-v2.test.mjs', ['application/javascript', 16384]],
+  ['test/synthetic-pilot-run-record.test.mjs', ['application/javascript', 16384]],
 ]);
 const registerKeys = ['schema', 'sources'];
 const sourceKeys = ['id', 'includedLaterByOperatorDecision', 'license', 'licenseNote', 'promptBytesCopied', 'provenance', 'public', 'source', 'title', 'url'];
