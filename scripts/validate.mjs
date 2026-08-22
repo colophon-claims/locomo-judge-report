@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import './validate-prompted-screening-pilot.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const manifestPath = join(root, 'MANIFEST.sha256');
@@ -12,18 +13,22 @@ const allowedFiles = new Map([
   ['.gitignore', ['text/plain', 4096]],
   ['ATTRIBUTION.md', ['text/markdown', 8192]],
   ['CITATION.cff', ['text/yaml', 4096]],
+  ['CODEX-SCREENING-PROMPT.v1.md', ['text/markdown', 16384]],
   ['CONTRIBUTING.md', ['text/markdown', 8192]],
   ['LICENSE', ['text/plain', 32768]],
   ['LICENSES/THIRD-PARTY-NOTICES.md', ['text/markdown', 8192]],
   ['README.md', ['text/markdown', 8192]],
   ['docs/sampling-commitment.md', ['text/markdown', 8192]],
   ['docs/software-heritage.md', ['text/markdown', 8192]],
+  ['fixtures/prompted-screening-pilot-v1.json', ['application/json', 32768]],
   ['schemas/sampling-commitment.schema.json', ['application/json', 8192]],
   ['scripts/check-no-em-dash.mjs', ['application/javascript', 8192]],
+  ['scripts/validate-prompted-screening-pilot.mjs', ['application/javascript', 16384]],
   ['scripts/validate-sampling-commitment.mjs', ['application/javascript', 8192]],
   ['scripts/validate.mjs', ['application/javascript', 16384]],
   ['source-register.json', ['application/json', 8192]],
   ['test/validate.test.mjs', ['application/javascript', 16384]],
+  ['test/prompted-screening-pilot.test.mjs', ['application/javascript', 16384]],
 ]);
 const registerKeys = ['schema', 'sources'];
 const sourceKeys = ['id', 'includedLaterByOperatorDecision', 'license', 'licenseNote', 'promptBytesCopied', 'provenance', 'public', 'source', 'title', 'url'];

@@ -5,9 +5,12 @@ pull requests and must preserve the preparation-only boundary in README.md.
 
 ## Before a commitment
 
-Metadata corrections may be made in normal commits. They must not add prompt
-bytes, conversations, audit data, seeds, candidate pools, screening outputs,
-results, or a sampling commitment instance.
+Metadata corrections, Colophon-authored normative procedure text, and clearly
+named synthetic validation fixtures may be added in normal commits. Synthetic
+fixtures must be permanently ineligible for admission and must not carry model
+outputs or operator decisions. Commits before a commitment must not add real
+candidate or source bytes, conversations, audit data, seeds, candidate pools,
+screening outputs, transcripts, results, or a sampling commitment instance.
 
 ## After a commitment
 

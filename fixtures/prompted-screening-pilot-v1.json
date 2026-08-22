@@ -1,0 +1,343 @@
+{
+  "schema": "https://colophon-claims.github.io/locomo-judge-report/prompted-screening-synthetic-pilot/v1",
+  "status": "synthetic-validation-only",
+  "itemCount": 24,
+  "cases": [
+    {
+      "pilotCaseId": "synthetic-correct-category-1-01",
+      "candidateClass": "correct",
+      "stratum": "category-1",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-correct-category-1-01",
+        "question": "What color token is stored in drawer A?",
+        "referenceAnswer": "The token in drawer A is blue.",
+        "candidateAnswer": "It is blue."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-correct-category-1-02",
+      "candidateClass": "correct",
+      "stratum": "category-1",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-correct-category-1-02",
+        "question": "Which shelf holds the copper cube?",
+        "referenceAnswer": "The copper cube is on shelf three.",
+        "candidateAnswer": "Shelf three holds it."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-correct-category-2-01",
+      "candidateClass": "correct",
+      "stratum": "category-2",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-correct-category-2-01",
+        "question": "When does the imaginary lantern test begin?",
+        "referenceAnswer": "The lantern test begins on Tuesday morning.",
+        "candidateAnswer": "It begins Tuesday morning."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-correct-category-2-02",
+      "candidateClass": "correct",
+      "stratum": "category-2",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-correct-category-2-02",
+        "question": "How long is the fictional relay pause?",
+        "referenceAnswer": "The relay pause lasts nine minutes.",
+        "candidateAnswer": "The pause is nine minutes long."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-correct-category-3-01",
+      "candidateClass": "correct",
+      "stratum": "category-3",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-correct-category-3-01",
+        "question": "Which route does the toy rover follow?",
+        "referenceAnswer": "The toy rover follows the east loop.",
+        "candidateAnswer": "It follows the eastern loop."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-correct-category-3-02",
+      "candidateClass": "correct",
+      "stratum": "category-3",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-correct-category-3-02",
+        "question": "Where is the paper observatory located in the model?",
+        "referenceAnswer": "The paper observatory is beside the silver bridge.",
+        "candidateAnswer": "It is next to the silver bridge."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-correct-category-4-01",
+      "candidateClass": "correct",
+      "stratum": "category-4",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-correct-category-4-01",
+        "question": "Why was the cardboard gate closed in the exercise?",
+        "referenceAnswer": "The cardboard gate was closed to test the green sensor.",
+        "candidateAnswer": "It was closed so the green sensor could be tested."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-correct-category-4-02",
+      "candidateClass": "correct",
+      "stratum": "category-4",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-correct-category-4-02",
+        "question": "What caused the invented beacon to flash?",
+        "referenceAnswer": "A magnetic tile caused the invented beacon to flash.",
+        "candidateAnswer": "The flash was caused by a magnetic tile."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-specific-wrong-category-1-01",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-1",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-specific-wrong-category-1-01",
+        "question": "What shape is printed on card B?",
+        "referenceAnswer": "Card B shows a triangle.",
+        "candidateAnswer": "Card B shows a circle."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-specific-wrong-category-1-02",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-1",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-specific-wrong-category-1-02",
+        "question": "How many glass counters are in the fictional tray?",
+        "referenceAnswer": "The fictional tray contains six glass counters.",
+        "candidateAnswer": "The tray contains eleven glass counters."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-specific-wrong-category-2-01",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-2",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-specific-wrong-category-2-01",
+        "question": "On which day does the mock bell ring?",
+        "referenceAnswer": "The mock bell rings on Friday.",
+        "candidateAnswer": "The mock bell rings on Monday."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-specific-wrong-category-2-02",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-2",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-specific-wrong-category-2-02",
+        "question": "At what imaginary time does the blue timer stop?",
+        "referenceAnswer": "The blue timer stops at 14:20.",
+        "candidateAnswer": "It stops at 16:45."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-specific-wrong-category-3-01",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-3",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-specific-wrong-category-3-01",
+        "question": "Which tunnel does the model train enter?",
+        "referenceAnswer": "The model train enters the north tunnel.",
+        "candidateAnswer": "It enters the west tunnel."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-specific-wrong-category-3-02",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-3",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-specific-wrong-category-3-02",
+        "question": "Where was the foam compass placed?",
+        "referenceAnswer": "The foam compass was placed under the red arch.",
+        "candidateAnswer": "It was placed above the yellow arch."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-specific-wrong-category-4-01",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-4",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-specific-wrong-category-4-01",
+        "question": "Why did the pretend wheel stop?",
+        "referenceAnswer": "The pretend wheel stopped because the paper switch opened.",
+        "candidateAnswer": "It stopped because the metal spring snapped."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-specific-wrong-category-4-02",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-4",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-specific-wrong-category-4-02",
+        "question": "What made the imaginary panel turn amber?",
+        "referenceAnswer": "The imaginary panel turned amber after the second tap.",
+        "candidateAnswer": "It turned amber after the fifth tap."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-vague-topical-wrong-category-1-01",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-1",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-vague-topical-wrong-category-1-01",
+        "question": "Which material is the practice key made from?",
+        "referenceAnswer": "The practice key is made from wood.",
+        "candidateAnswer": "It is made from a common material."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-vague-topical-wrong-category-1-02",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-1",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-vague-topical-wrong-category-1-02",
+        "question": "What symbol appears on the mock badge?",
+        "referenceAnswer": "A star appears on the mock badge.",
+        "candidateAnswer": "The badge has a recognizable symbol."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-vague-topical-wrong-category-2-01",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-2",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-vague-topical-wrong-category-2-01",
+        "question": "When is the fictional drum check scheduled?",
+        "referenceAnswer": "The fictional drum check is scheduled for noon.",
+        "candidateAnswer": "It is scheduled during the day."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-vague-topical-wrong-category-2-02",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-2",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-vague-topical-wrong-category-2-02",
+        "question": "How many minutes does the cardboard fan run?",
+        "referenceAnswer": "The cardboard fan runs for four minutes.",
+        "candidateAnswer": "It runs for a short while."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-vague-topical-wrong-category-3-01",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-3",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-vague-topical-wrong-category-3-01",
+        "question": "Where does the toy ferry stop?",
+        "referenceAnswer": "The toy ferry stops at the orange dock.",
+        "candidateAnswer": "It stops somewhere along its route."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-vague-topical-wrong-category-3-02",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-3",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-vague-topical-wrong-category-3-02",
+        "question": "Which room contains the paper telescope?",
+        "referenceAnswer": "The paper telescope is in the round room.",
+        "candidateAnswer": "It is inside the building."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-vague-topical-wrong-category-4-01",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-4",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-vague-topical-wrong-category-4-01",
+        "question": "Why did the invented mirror rotate?",
+        "referenceAnswer": "The invented mirror rotated to reflect the violet lamp.",
+        "candidateAnswer": "It rotated for an experimental reason."
+      }
+    },
+    {
+      "pilotCaseId": "synthetic-vague-topical-wrong-category-4-02",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-4",
+      "syntheticOnly": true,
+      "permanentlyExcluded": true,
+      "admissionEligible": false,
+      "blindedInput": {
+        "itemId": "synthetic-vague-topical-wrong-category-4-02",
+        "question": "What caused the model flag to lower?",
+        "referenceAnswer": "The model flag lowered when the sand timer emptied.",
+        "candidateAnswer": "A normal part of the demonstration caused it."
+      }
+    }
+  ]
+}
