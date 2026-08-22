@@ -3,7 +3,7 @@
 ## PREPARATION / NOT FROZEN
 
 This public repository is an operator-owned registration scaffold for a future
-LoCoMo judge report. It is not a freeze, publication, benchmark result, audit
+LoCoMo judge report. It is not a freeze, benchmark result, real-screening audit
 release, or authorization to run one. No real or operator commitment instance,
 seed, LoCoMo conversation, audit dataset, real screening output, candidate pool,
 or benchmark result is present now. Versioned Colophon-authored prompt and
@@ -14,8 +14,9 @@ admission. None is a commitment or freeze, and the pilot is not accepted.
 The sole repository operator is `ritsukai`. A future commitment may be added
 only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
 After separate authorization, a sampling commitment and selected, authorized
-snippets may be appended. Until then, this repository contains metadata and
-validation interfaces only.
+snippets may be appended. Until then, this repository contains preparation
+metadata, validation interfaces, and the explicitly identified append-only
+synthetic execution evidence below.
 
 ## Scope
 

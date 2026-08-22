@@ -19,6 +19,17 @@ const evidenceKeys = ['processAuditPath', 'rawResultsPath', 'rawTranscriptInclud
 const resultsRootKeys = ['acceptanceDeclared', 'digests', 'intendedLabelDerivation', 'items', 'pilotAccepted', 'processConformance', 'publicRepoHead', 'schema', 'status', 'summary'];
 const resultItemKeys = ['candidateClass', 'hasUnsure', 'intendedLabel', 'invalid', 'itemId', 'lunaIntendedLabelMismatch', 'lunaRawVerdict', 'modelDisagreement', 'permanentlyExcluded', 'ritsuDecision', 'screeningVerdict', 'solRawVerdict', 'stratum', 'terraRawVerdict', 'threeModelAgreement'];
 
+// These identities are the independently reviewed append-only authority. They are
+// literal source constants, not values read from the run record or MANIFEST.sha256.
+export const APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V1_SHA256 = Object.freeze({
+  coordinatorPromptV1: 'sha256:d5977b2d5d4f66a11af145e958f6cdc56ee7ac8b38a1193cc3505adfdd2cf999',
+  fixture: 'sha256:6d372a2242b339991817f5660c9d53812c19978c51efb74f9036dd95d07d3813',
+  procedureValidator: 'sha256:ce85a3faaf13941310b0d7e10e42c0e5f9ca55e980f5453a9b5515f6df0ab771',
+  processAudit: 'sha256:fed58c364afb9ce281f04aaebd072f5aacee5d870926fe2792d7766ad7c8dbf4',
+  rawResults: 'sha256:41b505f8c1db9850e14df76fd335647caaf2f85e5cad62110411a7f1c7b74c19',
+  runRecord: 'sha256:1b4e553b4c6bc5c0115c90f93d7a8501a67e5913cc5d540d22e0726cc138ccab',
+});
+
 function fail(path, detail) {
   throw new Error(`${path}: ${detail}`);
 }
@@ -36,7 +47,22 @@ function same(value, expected) {
   return JSON.stringify(value) === JSON.stringify(expected);
 }
 
-export function validateSyntheticPilotRunRecord(record, raw, evidence) {
+export function validateSyntheticPilotRunRecord(rawBytes, evidence) {
+  const recordBytes = Buffer.from(rawBytes);
+  const immutableSources = [
+    ['evidence.promptV1Bytes', evidence.promptV1Bytes, APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V1_SHA256.coordinatorPromptV1],
+    ['evidence.validatorV1Bytes', evidence.validatorV1Bytes, APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V1_SHA256.procedureValidator],
+    ['evidence.fixtureBytes', evidence.fixtureBytes, APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V1_SHA256.fixture],
+    ['evidence.auditBytes', evidence.auditBytes, APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V1_SHA256.processAudit],
+    ['evidence.resultsBytes', evidence.resultsBytes, APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V1_SHA256.rawResults],
+    ['recordBytes', recordBytes, APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V1_SHA256.runRecord],
+  ];
+  for (const [path, bytes, approvedDigest] of immutableSources) {
+    if (sha256(bytes) !== approvedDigest) fail(path, `does not match immutable approved identity ${approvedDigest}`);
+  }
+
+  const raw = recordBytes.toString('utf8');
+  const record = JSON.parse(raw);
   if (raw !== `${JSON.stringify(record, null, 2)}\n`) fail('record', 'must use deterministic two-space JSON');
   if (!hasExactKeys(record, rootKeys)) fail('record', 'has unexpected root properties');
   if (record.schema !== 'https://colophon-claims.github.io/locomo-judge-report/synthetic-pilot-run-record/v1'
@@ -158,6 +184,7 @@ export function validateSyntheticPilotRunRecord(record, raw, evidence) {
       || item.hasUnsure !== false || item.invalid?.luna !== false || item.invalid?.terra !== false || item.invalid?.sol !== false
       || item.ritsuDecision !== null) fail(`evidence.resultsBytes.items[${index}]`, 'does not preserve the synthetic outcome or zero-decision boundary');
   });
+  return record;
 }
 
 export function loadSyntheticPilotRunEvidence() {
@@ -170,9 +197,8 @@ export function loadSyntheticPilotRunEvidence() {
   };
 }
 
-const recordRaw = readFileSync(recordPath, 'utf8');
-const record = JSON.parse(recordRaw);
-validateSyntheticPilotRunRecord(record, recordRaw, loadSyntheticPilotRunEvidence());
+const recordRaw = readFileSync(recordPath);
+const record = validateSyntheticPilotRunRecord(recordRaw, loadSyntheticPilotRunEvidence());
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   console.log(`validated append-only ${record.status} synthetic run record from ${new URL('.', root).pathname}`);

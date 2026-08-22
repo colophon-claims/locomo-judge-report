@@ -2,8 +2,8 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import './render-prompted-screening-dispatch-v2.mjs';
-import './validate-prompted-screening-pilot.mjs';
 import './validate-synthetic-pilot-run-record.mjs';
+import './validate-prompted-screening-pilot.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const manifestPath = join(root, 'MANIFEST.sha256');
