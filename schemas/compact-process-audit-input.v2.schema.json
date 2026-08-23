@@ -1,0 +1,901 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://colophon-claims.github.io/locomo-judge-report/compact-process-audit-input/v2",
+  "title": "Compact process audit input version 2",
+  "type": "object",
+  "additionalProperties": false,
+  "x-canonicalByteLimit": 65536,
+  "required": [
+    "aggregateTiming",
+    "aggregates",
+    "auditAcceptancePolicy",
+    "auditScope",
+    "batches",
+    "capabilityBoundary",
+    "cells",
+    "declarations",
+    "digestSemantics",
+    "itemCount",
+    "judgmentTranscriptPrefixSha256",
+    "protocol",
+    "publicArtifacts",
+    "schema",
+    "selectionBasis",
+    "sourceKind"
+  ],
+  "properties": {
+    "schema": {
+      "const": "https://colophon-claims.github.io/locomo-judge-report/compact-process-audit-input/v2"
+    },
+    "protocol": {
+      "const": "prompted-codex-screening-compact-process-audit/v2"
+    },
+    "sourceKind": {
+      "enum": [
+        "real-screening",
+        "synthetic-pilot"
+      ]
+    },
+    "publicArtifacts": {
+      "$ref": "#/$defs/publicArtifacts"
+    },
+    "declarations": {
+      "$ref": "#/$defs/declarations"
+    },
+    "auditScope": {
+      "$ref": "#/$defs/auditScope"
+    },
+    "itemCount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 664
+    },
+    "judgmentTranscriptPrefixSha256": {
+      "$ref": "#/$defs/digest"
+    },
+    "batches": {
+      "$ref": "#/$defs/batches"
+    },
+    "aggregates": {
+      "$ref": "#/$defs/aggregates"
+    },
+    "cells": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "$ref": "#/$defs/cell"
+      }
+    },
+    "aggregateTiming": {
+      "const": "after-all-judgment-outputs-before-process-audit"
+    },
+    "selectionBasis": {
+      "$ref": "#/$defs/selectionBasis"
+    },
+    "digestSemantics": {
+      "$ref": "#/$defs/digestSemantics"
+    },
+    "capabilityBoundary": {
+      "$ref": "#/$defs/capabilityBoundary"
+    },
+    "auditAcceptancePolicy": {
+      "$ref": "#/$defs/auditAcceptancePolicy"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "sourceKind": {
+            "const": "synthetic-pilot"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "itemCount": {
+            "const": 24
+          },
+          "selectionBasis": {
+            "const": {
+              "kind": "entire-fixed-synthetic-fixture-no-sampling",
+              "populationScope": "exact-fixed-24-item-synthetic-fixture",
+              "populationItemCount": 24,
+              "dispatchedItemCountPerStage": 24,
+              "deterministicFixtureOrder": true,
+              "samplingPerformed": false
+            }
+          },
+          "publicArtifacts": {
+            "properties": {
+              "samplingCommitmentSha256": {
+                "type": "null"
+              },
+              "samplingScriptSha256": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "sourceKind": {
+            "const": "real-screening"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "itemCount": {
+            "const": 664
+          },
+          "selectionBasis": {
+            "const": {
+              "kind": "sealed-real-screening-pool-and-public-sample",
+              "populationScope": "exact-sealed-664-item-screening-pool",
+              "populationItemCount": 664,
+              "dispatchedItemCountPerStage": 664,
+              "deterministicFixtureOrder": false,
+              "samplingPerformed": true
+            }
+          },
+          "publicArtifacts": {
+            "properties": {
+              "samplingCommitmentSha256": {
+                "$ref": "#/$defs/digest"
+              },
+              "samplingScriptSha256": {
+                "$ref": "#/$defs/digest"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "digestOrNull": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nonnegative": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1992
+    },
+    "publicArtifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coordinatorPromptSha256",
+        "dispatchOrderSha256",
+        "judgmentInstructionSha256",
+        "opaqueIdentityMappingSha256",
+        "rendererSha256",
+        "repository",
+        "samplingCommitmentSha256",
+        "samplingScriptSha256",
+        "screeningPoolOrFixtureSha256",
+        "screeningProcedureSha256",
+        "sourceRevision"
+      ],
+      "properties": {
+        "repository": {
+          "const": "https://github.com/colophon-claims/locomo-judge-report"
+        },
+        "sourceRevision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "coordinatorPromptSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "judgmentInstructionSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "screeningProcedureSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "screeningPoolOrFixtureSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "opaqueIdentityMappingSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "dispatchOrderSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "samplingCommitmentSha256": {
+          "$ref": "#/$defs/digestOrNull"
+        },
+        "samplingScriptSha256": {
+          "$ref": "#/$defs/digestOrNull"
+        },
+        "rendererSha256": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modelAlias",
+        "reasoning"
+      ],
+      "properties": {
+        "modelAlias": {
+          "type": "string"
+        },
+        "reasoning": {
+          "enum": [
+            "high",
+            "medium"
+          ]
+        }
+      }
+    },
+    "auditAgent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modelAlias",
+        "reasoning",
+        "toolPolicy"
+      ],
+      "properties": {
+        "modelAlias": {
+          "const": "gpt-5.6-sol"
+        },
+        "reasoning": {
+          "const": "high"
+        },
+        "toolPolicy": {
+          "const": "none"
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "batchCount",
+        "batchLimit",
+        "modelAlias",
+        "reasoning",
+        "stage"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "Luna",
+            "Sol",
+            "Terra"
+          ]
+        },
+        "modelAlias": {
+          "type": "string"
+        },
+        "reasoning": {
+          "enum": [
+            "high",
+            "medium"
+          ]
+        },
+        "batchLimit": {
+          "type": "integer",
+          "minimum": 8,
+          "maximum": 32
+        },
+        "batchCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 83
+        }
+      }
+    },
+    "declarations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coordinator",
+        "judgmentStages",
+        "processAudit"
+      ],
+      "properties": {
+        "coordinator": {
+          "$ref": "#/$defs/agent"
+        },
+        "processAudit": {
+          "$ref": "#/$defs/auditAgent"
+        },
+        "judgmentStages": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/stage"
+          }
+        }
+      }
+    },
+    "auditScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inputBoundary",
+        "mayInspect",
+        "mustNot",
+        "publicVerificationBoundary",
+        "rawIntegrityBasis"
+      ],
+      "properties": {
+        "inputBoundary": {
+          "const": "canonical-summary-only"
+        },
+        "mayInspect": {
+          "const": [
+            "coverage",
+            "declaration-drift",
+            "suspicious-agreement",
+            "cross-stage-asymmetry",
+            "process-defects"
+          ]
+        },
+        "mustNot": {
+          "const": "reperform-item-judgments"
+        },
+        "rawIntegrityBasis": {
+          "const": "machine-validation-flags-and-digests"
+        },
+        "publicVerificationBoundary": {
+          "const": "later-verifier-resolves-and-hashes-published-artifacts"
+        }
+      }
+    },
+    "verdictCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correctCount",
+        "unsureCount",
+        "wrongCount"
+      ],
+      "properties": {
+        "correctCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "wrongCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "unsureCount": {
+          "$ref": "#/$defs/nonnegative"
+        }
+      }
+    },
+    "stageVerdicts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correctCount",
+        "stage",
+        "unsureCount",
+        "wrongCount"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "Luna",
+            "Sol",
+            "Terra"
+          ]
+        },
+        "correctCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "wrongCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "unsureCount": {
+          "$ref": "#/$defs/nonnegative"
+        }
+      }
+    },
+    "agreements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allDifferentCount",
+        "anyDisagreementCount",
+        "lunaOnlyDisagreesCount",
+        "lunaSolDisagreementCount",
+        "lunaTerraDisagreementCount",
+        "solOnlyDisagreesCount",
+        "terraOnlyDisagreesCount",
+        "terraSolDisagreementCount",
+        "threeStageAgreementCount"
+      ],
+      "properties": {
+        "threeStageAgreementCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "anyDisagreementCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "lunaTerraDisagreementCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "lunaSolDisagreementCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "terraSolDisagreementCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "lunaOnlyDisagreesCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "terraOnlyDisagreesCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "solOnlyDisagreesCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "allDifferentCount": {
+          "$ref": "#/$defs/nonnegative"
+        }
+      }
+    },
+    "aggregates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agreements",
+        "duplicateCount",
+        "extraCount",
+        "infrastructureFailureCount",
+        "invalidCount",
+        "judgmentAgentToolCallCount",
+        "judgmentCount",
+        "missingCount",
+        "retryCount",
+        "verdicts"
+      ],
+      "properties": {
+        "judgmentCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "verdicts": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/stageVerdicts"
+          }
+        },
+        "invalidCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "missingCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "extraCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "duplicateCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "infrastructureFailureCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "retryCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "judgmentAgentToolCallCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "agreements": {
+          "$ref": "#/$defs/agreements"
+        }
+      }
+    },
+    "cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anyDisagreementCount",
+        "candidateClass",
+        "invalidCount",
+        "itemCount",
+        "jointVerdictCounts",
+        "luna",
+        "sol",
+        "stratum",
+        "terra",
+        "threeStageAgreementCount"
+      ],
+      "properties": {
+        "candidateClass": {
+          "enum": [
+            "correct",
+            "specific-wrong",
+            "vague-topical-wrong"
+          ]
+        },
+        "stratum": {
+          "enum": [
+            "category-1",
+            "category-2",
+            "category-3",
+            "category-4"
+          ]
+        },
+        "itemCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "jointVerdictCounts": {
+          "description": "Exact 27-count joint contingency in lexicographic Luna, Terra, Sol verdict order, with each axis ordered CORRECT, WRONG, UNSURE.",
+          "type": "array",
+          "minItems": 27,
+          "maxItems": 27,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "luna": {
+          "$ref": "#/$defs/verdictCounts"
+        },
+        "terra": {
+          "$ref": "#/$defs/verdictCounts"
+        },
+        "sol": {
+          "$ref": "#/$defs/verdictCounts"
+        },
+        "threeStageAgreementCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "anyDisagreementCount": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "invalidCount": {
+          "$ref": "#/$defs/nonnegative"
+        }
+      }
+    },
+    "selectionBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deterministicFixtureOrder",
+        "dispatchedItemCountPerStage",
+        "kind",
+        "populationItemCount",
+        "populationScope",
+        "samplingPerformed"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "entire-fixed-synthetic-fixture-no-sampling",
+            "sealed-real-screening-pool-and-public-sample"
+          ]
+        },
+        "populationScope": {
+          "enum": [
+            "exact-fixed-24-item-synthetic-fixture",
+            "exact-sealed-664-item-screening-pool"
+          ]
+        },
+        "populationItemCount": {
+          "type": "integer",
+          "minimum": 24,
+          "maximum": 664
+        },
+        "dispatchedItemCountPerStage": {
+          "type": "integer",
+          "minimum": 24,
+          "maximum": 664
+        },
+        "deterministicFixtureOrder": {
+          "type": "boolean"
+        },
+        "samplingPerformed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "digestSemantics": {
+      "const": {
+        "blindedItemsSha256": "canonical ordered stage-agnostic blinded subset content; equal bytes may repeat",
+        "dispatchSha256": "exact instruction plus the same blinded subset content; equal bytes may repeat across stages",
+        "rawOutputSha256": "exact ordered raw output content; equal verdict bytes may repeat",
+        "transcriptDispatchEventSha256": "exact sealed JSONL dispatch event with final LF; unique within the prefix",
+        "transcriptOutputEventSha256": "exact sealed JSONL output event with final LF; unique within the prefix",
+        "contentDigestEqualityRule": "content digest equality alone is not evidence of reuse",
+        "eventIdentityRule": "distinct transcript event identities prove only recorded event separation, not provider or process freshness"
+      }
+    },
+    "capabilityBoundary": {
+      "const": {
+        "providerExecution": "not-machine-verified",
+        "providerProcessFreshness": "not-machine-verified",
+        "modelRouting": "not-machine-verified",
+        "invariantAliasWeights": "not-machine-verified",
+        "promptCompliance": "not-machine-verified",
+        "absenceOfBoundaryProofIsProcessDefect": false,
+        "materialProcessDefectRule": "requires a contradiction in supplied sealed and machine-validated evidence",
+        "perfectAgreementRule": "auditable non-material observation allowed for a deliberately clear synthetic fixture"
+      }
+    },
+    "auditAcceptancePolicy": {
+      "const": {
+        "requiredAssessment": "PASS",
+        "materialProcessDefectFlagCount": 0,
+        "qualifiedPassAccepted": false,
+        "ritsuApprovalStillRequired": true
+      }
+    },
+    "batches": {
+      "description": "Closed self-describing keyed columns. Every array and every fixed-width SHA-256 column shares the same zero-based batch index.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alignment",
+        "batchCount",
+        "batchOrdinal",
+        "blindedItemsSha256",
+        "correctCount",
+        "dispatchDigestVerified",
+        "dispatchSha256",
+        "duplicateCount",
+        "extraCount",
+        "infrastructureFailureCount",
+        "invalidCount",
+        "itemCount",
+        "machineValidationErrors",
+        "missingCount",
+        "outputDigestVerified",
+        "rawOutputRecordCount",
+        "rawOutputSha256",
+        "retryCount",
+        "routedVerdictCount",
+        "rowCount",
+        "sha256ColumnEncoding",
+        "stage",
+        "summaryCountsVerified",
+        "toolCallCount",
+        "transcriptDispatchEventSha256",
+        "transcriptOutputEventSha256",
+        "unsureCount",
+        "wrongCount"
+      ],
+      "properties": {
+        "alignment": {
+          "const": "named columns share zero-based batch index"
+        },
+        "rowCount": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 146
+        },
+        "sha256ColumnEncoding": {
+          "const": "base64url-no-pad SHA-256 digests concatenated as fixed 43-character chunks by batch index"
+        },
+        "stage": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "enum": [
+              "Luna",
+              "Terra",
+              "Sol"
+            ]
+          }
+        },
+        "batchOrdinal": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 83
+          }
+        },
+        "batchCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 83
+          }
+        },
+        "itemCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 32
+          }
+        },
+        "blindedItemsSha256": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "minLength": 129,
+          "maxLength": 6278
+        },
+        "dispatchSha256": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "minLength": 129,
+          "maxLength": 6278
+        },
+        "rawOutputSha256": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "minLength": 129,
+          "maxLength": 6278
+        },
+        "transcriptDispatchEventSha256": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "minLength": 129,
+          "maxLength": 6278
+        },
+        "transcriptOutputEventSha256": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "minLength": 129,
+          "maxLength": 6278
+        },
+        "rawOutputRecordCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "routedVerdictCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "correctCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "wrongCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "unsureCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "invalidCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "missingCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "extraCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "duplicateCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "infrastructureFailureCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "retryCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "toolCallCount": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "$ref": "#/$defs/nonnegative"
+          }
+        },
+        "dispatchDigestVerified": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "const": true
+          }
+        },
+        "outputDigestVerified": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "const": true
+          }
+        },
+        "summaryCountsVerified": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "const": true
+          }
+        },
+        "machineValidationErrors": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 146,
+          "items": {
+            "type": "array",
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  }
+}
