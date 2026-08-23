@@ -6,9 +6,11 @@ import './render-prompted-screening-dispatch-v3.mjs';
 import './render-compact-process-audit-input-v1.mjs';
 import './render-compact-process-audit-input-v2.mjs';
 import './validate-compact-process-audit-output-v1.mjs';
+import './validate-prompted-screening-audit-output-v2.mjs';
 import './plan-prompted-screening-v6.mjs';
 import './build-prompted-screening-runtime-v6.mjs';
 import './gate-prompted-screening-runtime-v6.mjs';
+import './record-prompted-screening-v6.mjs';
 import './simulate-prompted-screening-runtime-v6.mjs';
 import './validate-synthetic-pilot-run-record.mjs';
 import './validate-synthetic-pilot-v2-run-record.mjs';
@@ -30,6 +32,7 @@ const allowedFiles = new Map([
   ['CITATION.cff', ['text/yaml', 4096]],
   ['CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
   ['CODEX-SCREENING-AUDIT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
+  ['CODEX-SCREENING-AUDIT-INSTRUCTION.v2.txt', ['text/plain', 8192]],
   ['CODEX-SCREENING-PROMPT.v1.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v2.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v3.md', ['text/markdown', 16384]],
@@ -88,6 +91,9 @@ const allowedFiles = new Map([
   ['schemas/compact-process-audit-output.v1.schema.json', ['application/json', 16384]],
   ['schemas/prompted-screening-judgment-prefix.v1.schema.json', ['application/json', 16384]],
   ['schemas/prompted-screening-pre-dispatch-plan.v1.schema.json', ['application/json', 16384]],
+  ['schemas/prompted-screening-runtime-compact-input.v1.schema.json', ['application/json', 16384]],
+  ['schemas/prompted-screening-audit-output.v2.schema.json', ['application/json', 16384]],
+  ['schemas/prompted-screening-final-transcript.v1.schema.json', ['application/json', 16384]],
   ['schemas/sampling-commitment.schema.json', ['application/json', 8192]],
   ['scripts/check-no-em-dash.mjs', ['application/javascript', 8192]],
   ['scripts/approved-prompted-screening-v3-identities.mjs', ['application/javascript', 16384]],
@@ -96,7 +102,8 @@ const allowedFiles = new Map([
   ['scripts/approved-prompted-screening-v6-identities.mjs', ['application/javascript', 8192]],
   ['scripts/plan-prompted-screening-v6.mjs', ['application/javascript', 24576]],
   ['scripts/build-prompted-screening-runtime-v6.mjs', ['application/javascript', 32768]],
-  ['scripts/gate-prompted-screening-runtime-v6.mjs', ['application/javascript', 8192]],
+  ['scripts/gate-prompted-screening-runtime-v6.mjs', ['application/javascript', 16384]],
+  ['scripts/record-prompted-screening-v6.mjs', ['application/javascript', 24576]],
   ['scripts/simulate-prompted-screening-runtime-v6.mjs', ['application/javascript', 16384]],
   ['scripts/render-compact-process-audit-input-v1.mjs', ['application/javascript', 40960]],
   ['scripts/render-compact-process-audit-input-v2.mjs', ['application/javascript', 40960]],
@@ -106,13 +113,14 @@ const allowedFiles = new Map([
   ['scripts/validate-prompted-screening-pilot.mjs', ['application/javascript', 16384]],
   ['scripts/validate-prompted-screening-v5-fixture.mjs', ['application/javascript', 16384]],
   ['scripts/validate-compact-process-audit-output-v1.mjs', ['application/javascript', 16384]],
+  ['scripts/validate-prompted-screening-audit-output-v2.mjs', ['application/javascript', 8192]],
   ['scripts/validate-sampling-commitment.mjs', ['application/javascript', 8192]],
   ['scripts/validate-synthetic-pilot-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate-synthetic-pilot-v2-run-record.mjs', ['application/javascript', 32768]],
   ['scripts/validate-synthetic-pilot-v3-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate-synthetic-pilot-v4-run-record.mjs', ['application/javascript', 32768]],
   ['scripts/validate-synthetic-pilot-v5-stop.mjs', ['application/javascript', 16384]],
-  ['scripts/validate.mjs', ['application/javascript', 16384]],
+  ['scripts/validate.mjs', ['application/javascript', 24576]],
   ['source-register.json', ['application/json', 8192]],
   ['test/validate.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-pilot.test.mjs', ['application/javascript', 16384]],
@@ -121,7 +129,7 @@ const allowedFiles = new Map([
   ['test/compact-process-audit-v4.test.mjs', ['application/javascript', 16384]],
   ['test/compact-process-audit-v5.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-v5-fixture.test.mjs', ['application/javascript', 16384]],
-  ['test/prompted-screening-runtime-v6.test.mjs', ['application/javascript', 24576]],
+  ['test/prompted-screening-runtime-v6.test.mjs', ['application/javascript', 32768]],
   ['test/synthetic-pilot-run-record.test.mjs', ['application/javascript', 16384]],
   ['test/synthetic-pilot-v2-run-record.test.mjs', ['application/javascript', 24576]],
   ['test/synthetic-pilot-v3-run-record.test.mjs', ['application/javascript', 16384]],

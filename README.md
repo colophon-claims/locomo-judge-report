@@ -73,10 +73,16 @@ synthetic execution evidence below.
   model or creating new judgment output.
 - [CODEX-SCREENING-PROMPT.v6.md](CODEX-SCREENING-PROMPT.v6.md) separates exact
   pre-dispatch planning from generic post-judgment replay. The planner records
-  an externally pinned public commit without claiming to prove Git state. The
-  runtime builder accepts a new closed fourteen-event prefix, derives
+  the clean checkout's exact `HEAD`, optionally requires an operator-supplied
+  expected commit, and joins every normative artifact to its Git object bytes.
+  The runtime builder accepts a new closed fourteen-event prefix, derives
   `recorded-model-run` only from all six exact distinct pairs, and retains the
   provider-execution and freshness capability boundary.
+- [CODEX-SCREENING-AUDIT-INSTRUCTION.v2.txt](CODEX-SCREENING-AUDIT-INSTRUCTION.v2.txt)
+  and its closed output schema require the Sol audit output to echo the exact
+  run, plan, prefix, compact input, instruction, task, source revision, and
+  model profile bindings. Audit-policy PASS is separate from production
+  finalization.
 - [fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl](fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl)
   and its exact output fixture provide a deterministic no-model, test-only
   reachability simulation. They are not a run, acceptance, admission record,
@@ -137,11 +143,35 @@ node scripts/validate-synthetic-pilot-v3-run-record.mjs
 node scripts/validate-synthetic-pilot-v4-run-record.mjs
 node scripts/validate-synthetic-pilot-v5-stop.mjs
 node scripts/validate-prompted-screening-v5-fixture.mjs
-node scripts/plan-prompted-screening-v6.mjs <exact-public-commit>
-node scripts/build-prompted-screening-runtime-v6.mjs <exact-public-commit> <fresh-prefix-path>
+node scripts/plan-prompted-screening-v6.mjs --repo . --expected-public-commit <exact-public-commit>
+node scripts/build-prompted-screening-runtime-v6.mjs --repo . --expected-public-commit <exact-public-commit> --prefix <fresh-prefix-path>
 node scripts/simulate-prompted-screening-runtime-v6.mjs
 node --test test/*.test.mjs
 ```
+
+The callable production recorder owns append-only local state but never
+dispatches an agent. Run it only from a tracked-clean exact public checkout.
+The operator separately obtains each returned output byte file and records it
+with the matching planned stage, batch, task, model, reasoning, and zero-tool
+declarations:
+
+```sh
+node scripts/record-prompted-screening-v6.mjs init --state <state-dir> --owner <owner> --mode production --repo . --expected-public-commit <exact-public-commit>
+node scripts/record-prompted-screening-v6.mjs export --state <state-dir> --owner <owner> --artifact plan
+node scripts/record-prompted-screening-v6.mjs record-judgment --state <state-dir> --owner <owner> --stage <Luna-or-Terra-or-Sol> --batch <ordinal> --task <unique-task-id> --model <exact-alias> --reasoning <exact-level> --tools none --output <raw-output-file> --failures 0 --retries 0 --tool-calls 0
+node scripts/record-prompted-screening-v6.mjs seal-judgments --state <state-dir> --owner <owner> --run-id <run-id> --attested-by <operator-id>
+node scripts/record-prompted-screening-v6.mjs prepare-audit --state <state-dir> --owner <owner> --task <unique-audit-task-id>
+node scripts/record-prompted-screening-v6.mjs export --state <state-dir> --owner <owner> --artifact audit-dispatch
+node scripts/record-prompted-screening-v6.mjs record-audit --state <state-dir> --owner <owner> --output <raw-bound-audit-output-file> --failures 0 --retries 0 --tool-calls 0
+node scripts/record-prompted-screening-v6.mjs finalize --state <state-dir> --owner <owner>
+node scripts/record-prompted-screening-v6.mjs validate-final --state <state-dir> --owner <owner>
+node scripts/record-prompted-screening-v6.mjs export --state <state-dir> --owner <owner> --artifact final-transcript
+```
+
+`record-judgment` is invoked exactly six times in the exported plan order.
+Every state artifact is create-once under one owner. Test-only or no-model
+state can pass the pure audit policy but `finalize` returns a nonzero status and
+the terminal `TEST_ONLY_NON_ADMISSIBLE`; it can never emit `PENDING_RITSU`.
 
 Before any real 664-row commitment or screening, the operator must create and
 seal a distinct opaque screening identity mapping and a non-grouped dispatch

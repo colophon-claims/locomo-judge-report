@@ -1,12 +1,18 @@
 export const APPROVED_PROMPTED_SCREENING_V6_SHA256 = Object.freeze({
-  coordinatorPromptV6: 'sha256:18ad4b9ed4ef553e747338aae4161bb8f8c48fcce73a745d52e744f90925d8b8',
-  preDispatchSchemaV1: 'sha256:957218f991ca9d33757415784e38096d83857d1419c64cda5aa0691543f54cb3',
-  runtimePrefixSchemaV1: 'sha256:479702f8bac8e5444bd85886e3a412fc72871d2a3228a2a036b8b5c4279c5e69',
-  preDispatchPlannerV1: 'sha256:500119952d387f110b361209ca6b486aebb427a93c262a0cbbed69e339deb7a9',
-  runtimeBuilderV1: 'sha256:a91044f229c4a69a4e4bba22afce35292d16f4c70a063c240ac3fcce58b0de43',
-  runtimeGateV1: 'sha256:6b5421a59d563d31b036e8708388f60afcc5ab6ef297951e3ace04e7a3a84bc2',
+  coordinatorPromptV6: 'sha256:8c4220059522c684b51d2f626f1735ac417e1b19b8eeea360f1c9741ea56ac15',
+  auditInstructionV2: 'sha256:00ffe272b6f7172d69ff12cd7859b8372c0aca0ceba5eb682325bc4b2de94280',
+  auditOutputParserV2: 'sha256:4b422bd515a3b82b60e902d7a0fad32fa01ac8dad31b4ab6950bd6e6c7b5acc0',
+  auditOutputSchemaV2: 'sha256:98bfe6fbc352be2bd99d5f5b01eba532a9e42cc82a8e986bb88140da11ba008b',
+  runtimeCompactInputSchemaV1: 'sha256:7cf829bde9cdb66384a4c2b67b7d7fba2964a6ace4d3b87f973e482a1b7ba067',
+  preDispatchSchemaV1: 'sha256:5c0adb96aaa859c73075ca49841db6a13dfb76eb8151d5db8ff2c29fc1c1e17b',
+  runtimePrefixSchemaV1: 'sha256:a01ec76c27b3b3d53eb4b877e05075921b6d06f710de6a3289c89b5d7c11227d',
+  finalTranscriptSchemaV1: 'sha256:809e7b2db9ac86e2024624811d3c7a1e07785b0f205a38d3a55cc0ed8e8fe796',
+  preDispatchPlannerV1: 'sha256:d3bf5c24c39caf95ef7a4a4f15e1e0c382cfb4e06dab2ae2b3063c347c1c056d',
+  runtimeBuilderV1: 'sha256:7c6f4e90080c384071de79869fd8cf254c0f326968f058970522e5e646499bce',
+  runtimeGateV1: 'sha256:42030b24a7834766cb301e2f725fbbc987b9c729769de07d769c637f64e55fd0',
+  recorderV1: 'sha256:dbbbeb1f674508bf3ff3ef669461d07da51feb32723853a8c53cfa772e41726b',
   simulationOutputsV1: 'sha256:1b47c4b21c6dd02297841fb90ce01dc2a898c63ead8107c74fa2635343774f65',
-  simulationPrefixV1: 'sha256:f5ca4bedd4338d4da5ff96d2c145b173cdac031f6d6cc9fb36873f4f27a3a8cc',
+  simulationPrefixV1: 'sha256:b35f96804bc924c119e8bc329b5e1aa2609e9e93b9386d2076f00df25b217138',
 });
 
 export const APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V5_STOP_SHA256 = Object.freeze({

@@ -1,0 +1,16 @@
+PROMPTED CODEX SCREENING PROCESS AUDIT INSTRUCTION
+INSTRUCTION VERSION: 2
+ENCODING: UTF-8
+
+Audit only the canonical bounded process evidence supplied after this instruction.
+Do not reperform item judgments. Do not use web, shell, repository, search, retrieval, or any other tool.
+
+The next line is the exact canonical audit-invocation binding. The remaining bytes are the exact canonical compact audit input named by that binding.
+Return exactly one compact canonical JSON object followed by one LF byte and nothing else.
+The output must conform to the prompted-screening audit-output version 2 contract.
+Echo every invocation binding exactly. Do not infer, replace, or omit a binding.
+
+Return PASS only when there is no material contradiction in the supplied sealed and machine-derived evidence.
+Return REFUSE for an output-contract failure, source-identity failure, machine-validation failure, sealed-evidence contradiction, or unresolved required verification.
+The stated lack of machine proof for provider execution, provider freshness, model routing, prompt compliance, or invariant alias weights is not by itself a process defect.
+Perfect agreement may be a non-material observation only when the supplied aggregate evidence actually records perfect agreement.

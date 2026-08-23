@@ -10,7 +10,9 @@ This document authorizes no model call, real screening, sampling commitment, see
 
 The version 5 builder and its exact historical prefix remain validation-only regression artifacts. They must never supply runtime judgment evidence, derive `recorded-model-run`, or satisfy audit acceptance.
 
-The version 6 pre-dispatch planner authenticates the exact normative prompt, judgment procedure, judgment instruction, fixture or pool, opaque mapping, dispatch order, compact schema, audit instruction, audit output schema, judgment renderer, runtime schema, and runtime builder bytes against literal code-owned identities. The coordinator supplies the exact public commit it externally pinned. The planner validates only its closed 40-character lowercase hexadecimal shape and records it. It does not pretend to prove Git state from local bytes.
+The production version 6 pre-dispatch planner runs only in a tracked-clean exact public checkout. It resolves `git rev-parse HEAD`, optionally joins an operator-supplied expected commit, resolves every authenticated source path from that Git object, recomputes its digest, and requires those object bytes to equal the local normative bytes. It records that exact source revision without claiming to prove remote repository state. A source revision that does not contain version 6 cannot pass.
+
+The test-only planner uses the literal `TEST_ONLY_UNCOMMITTED_V6_SOURCE` sentinel. That sentinel is never a production source revision and can never finalize as pending Ritsu.
 
 The planner emits the exact six synthetic stage and batch dispatches in Luna, Terra, Sol order. It contains no judgment transcript, output, model-run claim, audit result, or Ritsu decision.
 
@@ -34,7 +36,7 @@ The judgment prefix is exact compact canonical JSONL with one final LF per event
 2. one closed `preflight-plan` binding the exact plan and source identities;
 3. exactly six alternating `judgment-dispatch` and `judgment-output` pairs in Luna 1, Terra 1, Terra 2, Sol 1, Sol 2, Sol 3 order.
 
-The declaration records the externally pinned public commit, the exact pre-dispatch plan digest, every source digest, the exact model and reasoning profiles, the six-dispatch count, the one planned process-audit dispatch, no reuse, synthetic-only status, and the capability boundary. It contains no provider-freshness claim.
+The declaration records the exact source revision or test-only sentinel, the exact pre-dispatch plan digest, every source digest, execution mode, test-only and model-run flags, a closed operator attestation, the exact model and reasoning profiles, the six-dispatch count, the one planned process-audit dispatch, no reuse, synthetic-only status, and the capability boundary. It contains no provider-freshness claim. A production declaration requires an operator-recorded model-run attestation; the public simulation records no model run and a test-only attestation.
 
 Every dispatch/output pair has one unique task identity. Every exact event line derives a unique event digest. Reused tasks, duplicated event bytes, missing or reordered pairs, partial joins, wrong stage, model, reasoning, batch, source identity, plan identity, or public commit fail closed.
 
@@ -44,18 +46,22 @@ This fourteen-event protocol accepts only zero infrastructure failures and zero 
 
 The builder strictly decodes and byte-identically re-encodes base64 and base64url. It derives missing, extra, duplicate, invalid, routed UNSURE, verdict, stage, cell, agreement, asymmetry, and full 27-way Luna/Terra/Sol contingency counts from exact event and source bytes.
 
-Only the complete valid declaration and all six exact distinct pairs derive `executionKind: recorded-model-run`. This means only that a complete set of distinct declared task and transcript events was recorded. It does not prove provider execution, provider freshness, independent generation, model routing, prompt compliance, or invariant weights behind mutable aliases.
+Only a production declaration with the closed operator model-run attestation and all six exact distinct pairs derives `executionKind: recorded-model-run`. The test-only declaration derives `test-only-recorded-events`. A recorded model run means only that the operator attested a complete set of distinct declared tasks and transcript events. It does not prove provider execution, provider freshness, independent generation, model routing, prompt compliance, or invariant weights behind mutable aliases.
 
 ## Audit and authority
 
-The process-audit dispatch is the exact immutable audit instruction followed by the exact canonical compact input. The existing version 1 closed audit-output parser remains authoritative. Prose, Markdown, unknown keys, malformed canonical bytes, qualified pass, hidden material findings, required verification, evidence contradictions, or capability overclaims refuse.
+The process-audit dispatch is the exact immutable version 2 audit instruction, one exact canonical invocation binding, and the exact canonical compact input. The invocation binds run ID, plan, judgment prefix, source revision, audit instruction, audit input, unique audit task, Sol/high/no-tools profile, execution mode, test-only and model-run flags, and operator attestation.
 
-The executable version 6 gate requires an evidence-derived `recorded-model-run`, an exact unqualified `PASS`, and zero material findings. A successful gate result is only `PROCESS-AUDIT-PASS-PENDING-RITSU`. It is not approval, admission, reuse, real-screening evidence, or freeze readiness.
+The version 2 audit output must echo the exact run ID, plan, judgment prefix, source revision, instruction, input, task, and profile bindings. The parser recomputes every binding before evaluating findings. A stale output, output for another input, unbound PASS, prose, Markdown, unknown key, malformed canonical byte, hidden material finding, required verification, evidence contradiction, or capability overclaim refuses. The mechanical comparison also requires the `PERFECT_SYNTHETIC_AGREEMENT` finding to match the exact derived agreement counts.
+
+Pure audit-policy evaluation is separate from production finalization. Production finalization requires `testOnly: false`, `modelRunOccurred: true`, the closed operator attestation, an evidence-derived `recorded-model-run`, exact unqualified `PASS`, zero material findings, and a complete replayed final transcript. Its only successful status is `PENDING_RITSU`. It is not approval, admission, reuse, real-screening evidence, or freeze readiness.
 
 The same PASS bytes over the immutable version 5 validation-only fixture must continue to refuse.
 
 ## Synthetic simulation and real-run boundary
 
-The committed version 6 simulation is explicitly `test-only-no-model-run`. It deterministically creates a fresh canonical prefix with new task and event identities and exact permanently excluded synthetic output bytes. It exercises planner, prefix construction, runtime derivation, audit parsing, and gate reachability without dispatching any model. It is not a run, transcript claim, Ritsu decision, admission record, or reusable result.
+The append-only recorder CLI owns plan initialization, six exact judgment receipts, prefix sealing, audit-dispatch preparation, bound audit-output recording, mechanical comparison, terminal construction, and whole-transcript replay. Each state artifact is written once under one owner and exact stage order. It never dispatches a model or invents returned bytes.
+
+The committed version 6 simulation is explicitly test-only and no-model. It drives the real recorder CLI through every stage with permanently excluded synthetic output bytes and a bound synthetic audit output. Pure audit policy passes, but production finalization refuses and the sole terminal is `TEST_ONLY_NON_ADMISSIBLE`. It is not a run, PENDING_RITSU result, transcript claim, Ritsu decision, admission record, or reusable result.
 
 Real 664-item screening remains blocked until the exact reviewed real pool, opaque mapping, non-grouped order, sampling commitment, sampling script, and public source identities are registered. Synthetic planner readiness does not satisfy that gate.
