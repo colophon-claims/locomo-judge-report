@@ -6,10 +6,15 @@ import './render-prompted-screening-dispatch-v3.mjs';
 import './render-compact-process-audit-input-v1.mjs';
 import './render-compact-process-audit-input-v2.mjs';
 import './validate-compact-process-audit-output-v1.mjs';
+import './plan-prompted-screening-v6.mjs';
+import './build-prompted-screening-runtime-v6.mjs';
+import './gate-prompted-screening-runtime-v6.mjs';
+import './simulate-prompted-screening-runtime-v6.mjs';
 import './validate-synthetic-pilot-run-record.mjs';
 import './validate-synthetic-pilot-v2-run-record.mjs';
 import './validate-synthetic-pilot-v3-run-record.mjs';
 import './validate-synthetic-pilot-v4-run-record.mjs';
+import './validate-synthetic-pilot-v5-stop.mjs';
 import './validate-prompted-screening-pilot.mjs';
 import './validate-prompted-screening-v5-fixture.mjs';
 
@@ -30,6 +35,7 @@ const allowedFiles = new Map([
   ['CODEX-SCREENING-PROMPT.v3.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v4.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v5.md', ['text/markdown', 16384]],
+  ['CODEX-SCREENING-PROMPT.v6.md', ['text/markdown', 16384]],
   ['CONTRIBUTING.md', ['text/markdown', 8192]],
   ['LICENSE', ['text/plain', 32768]],
   ['LICENSES/THIRD-PARTY-NOTICES.md', ['text/markdown', 8192]],
@@ -44,6 +50,8 @@ const allowedFiles = new Map([
   ['fixtures/prompted-screening-pilot-v2-dispatch-order.canonical.json', ['application/json', 4096]],
   ['fixtures/prompted-screening-pilot-v2-identity-map.canonical.json', ['application/json', 4096]],
   ['fixtures/prompted-screening-pilot-v5-no-run-audit-output.canonical.json', ['application/json', 4096]],
+  ['fixtures/prompted-screening-runtime-v6-simulation-outputs.canonical.json', ['application/json', 16384]],
+  ['fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl', ['application/x-ndjson', 65536]],
   ['records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json', ['application/json', 16384]],
   ['records/synthetic-pilot-2026-08-22/pilot-results.pending-ritsu.json', ['application/json', 32768]],
   ['records/synthetic-pilot-2026-08-22/process-audit.md', ['text/markdown', 8192]],
@@ -67,14 +75,29 @@ const allowedFiles = new Map([
   ['records/synthetic-pilot-v4-2026-08-23/ritsu-review.md', ['text/markdown', 8192]],
   ['records/synthetic-pilot-v4-2026-08-23/transcript.jsonl', ['application/x-ndjson', 131072]],
   ['records/synthetic-pilot-v4-2026-08-23/usage.md', ['text/markdown', 4096]],
+  ['records/synthetic-pilot-v5-2026-08-23/NON-CONFORMANT.json', ['application/json', 16384]],
+  ['records/synthetic-pilot-v5-2026-08-23/append-only-correction.md', ['text/markdown', 4096]],
+  ['records/synthetic-pilot-v5-2026-08-23/pilot-results.pending-ritsu.json', ['application/json', 16384]],
+  ['records/synthetic-pilot-v5-2026-08-23/pre-dispatch-log.jsonl', ['application/x-ndjson', 4096]],
+  ['records/synthetic-pilot-v5-2026-08-23/preflight.md', ['text/markdown', 4096]],
+  ['records/synthetic-pilot-v5-2026-08-23/process-audit.md', ['text/markdown', 4096]],
+  ['records/synthetic-pilot-v5-2026-08-23/ritsu-review.md', ['text/markdown', 4096]],
+  ['records/synthetic-pilot-v5-2026-08-23/usage.md', ['text/markdown', 4096]],
   ['schemas/compact-process-audit-input.v1.schema.json', ['application/json', 16384]],
   ['schemas/compact-process-audit-input.v2.schema.json', ['application/json', 32768]],
   ['schemas/compact-process-audit-output.v1.schema.json', ['application/json', 16384]],
+  ['schemas/prompted-screening-judgment-prefix.v1.schema.json', ['application/json', 16384]],
+  ['schemas/prompted-screening-pre-dispatch-plan.v1.schema.json', ['application/json', 16384]],
   ['schemas/sampling-commitment.schema.json', ['application/json', 8192]],
   ['scripts/check-no-em-dash.mjs', ['application/javascript', 8192]],
   ['scripts/approved-prompted-screening-v3-identities.mjs', ['application/javascript', 16384]],
   ['scripts/approved-prompted-screening-v4-identities.mjs', ['application/javascript', 4096]],
   ['scripts/approved-prompted-screening-v5-identities.mjs', ['application/javascript', 8192]],
+  ['scripts/approved-prompted-screening-v6-identities.mjs', ['application/javascript', 8192]],
+  ['scripts/plan-prompted-screening-v6.mjs', ['application/javascript', 24576]],
+  ['scripts/build-prompted-screening-runtime-v6.mjs', ['application/javascript', 32768]],
+  ['scripts/gate-prompted-screening-runtime-v6.mjs', ['application/javascript', 8192]],
+  ['scripts/simulate-prompted-screening-runtime-v6.mjs', ['application/javascript', 16384]],
   ['scripts/render-compact-process-audit-input-v1.mjs', ['application/javascript', 40960]],
   ['scripts/render-compact-process-audit-input-v2.mjs', ['application/javascript', 40960]],
   ['scripts/generate-prompted-screening-v5-fixture.mjs', ['application/javascript', 8192]],
@@ -88,6 +111,7 @@ const allowedFiles = new Map([
   ['scripts/validate-synthetic-pilot-v2-run-record.mjs', ['application/javascript', 32768]],
   ['scripts/validate-synthetic-pilot-v3-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate-synthetic-pilot-v4-run-record.mjs', ['application/javascript', 32768]],
+  ['scripts/validate-synthetic-pilot-v5-stop.mjs', ['application/javascript', 16384]],
   ['scripts/validate.mjs', ['application/javascript', 16384]],
   ['source-register.json', ['application/json', 8192]],
   ['test/validate.test.mjs', ['application/javascript', 16384]],
@@ -97,10 +121,12 @@ const allowedFiles = new Map([
   ['test/compact-process-audit-v4.test.mjs', ['application/javascript', 16384]],
   ['test/compact-process-audit-v5.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-v5-fixture.test.mjs', ['application/javascript', 16384]],
+  ['test/prompted-screening-runtime-v6.test.mjs', ['application/javascript', 24576]],
   ['test/synthetic-pilot-run-record.test.mjs', ['application/javascript', 16384]],
   ['test/synthetic-pilot-v2-run-record.test.mjs', ['application/javascript', 24576]],
   ['test/synthetic-pilot-v3-run-record.test.mjs', ['application/javascript', 16384]],
   ['test/synthetic-pilot-v4-run-record.test.mjs', ['application/javascript', 16384]],
+  ['test/synthetic-pilot-v5-stop.test.mjs', ['application/javascript', 8192]],
 ]);
 const registerKeys = ['schema', 'sources'];
 const sourceKeys = ['id', 'includedLaterByOperatorDecision', 'license', 'licenseNote', 'promptBytesCopied', 'provenance', 'public', 'source', 'title', 'url'];

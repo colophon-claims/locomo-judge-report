@@ -13,8 +13,9 @@ The first two pilots are non-conformant. The process-green third pilot is an
 acceptance candidate but remains `NOT-APPROVED` because its raw-material audit
 shape was rejected for excessive usage pending Ritsu. The fourth pilot remains
 `NON-CONFORMANT / PROCESS_AUDIT_MATERIAL_FLAG`; the append-only amendment does
-not change its returned audit. None is accepted, reusable, a commitment, or a
-freeze.
+not change its returned audit. The fifth attempt is `NON-CONFORMANT /
+PUBLIC_V5_EXECUTABLE_BUILDER_REJECTS_FRESH_PREFIX` and stopped before any
+dispatch. None is accepted, reusable, a commitment, or a freeze.
 
 The sole repository operator is `ritsukai`. A future commitment may be added
 only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -47,7 +48,7 @@ synthetic execution evidence below.
   audit cannot reperform item judgments or prove provider execution.
 - [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt)
   is the independent exact judgment-agent instruction used by coordinator
-  prompt versions 2, 3, 4, and 5.
+  prompt versions 2, 3, 4, 5, and 6.
 - [fixtures/prompted-screening-pilot-v1.json](fixtures/prompted-screening-pilot-v1.json)
   contains only 24 synthetic, permanently excluded validation cases and no
   model output or operator decision.
@@ -70,6 +71,20 @@ synthetic execution evidence below.
   leaving 22,782 bytes below the unchanged 65,536-byte cap. It derives event
   identities from the preserved version 4 judgment prefix without running any
   model or creating new judgment output.
+- [CODEX-SCREENING-PROMPT.v6.md](CODEX-SCREENING-PROMPT.v6.md) separates exact
+  pre-dispatch planning from generic post-judgment replay. The planner records
+  an externally pinned public commit without claiming to prove Git state. The
+  runtime builder accepts a new closed fourteen-event prefix, derives
+  `recorded-model-run` only from all six exact distinct pairs, and retains the
+  provider-execution and freshness capability boundary.
+- [fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl](fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl)
+  and its exact output fixture provide a deterministic no-model, test-only
+  reachability simulation. They are not a run, acceptance, admission record,
+  Ritsu decision, reusable result, or authorization to screen.
+- [records/synthetic-pilot-v5-2026-08-23/NON-CONFORMANT.json](records/synthetic-pilot-v5-2026-08-23/NON-CONFORMANT.json)
+  preserves the exact process-v5 zero-dispatch stop. Its append-only correction
+  explains that static refusal safety was validated while fresh-prefix runtime
+  reachability was not.
 - [records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json](records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json)
   preserves the failed synthetic pilot, its privacy-safe raw evidence, exact
   artifact identities, zero Ritsu decisions, and non-acceptance.
@@ -120,7 +135,11 @@ node scripts/validate-synthetic-pilot-run-record.mjs
 node scripts/validate-synthetic-pilot-v2-run-record.mjs
 node scripts/validate-synthetic-pilot-v3-run-record.mjs
 node scripts/validate-synthetic-pilot-v4-run-record.mjs
+node scripts/validate-synthetic-pilot-v5-stop.mjs
 node scripts/validate-prompted-screening-v5-fixture.mjs
+node scripts/plan-prompted-screening-v6.mjs <exact-public-commit>
+node scripts/build-prompted-screening-runtime-v6.mjs <exact-public-commit> <fresh-prefix-path>
+node scripts/simulate-prompted-screening-runtime-v6.mjs
 node --test test/*.test.mjs
 ```
 
