@@ -46,9 +46,26 @@ synthetic fixture mapping never substitutes for that real mapping.
 
 After every judgment output is sealed and machine-validated, construct one
 version 2 compact process-audit input with the deterministic version 5
-renderer. The exact process-audit message is only its canonical JSON bytes and
-final LF. It has no instruction prefix, prose wrapper, Markdown, repository
-access, raw artifact bytes, or suffix.
+renderer. Construction requires the exact canonical judgment-prefix bytes and
+every exact source artifact named by the renderer: coordinator procedure,
+judgment procedure, judgment instruction, fixture or real pool, opaque mapping,
+dispatch order, judgment renderer, compact schema, compact renderer, process
+audit instruction, and process audit output schema. Validate every artifact
+against a literal approved identity before parsing it. Caller-supplied digest,
+count, verdict, validation boolean, event identity, or aggregate is never a
+substitute for deriving it from those exact bytes.
+
+The renderer parses the closed fourteen-event prefix, strictly decodes and
+re-encodes every base64 field, reconstructs each dispatch from the exact
+instruction and blinded subset, parses each raw verdict array, and derives all
+batch counts, routed UNSURE outcomes, stage totals, cells, agreement metrics,
+and 27-way joint contingencies. Omitted, substituted, reordered, duplicate, or
+noncanonical source and event bytes fail closed even if downstream digests or
+summaries are updated consistently.
+
+The exact process-audit message is the approved audit instruction bytes
+followed by the canonical compact input bytes. It has no prose wrapper,
+Markdown, repository access, raw artifact bytes, or suffix.
 
 Every batch is a closed keyed object. It explicitly names:
 
@@ -110,11 +127,23 @@ excluded synthetic fixture. The observation must not be suppressed, converted
 to item judgment, or treated as acceptance. It becomes material only when Sol
 cites a represented contradiction rather than agreement alone.
 
-A synthetic process pilot can satisfy the audit gate only with an unqualified
-`PASS` and zero material process-defect flags. `qualified-pass`, any material
+A recorded synthetic process pilot can satisfy the audit gate only with an
+exact canonical process-audit output and an unqualified `PASS` with zero
+material process-defect flags. The output contract is closed: prose, extra
+keys, an unknown status or severity, hidden material findings, nonempty
+required verification, or bytes outside the canonical JSON object and final
+LF fail. `qualified-pass`, any material
 flag, any machine-validation failure, or an attempt to overclaim provider or
 process freshness fails the pilot. Agreement and a green machine validator do
 not approve a pilot. Only Ritsu may approve it or record `confirm` or `exclude`.
+
+An input marked `validation-only-no-model-run` may test parsing and output
+policy, but it cannot pass the executable process-acceptance gate. A separate
+664-item capacity measurement is labeled
+`measurement-only-not-an-audit-input`; it returns size and headroom only and
+cannot validate or masquerade as process-audit evidence. Real replay remains
+blocked until the exact reviewed real pool, mapping, order, sampling, and
+transcript source bytes are registered.
 
 ## Privacy, size, and transcript stages
 

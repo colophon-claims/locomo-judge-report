@@ -15,6 +15,7 @@
     "cells",
     "declarations",
     "digestSemantics",
+    "executionKind",
     "itemCount",
     "judgmentTranscriptPrefixSha256",
     "protocol",
@@ -34,6 +35,12 @@
       "enum": [
         "real-screening",
         "synthetic-pilot"
+      ]
+    },
+    "executionKind": {
+      "enum": [
+        "recorded-model-run",
+        "validation-only-no-model-run"
       ]
     },
     "publicArtifacts": {
@@ -182,9 +189,14 @@
       "additionalProperties": false,
       "required": [
         "coordinatorPromptSha256",
+        "compactRendererSha256",
+        "compactSchemaSha256",
         "dispatchOrderSha256",
         "judgmentInstructionSha256",
+        "judgmentProcedureSha256",
         "opaqueIdentityMappingSha256",
+        "processAuditInstructionSha256",
+        "processAuditOutputSchemaSha256",
         "rendererSha256",
         "repository",
         "samplingCommitmentSha256",
@@ -204,7 +216,22 @@
         "coordinatorPromptSha256": {
           "$ref": "#/$defs/digest"
         },
+        "compactRendererSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "compactSchemaSha256": {
+          "$ref": "#/$defs/digest"
+        },
         "judgmentInstructionSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "judgmentProcedureSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "processAuditInstructionSha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "processAuditOutputSchemaSha256": {
           "$ref": "#/$defs/digest"
         },
         "screeningProcedureSha256": {
@@ -360,7 +387,7 @@
           "const": "reperform-item-judgments"
         },
         "rawIntegrityBasis": {
-          "const": "machine-validation-flags-and-digests"
+          "const": "derived-from-exact-authenticated-source-and-prefix-bytes"
         },
         "publicVerificationBoundary": {
           "const": "later-verifier-resolves-and-hashes-published-artifacts"
@@ -658,16 +685,13 @@
         "batchOrdinal",
         "blindedItemsSha256",
         "correctCount",
-        "dispatchDigestVerified",
         "dispatchSha256",
         "duplicateCount",
         "extraCount",
         "infrastructureFailureCount",
         "invalidCount",
         "itemCount",
-        "machineValidationErrors",
         "missingCount",
-        "outputDigestVerified",
         "rawOutputRecordCount",
         "rawOutputSha256",
         "retryCount",
@@ -675,7 +699,6 @@
         "rowCount",
         "sha256ColumnEncoding",
         "stage",
-        "summaryCountsVerified",
         "toolCallCount",
         "transcriptDispatchEventSha256",
         "transcriptOutputEventSha256",
@@ -860,39 +883,6 @@
           "maxItems": 146,
           "items": {
             "$ref": "#/$defs/nonnegative"
-          }
-        },
-        "dispatchDigestVerified": {
-          "type": "array",
-          "minItems": 3,
-          "maxItems": 146,
-          "items": {
-            "const": true
-          }
-        },
-        "outputDigestVerified": {
-          "type": "array",
-          "minItems": 3,
-          "maxItems": 146,
-          "items": {
-            "const": true
-          }
-        },
-        "summaryCountsVerified": {
-          "type": "array",
-          "minItems": 3,
-          "maxItems": 146,
-          "items": {
-            "const": true
-          }
-        },
-        "machineValidationErrors": {
-          "type": "array",
-          "minItems": 3,
-          "maxItems": 146,
-          "items": {
-            "type": "array",
-            "maxItems": 0
           }
         }
       }

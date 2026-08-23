@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://colophon-claims.github.io/locomo-judge-report/compact-process-audit-output/v1",
+  "title": "Compact process audit output version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assessment",
+    "capabilityBoundary",
+    "materialFindingCount",
+    "materialFindings",
+    "nonMaterialObservationCount",
+    "nonMaterialObservations",
+    "processDefects",
+    "protocol",
+    "schema",
+    "suspiciousAgreement"
+  ],
+  "properties": {
+    "schema": {
+      "const": "https://colophon-claims.github.io/locomo-judge-report/compact-process-audit-output/v1"
+    },
+    "protocol": {
+      "const": "prompted-codex-screening-compact-process-audit-output/v1"
+    },
+    "assessment": {
+      "enum": [
+        "PASS",
+        "REFUSE"
+      ]
+    },
+    "materialFindingCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "materialFindings": {
+      "type": "array",
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/materialFinding"
+      }
+    },
+    "nonMaterialObservationCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7
+    },
+    "nonMaterialObservations": {
+      "type": "array",
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonMaterialObservation"
+      }
+    },
+    "processDefects": {
+      "$ref": "#/$defs/processDefects"
+    },
+    "suspiciousAgreement": {
+      "$ref": "#/$defs/suspiciousAgreement"
+    },
+    "capabilityBoundary": {
+      "$ref": "#/$defs/capabilityBoundary"
+    }
+  },
+  "$defs": {
+    "materialFinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "severity"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "MACHINE_VALIDATION_FAILURE",
+            "OUTPUT_CONTRACT_FAILURE",
+            "SEALED_EVIDENCE_CONTRADICTION",
+            "SOURCE_IDENTITY_FAILURE",
+            "UNRESOLVED_REQUIRED_VERIFICATION"
+          ]
+        },
+        "severity": {
+          "const": "material"
+        }
+      }
+    },
+    "nonMaterialObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "CONTENT_DIGEST_EQUALITY",
+            "INVARIANT_ALIAS_WEIGHTS_NOT_MACHINE_VERIFIED",
+            "MODEL_ROUTING_NOT_MACHINE_VERIFIED",
+            "PERFECT_SYNTHETIC_AGREEMENT",
+            "PROCESS_FRESHNESS_NOT_MACHINE_VERIFIED",
+            "PROMPT_COMPLIANCE_NOT_MACHINE_VERIFIED",
+            "PROVIDER_EXECUTION_NOT_MACHINE_VERIFIED"
+          ]
+        }
+      }
+    },
+    "processDefects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requiredVerification",
+        "severity",
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "material",
+            "none"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "high",
+            "none"
+          ]
+        },
+        "requiredVerification": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "RECHECK_MACHINE_VALIDATION",
+              "RESOLVE_OUTPUT_CONTRACT",
+              "RESOLVE_SEALED_EVIDENCE",
+              "RESOLVE_SOURCE_IDENTITY",
+              "STOP_AND_ESCALATE_TO_RITSU"
+            ]
+          }
+        }
+      }
+    },
+    "suspiciousAgreement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "material",
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "none",
+            "observed"
+          ]
+        },
+        "material": {
+          "const": false
+        },
+        "code": {
+          "oneOf": [
+            {
+              "const": "PERFECT_SYNTHETIC_AGREEMENT"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "capabilityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "absenceOfBoundaryProofIsProcessDefect",
+        "invariantAliasWeights",
+        "modelRouting",
+        "processFreshness",
+        "promptCompliance",
+        "providerExecution"
+      ],
+      "properties": {
+        "providerExecution": {
+          "const": "not-machine-verified"
+        },
+        "processFreshness": {
+          "const": "not-machine-verified"
+        },
+        "modelRouting": {
+          "const": "not-machine-verified"
+        },
+        "promptCompliance": {
+          "const": "not-machine-verified"
+        },
+        "invariantAliasWeights": {
+          "const": "not-machine-verified"
+        },
+        "absenceOfBoundaryProofIsProcessDefect": {
+          "const": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+PROMPTED CODEX SCREENING PROCESS AUDIT INSTRUCTION
+INSTRUCTION VERSION: 1
+ENCODING: UTF-8
+
+Inspect only the canonical compact process-audit input supplied after this instruction.
+Do not use web, shell, repository, search, retrieval, or any other tool.
+Do not reperform an item judgment, change a verdict, compare an intended label per item, or make a Ritsu decision.
+
+Return exactly one canonical JSON object followed by one LF byte and nothing else.
+The object must conform exactly to compact-process-audit-output/v1.
+The assessment alphabet is exactly PASS or REFUSE.
+PASS requires zero material findings, processDefects status none, severity none, and an empty requiredVerification array.
+A represented sealed-evidence contradiction, source-identity failure, machine-validation failure, output-contract failure, or other material finding requires REFUSE.
+qualified-pass, prose, Markdown, unknown keys, unknown values, and bytes outside the canonical JSON object and final LF are invalid.
+
+Capability-boundary observations may be non-material.
+Content digest equality alone is not reuse evidence.
+Distinct transcript task and event identities prove only recorded separation, not provider execution or process freshness.
+Provider execution, process freshness, model routing, prompt compliance, and invariant alias weights are not machine-verified.
+Absence of provider-bound proof is not a process defect.
+Perfect agreement on a deliberately clear synthetic fixture may be recorded as a non-material suspicious observation, but it does not prove independence or acceptance.
+
+Ritsu approval remains separate and mandatory even after a valid PASS.
