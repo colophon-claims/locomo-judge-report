@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://colophon-claims.github.io/locomo-judge-report/prompted-screening-judgment-prefix/v2",
+  "title": "Prompted screening closed judgment prefix event protocol",
+  "description": "Canonical JSONL event protocol: one run declaration, one preflight plan, then six alternating dispatch/output pairs. Runtime validation additionally enforces exact order, source joins, canonical bytes, and derived identities.",
+  "oneOf": [
+    { "$ref": "#/$defs/runDeclaration" },
+    { "$ref": "#/$defs/preflightPlan" },
+    { "$ref": "#/$defs/dispatch" },
+    { "$ref": "#/$defs/output" }
+  ],
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "runDeclaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["auditProfile", "capabilityBoundary", "coordinator", "event", "executionMode", "expectedJudgmentDispatchCount", "expectedProcessAuditDispatchCount", "judgmentAgentToolPolicy", "judgmentProfiles", "modelRunOccurred", "operatorAttestation", "planSha256", "protocol", "realScreeningOccurred", "reuseAllowed", "runId", "sourceIdentities", "sourceKind", "sourceRevision", "testOnly"],
+      "properties": {
+        "event": { "const": "run-declaration" },
+        "protocol": { "const": "prompted-codex-screening-judgment-prefix/v2" },
+        "runId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$" },
+        "sourceKind": { "const": "synthetic-pilot" },
+        "sourceRevision": { "oneOf": [{ "type": "string", "pattern": "^[0-9a-f]{40}$" }, { "const": "TEST_ONLY_UNCOMMITTED_V7_SOURCE" }] },
+        "planSha256": { "$ref": "#/$defs/digest" },
+        "sourceIdentities": { "$ref": "#/$defs/sourceIdentities" },
+        "executionMode": { "enum": ["production-recording", "test-only-simulation"] },
+        "testOnly": { "type": "boolean" },
+        "modelRunOccurred": { "type": "boolean" },
+        "operatorAttestation": { "$ref": "#/$defs/operatorAttestation" },
+        "coordinator": { "const": { "modelAlias": "gpt-5.6-sol", "reasoning": "high" } },
+        "judgmentAgentToolPolicy": { "const": "none" },
+        "judgmentProfiles": {
+          "const": [
+            { "stage": "Luna", "modelAlias": "gpt-5.6-luna", "reasoning": "medium", "batchLimit": 32, "batchCount": 1 },
+            { "stage": "Terra", "modelAlias": "gpt-5.6-terra", "reasoning": "high", "batchLimit": 16, "batchCount": 2 },
+            { "stage": "Sol", "modelAlias": "gpt-5.6-sol", "reasoning": "high", "batchLimit": 8, "batchCount": 3 }
+          ]
+        },
+        "auditProfile": { "const": { "modelAlias": "gpt-5.6-sol", "reasoning": "high", "toolPolicy": "none" } },
+        "expectedJudgmentDispatchCount": { "const": 6 },
+        "expectedProcessAuditDispatchCount": { "const": 1 },
+        "reuseAllowed": { "const": false },
+        "realScreeningOccurred": { "const": false },
+        "capabilityBoundary": {
+          "const": {
+            "recordedEventSeparation": "machine-verified-from-canonical-prefix",
+            "providerExecution": "not-machine-verified",
+            "providerProcessFreshness": "not-machine-verified",
+            "modelRouting": "not-machine-verified",
+            "promptCompliance": "not-machine-verified",
+            "invariantAliasWeights": "not-machine-verified"
+          }
+        }
+      }
+    },
+    "sourceIdentities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "auditInstructionSha256",
+        "auditOutputParserSha256",
+        "auditOutputSchemaSha256",
+        "compactBaseSchemaSha256",
+        "compactInputSchemaSha256",
+        "coordinatorPromptSha256",
+        "dispatchOrderSha256",
+        "finalTranscriptSchemaSha256",
+        "judgmentInstructionSha256",
+        "judgmentProcedureSha256",
+        "judgmentRendererSha256",
+        "opaqueIdentityMappingSha256",
+        "preDispatchPlannerSha256",
+        "preDispatchSchemaSha256",
+        "recorderSha256",
+        "runtimeBuilderSha256",
+        "runtimeGateSha256",
+        "runtimePrefixSchemaSha256",
+        "screeningPoolOrFixtureSha256"
+      ],
+      "properties": {
+        "auditInstructionSha256": { "$ref": "#/$defs/digest" },
+        "auditOutputParserSha256": { "$ref": "#/$defs/digest" },
+        "auditOutputSchemaSha256": { "$ref": "#/$defs/digest" },
+        "compactBaseSchemaSha256": { "$ref": "#/$defs/digest" },
+        "compactInputSchemaSha256": { "$ref": "#/$defs/digest" },
+        "coordinatorPromptSha256": { "$ref": "#/$defs/digest" },
+        "dispatchOrderSha256": { "$ref": "#/$defs/digest" },
+        "finalTranscriptSchemaSha256": { "$ref": "#/$defs/digest" },
+        "judgmentInstructionSha256": { "$ref": "#/$defs/digest" },
+        "judgmentProcedureSha256": { "$ref": "#/$defs/digest" },
+        "judgmentRendererSha256": { "$ref": "#/$defs/digest" },
+        "opaqueIdentityMappingSha256": { "$ref": "#/$defs/digest" },
+        "preDispatchPlannerSha256": { "$ref": "#/$defs/digest" },
+        "preDispatchSchemaSha256": { "$ref": "#/$defs/digest" },
+        "recorderSha256": { "$ref": "#/$defs/digest" },
+        "runtimeBuilderSha256": { "$ref": "#/$defs/digest" },
+        "runtimeGateSha256": { "$ref": "#/$defs/digest" },
+        "runtimePrefixSchemaSha256": { "$ref": "#/$defs/digest" },
+        "screeningPoolOrFixtureSha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "operatorAttestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attestedBy", "kind", "modelRunOccurred", "testOnly"],
+      "properties": {
+        "kind": { "enum": ["operator-recorded-model-run", "test-only-no-model"] },
+        "attestedBy": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._/-]{2,127}$" },
+        "modelRunOccurred": { "type": "boolean" },
+        "testOnly": { "type": "boolean" }
+      }
+    },
+    "preflightPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatchCount", "event", "itemCount", "planByteLength", "planSha256", "sourceIdentitiesSha256", "sourceRevision"],
+      "properties": {
+        "event": { "const": "preflight-plan" },
+        "sourceRevision": { "oneOf": [{ "type": "string", "pattern": "^[0-9a-f]{40}$" }, { "const": "TEST_ONLY_UNCOMMITTED_V7_SOURCE" }] },
+        "planSha256": { "$ref": "#/$defs/digest" },
+        "planByteLength": { "type": "integer", "minimum": 1, "maximum": 131072 },
+        "sourceIdentitiesSha256": { "$ref": "#/$defs/digest" },
+        "itemCount": { "const": 24 },
+        "dispatchCount": { "const": 6 }
+      }
+    },
+    "dispatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["batchCount", "batchOrdinal", "blindedItemsSha256", "dispatchByteLength", "dispatchBytesBase64", "dispatchSha256", "event", "itemCount", "modelAlias", "reasoning", "sourceIdentitiesSha256", "stage", "taskId"],
+      "properties": {
+        "event": { "const": "judgment-dispatch" },
+        "taskId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9/_-]{7,191}$" },
+        "stage": { "enum": ["Luna", "Terra", "Sol"] },
+        "modelAlias": { "enum": ["gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol"] },
+        "reasoning": { "enum": ["medium", "high"] },
+        "batchOrdinal": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "batchCount": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "itemCount": { "type": "integer", "minimum": 1, "maximum": 32 },
+        "sourceIdentitiesSha256": { "$ref": "#/$defs/digest" },
+        "blindedItemsSha256": { "$ref": "#/$defs/digest" },
+        "dispatchSha256": { "$ref": "#/$defs/digest" },
+        "dispatchByteLength": { "type": "integer", "minimum": 1, "maximum": 65536 },
+        "dispatchBytesBase64": { "type": "string" }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["batchOrdinal", "event", "infrastructureFailureCount", "modelAlias", "rawOutputBase64", "rawOutputByteLength", "rawOutputSha256", "reasoning", "retryCount", "stage", "taskId", "toolCallCount"],
+      "properties": {
+        "event": { "const": "judgment-output" },
+        "taskId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9/_-]{7,191}$" },
+        "stage": { "enum": ["Luna", "Terra", "Sol"] },
+        "modelAlias": { "enum": ["gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol"] },
+        "reasoning": { "enum": ["medium", "high"] },
+        "batchOrdinal": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "rawOutputSha256": { "$ref": "#/$defs/digest" },
+        "rawOutputByteLength": { "type": "integer", "minimum": 1, "maximum": 65536 },
+        "rawOutputBase64": { "type": "string" },
+        "infrastructureFailureCount": { "const": 0 },
+        "retryCount": { "const": 0 },
+        "toolCallCount": { "const": 0 }
+      }
+    }
+  }
+}

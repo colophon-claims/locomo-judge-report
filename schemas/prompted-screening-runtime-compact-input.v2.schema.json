@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://colophon-claims.github.io/locomo-judge-report/prompted-screening-runtime-compact-input/v2",
+  "title": "Prompted screening runtime compact input version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["aggregateTiming", "aggregates", "auditAcceptancePolicy", "auditScope", "batches", "capabilityBoundary", "cells", "declarations", "digestSemantics", "executionKind", "executionMode", "itemCount", "judgmentTranscriptPrefixSha256", "modelRunOccurred", "operatorAttestation", "planSha256", "protocol", "publicArtifacts", "runId", "schema", "selectionBasis", "sourceKind", "sourceRevision", "testOnly"],
+  "properties": {
+    "schema": { "const": "https://colophon-claims.github.io/locomo-judge-report/prompted-screening-runtime-compact-input/v2" },
+    "protocol": { "const": "prompted-codex-screening-runtime-compact-input/v1" },
+    "runId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$" },
+    "planSha256": { "$ref": "#/$defs/digest" },
+    "sourceRevision": { "oneOf": [{ "type": "string", "pattern": "^[0-9a-f]{40}$" }, { "const": "TEST_ONLY_UNCOMMITTED_V7_SOURCE" }] },
+    "executionMode": { "enum": ["production-recording", "test-only-simulation"] },
+    "executionKind": { "enum": ["recorded-model-run", "test-only-recorded-events"] },
+    "testOnly": { "type": "boolean" },
+    "modelRunOccurred": { "type": "boolean" },
+    "operatorAttestation": { "$ref": "#/$defs/operatorAttestation" },
+    "sourceKind": { "const": "synthetic-pilot" },
+    "publicArtifacts": { "$ref": "#/$defs/publicArtifacts" },
+    "declarations": { "$ref": "compact-process-audit-input.v3.schema.json#/$defs/declarations" },
+    "auditScope": { "$ref": "compact-process-audit-input.v3.schema.json#/$defs/auditScope" },
+    "itemCount": { "const": 24 },
+    "judgmentTranscriptPrefixSha256": { "$ref": "#/$defs/digest" },
+    "batches": { "$ref": "compact-process-audit-input.v3.schema.json#/$defs/batches" },
+    "aggregates": { "$ref": "compact-process-audit-input.v3.schema.json#/$defs/aggregates" },
+    "cells": { "type": "array", "minItems": 12, "maxItems": 12, "items": { "$ref": "compact-process-audit-input.v3.schema.json#/$defs/cell" } },
+    "aggregateTiming": { "const": "after-all-judgment-outputs-before-process-audit" },
+    "selectionBasis": { "$ref": "compact-process-audit-input.v3.schema.json#/$defs/selectionBasis" },
+    "digestSemantics": { "$ref": "compact-process-audit-input.v3.schema.json#/$defs/digestSemantics" },
+    "capabilityBoundary": { "$ref": "compact-process-audit-input.v3.schema.json#/$defs/capabilityBoundary" },
+    "auditAcceptancePolicy": { "$ref": "compact-process-audit-input.v3.schema.json#/$defs/auditAcceptancePolicy" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "publicArtifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compactRendererSha256", "compactSchemaSha256", "coordinatorPromptSha256", "dispatchOrderSha256", "judgmentInstructionSha256", "judgmentProcedureSha256", "opaqueIdentityMappingSha256", "processAuditInstructionSha256", "processAuditOutputSchemaSha256", "rendererSha256", "repository", "samplingCommitmentSha256", "samplingScriptSha256", "screeningPoolOrFixtureSha256", "screeningProcedureSha256", "sourceRevision"],
+      "properties": {
+        "repository": { "const": "https://github.com/colophon-claims/locomo-judge-report" },
+        "sourceRevision": { "oneOf": [{ "type": "string", "pattern": "^[0-9a-f]{40}$" }, { "const": "TEST_ONLY_UNCOMMITTED_V7_SOURCE" }] },
+        "compactRendererSha256": { "$ref": "#/$defs/digest" }, "compactSchemaSha256": { "$ref": "#/$defs/digest" }, "coordinatorPromptSha256": { "$ref": "#/$defs/digest" },
+        "dispatchOrderSha256": { "$ref": "#/$defs/digest" }, "judgmentInstructionSha256": { "$ref": "#/$defs/digest" }, "judgmentProcedureSha256": { "$ref": "#/$defs/digest" },
+        "opaqueIdentityMappingSha256": { "$ref": "#/$defs/digest" }, "processAuditInstructionSha256": { "$ref": "#/$defs/digest" }, "processAuditOutputSchemaSha256": { "$ref": "#/$defs/digest" },
+        "rendererSha256": { "$ref": "#/$defs/digest" }, "samplingCommitmentSha256": { "type": "null" }, "samplingScriptSha256": { "type": "null" },
+        "screeningPoolOrFixtureSha256": { "$ref": "#/$defs/digest" }, "screeningProcedureSha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "operatorAttestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attestedBy", "kind", "modelRunOccurred", "testOnly"],
+      "properties": {
+        "kind": { "enum": ["operator-recorded-model-run", "test-only-no-model"] },
+        "attestedBy": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._/-]{2,127}$" },
+        "modelRunOccurred": { "type": "boolean" },
+        "testOnly": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -15,7 +15,11 @@ shape was rejected for excessive usage pending Ritsu. The fourth pilot remains
 `NON-CONFORMANT / PROCESS_AUDIT_MATERIAL_FLAG`; the append-only amendment does
 not change its returned audit. The fifth attempt is `NON-CONFORMANT /
 PUBLIC_V5_EXECUTABLE_BUILDER_REJECTS_FRESH_PREFIX` and stopped before any
-dispatch. None is accepted, reusable, a commitment, or a freeze.
+dispatch. The sixth pilot is `NON_CONFORMANT / AUDIT_OUTPUT_SCHEMA_REJECTED`:
+its judgment dispatches were mechanically green, but its exact nested Sol
+response did not match the underspecified version 2 audit-output shape. The
+raw response remains rejected and no Ritsu decision was recorded. None is
+accepted, reusable, a commitment, or a freeze.
 
 The sole repository operator is `ritsukai`. A future commitment may be added
 only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -83,6 +87,12 @@ synthetic execution evidence below.
   run, plan, prefix, compact input, instruction, task, source revision, and
   model profile bindings. Audit-policy PASS is separate from production
   finalization.
+- [CODEX-SCREENING-PROMPT.v7.md](CODEX-SCREENING-PROMPT.v7.md) and
+  [CODEX-SCREENING-AUDIT-INSTRUCTION.v3.txt](CODEX-SCREENING-AUDIT-INSTRUCTION.v3.txt)
+  define the current no-run audit interface. The recorder owns every mechanical
+  binding and the full audit envelope. Sol returns only one invocation digest,
+  `PASS`, `FAIL`, or `REFUSE`, and bounded semantic findings or observations
+  using the complete closed shape and exact example supplied in-band.
 - [fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl](fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl)
   and its exact output fixture provide a deterministic no-model, test-only
   reachability simulation. They are not a run, acceptance, admission record,
@@ -91,6 +101,11 @@ synthetic execution evidence below.
   preserves the exact process-v5 zero-dispatch stop. Its append-only correction
   explains that static refusal safety was validated while fresh-prefix runtime
   reachability was not.
+- [records/synthetic-pilot-v6-2026-08-23/NON-CONFORMANT.json](records/synthetic-pilot-v6-2026-08-23/NON-CONFORMANT.json)
+  preserves the exact sixth-pilot stop, raw outputs, recorder states, judgment
+  prefix, rejected nested claimed PASS, handoff, and usage.
+  It records 72 mechanically valid judgments, no audit-output event, no final
+  transcript, and zero Ritsu decisions.
 - [records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json](records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json)
   preserves the failed synthetic pilot, its privacy-safe raw evidence, exact
   artifact identities, zero Ritsu decisions, and non-acceptance.
@@ -146,6 +161,8 @@ node scripts/validate-prompted-screening-v5-fixture.mjs
 node scripts/plan-prompted-screening-v6.mjs --repo . --expected-public-commit <exact-public-commit>
 node scripts/build-prompted-screening-runtime-v6.mjs --repo . --expected-public-commit <exact-public-commit> --prefix <fresh-prefix-path>
 node scripts/simulate-prompted-screening-runtime-v6.mjs
+node scripts/validate-synthetic-pilot-v6-stop.mjs
+node scripts/simulate-prompted-screening-runtime-v7.mjs
 node --test test/*.test.mjs
 ```
 
@@ -175,6 +192,14 @@ node scripts/record-prompted-screening-v6.mjs export --state <state-dir> --owner
 Every state artifact is create-once under one owner. Test-only or no-model
 state can pass the pure audit policy but `finalize` returns a nonzero status and
 the terminal `TEST_ONLY_NON_ADMISSIBLE`; it can never emit `PENDING_RITSU`.
+
+Version 7 uses the same command sequence through
+`scripts/record-prompted-screening-v7.mjs`. The `prepare-audit` output includes
+the recorder-owned `auditInvocationSha256`. The audit dispatch contains only
+the self-contained version 3 instruction, that digest binding line, and the
+exact compact input. `record-audit` preserves the raw semantic payload bytes
+and deterministically composes the full audit envelope. It never repairs a
+malformed output.
 
 Before any real 664-row commitment or screening, the operator must create and
 seal a distinct opaque screening identity mapping and a non-grouped dispatch

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://colophon-claims.github.io/locomo-judge-report/prompted-screening-audit-findings/v1",
+  "title": "Prompted screening semantic audit findings version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["assessment", "auditInvocationSha256", "materialFindings", "nonMaterialObservations", "protocol", "schema"],
+  "properties": {
+    "assessment": { "enum": ["PASS", "FAIL", "REFUSE"] },
+    "auditInvocationSha256": { "$ref": "#/$defs/digest" },
+    "materialFindings": { "type": "array", "maxItems": 7, "uniqueItems": true, "items": { "$ref": "#/$defs/materialFinding" } },
+    "nonMaterialObservations": { "type": "array", "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/nonMaterialObservation" } },
+    "protocol": { "const": "prompted-codex-screening-audit-findings/v1" },
+    "schema": { "const": "https://colophon-claims.github.io/locomo-judge-report/prompted-screening-audit-findings/v1" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "evidenceReferences": { "type": "array", "minItems": 1, "maxItems": 5, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 160, "pattern": "^(?:/(?:[^~/]|~[01])*)+$" } },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 280, "pattern": "^(?!.*\\b(?:[Cc][Oo][Rr][Rr][Ee][Cc][Tt]|[Ww][Rr][Oo][Nn][Gg]|[Uu][Nn][Ss][Uu][Rr][Ee])\\b)[ -~]+$" },
+    "materialFinding": { "type": "object", "additionalProperties": false, "required": ["code", "evidenceReferences", "summary"], "properties": { "code": { "enum": ["COVERAGE", "DECLARATION_DRIFT", "SHARD_DRIFT", "CROSS_STAGE_ASYMMETRY", "SUSPICIOUS_AGREEMENT", "PROCESS_DEFECT", "OTHER_MATERIAL"] }, "evidenceReferences": { "$ref": "#/$defs/evidenceReferences" }, "summary": { "$ref": "#/$defs/summary" } } },
+    "nonMaterialObservation": { "type": "object", "additionalProperties": false, "required": ["code", "evidenceReferences", "summary"], "properties": { "code": { "enum": ["COVERAGE", "DECLARATION_DRIFT", "SHARD_DRIFT", "CROSS_STAGE_ASYMMETRY", "SUSPICIOUS_AGREEMENT", "PROCESS_DEFECT", "OTHER_OBSERVATION"] }, "evidenceReferences": { "$ref": "#/$defs/evidenceReferences" }, "summary": { "$ref": "#/$defs/summary" } } }
+  }
+}

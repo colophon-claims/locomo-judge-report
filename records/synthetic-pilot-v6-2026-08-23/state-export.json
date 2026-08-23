@@ -1,0 +1,60 @@
+{
+  "schema": "prompted-screening-recorder-state-export-local/v1",
+  "runId": "prompted-screening-synthetic-pilot-v6-2026-08-23",
+  "owner": "codex-v6-coordinator",
+  "executionMode": "production-recording",
+  "sourceRevision": "ec4c904605598e69fc0a42681b93bafa8e391d30",
+  "status": "NON_CONFORMANT",
+  "terminalReason": "AUDIT_OUTPUT_SCHEMA_REJECTED",
+  "stateCompleteThrough": "08-audit-preparation.json",
+  "auditOutputStateCreated": false,
+  "finalizationStateCreated": false,
+  "files": [
+    {
+      "path": "recorder-state/00-init.json",
+      "sha256": "097fab3fdf0726f3239540792b3bd7d8216502083c1888217bed78db74cd1ef4"
+    },
+    {
+      "path": "recorder-state/01-judgment-pair.json",
+      "sha256": "915ae6971e6cf39db72dc1cff064f5ffa00547ffc9ea6303aaaa5a077bb50d0b"
+    },
+    {
+      "path": "recorder-state/02-judgment-pair.json",
+      "sha256": "cd2fd9f2e8c12d192bed16dcf6bb102344bc9948c24d9050509cbd704bec6f97"
+    },
+    {
+      "path": "recorder-state/03-judgment-pair.json",
+      "sha256": "e22cca3c4c73482ace5cfd3220d99013b5155bd0ed110ccdc3b81916d8f72b79"
+    },
+    {
+      "path": "recorder-state/04-judgment-pair.json",
+      "sha256": "236df8d86e525c6f8cecd9e90255756e5803398861a02e9bf3c1d73cd286b911"
+    },
+    {
+      "path": "recorder-state/05-judgment-pair.json",
+      "sha256": "9f7b9032aa9d9f6927e92b87044a2cb3d6e7cfb302d9d34062d5f8d7e0520655"
+    },
+    {
+      "path": "recorder-state/06-judgment-pair.json",
+      "sha256": "ff253a2397e92a86b7e6a6a345b1f136d4cafb13bfebfab5e50a320e2bfe1e80"
+    },
+    {
+      "path": "recorder-state/07-judgment-prefix.jsonl",
+      "sha256": "d9c54b48aeb7504c75d6f76be8bbd7f95e6aa482780e364a1ba79ef3353567d9",
+      "byteLength": 46185,
+      "eventCount": 14
+    },
+    {
+      "path": "recorder-state/08-audit-preparation.json",
+      "sha256": "2d68bdb5beb037c140e24fd8a4e32764d6f9b1fe051d1f130aac814bce60d052"
+    }
+  ],
+  "rejectedAuditOutput": {
+    "path": "raw/07-process-audit.json",
+    "sha256": "59dd7e04b5b4a307b72a2bd97390fe647ecb32c881b1cc628222f84f3a578898",
+    "byteLength": 1408,
+    "claimedAssessment": "PASS",
+    "recorded": false,
+    "recorderError": "auditOutput: must be the exact closed bound version 2 output"
+  }
+}

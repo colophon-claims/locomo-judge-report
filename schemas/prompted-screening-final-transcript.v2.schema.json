@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://colophon-claims.github.io/locomo-judge-report/prompted-screening-final-transcript/v2",
+  "title": "Prompted screening append-only final transcript event protocol version 2",
+  "description": "Exactly fourteen judgment-prefix events followed by recorder-owned audit dispatch, raw-payload and composed-envelope output, audit-policy, and terminal events. Exact executable replay is authoritative.",
+  "type": "array",
+  "prefixItems": [
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/runDeclaration" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/preflightPlan" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/dispatch" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/output" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/dispatch" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/output" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/dispatch" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/output" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/dispatch" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/output" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/dispatch" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/output" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/dispatch" },
+    { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/output" },
+    { "$ref": "#/$defs/auditDispatch" },
+    { "$ref": "#/$defs/auditOutput" },
+    { "$ref": "#/$defs/auditPolicy" },
+    { "$ref": "#/$defs/terminal" }
+  ],
+  "items": false,
+  "minItems": 18,
+  "maxItems": 18,
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "attestation": { "$ref": "prompted-screening-judgment-prefix.v2.schema.json#/$defs/operatorAttestation" },
+    "auditDispatch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["auditDispatchByteLength", "auditDispatchBytesBase64", "auditDispatchSha256", "auditInputByteLength", "auditInputSha256", "auditInstructionSha256", "auditInvocationSha256", "event", "executionMode", "judgmentPrefixSha256", "modelAlias", "modelRunOccurred", "operatorAttestation", "planSha256", "protocol", "reasoning", "runId", "sourceRevision", "taskId", "testOnly", "toolPolicy"],
+      "properties": {
+        "event": { "const": "process-audit-dispatch" }, "protocol": { "const": "prompted-codex-screening-final-transcript/v2" }, "runId": { "type": "string" }, "planSha256": { "$ref": "#/$defs/digest" }, "judgmentPrefixSha256": { "$ref": "#/$defs/digest" }, "sourceRevision": { "type": "string" }, "auditInstructionSha256": { "$ref": "#/$defs/digest" }, "auditInputSha256": { "$ref": "#/$defs/digest" }, "auditInputByteLength": { "type": "integer", "minimum": 1, "maximum": 65536 }, "auditInvocationSha256": { "$ref": "#/$defs/digest" }, "auditDispatchSha256": { "$ref": "#/$defs/digest" }, "auditDispatchByteLength": { "type": "integer", "minimum": 1 }, "auditDispatchBytesBase64": { "type": "string" }, "taskId": { "type": "string" }, "modelAlias": { "const": "gpt-5.6-sol" }, "reasoning": { "const": "high" }, "toolPolicy": { "const": "none" }, "executionMode": { "enum": ["production-recording", "test-only-simulation"] }, "testOnly": { "type": "boolean" }, "modelRunOccurred": { "type": "boolean" }, "operatorAttestation": { "$ref": "#/$defs/attestation" }
+      }
+    },
+    "auditOutput": {
+      "type": "object", "additionalProperties": false,
+      "required": ["assessment", "auditDispatchSha256", "auditEnvelopeBase64", "auditEnvelopeByteLength", "auditEnvelopeSha256", "auditInputSha256", "auditInstructionSha256", "auditInvocationSha256", "event", "executionMode", "infrastructureFailureCount", "judgmentPrefixSha256", "materialFindingCount", "modelAlias", "modelRunOccurred", "operatorAttestation", "planSha256", "protocol", "rawAuditPayloadBase64", "rawAuditPayloadByteLength", "rawAuditPayloadSha256", "reasoning", "retryCount", "runId", "sourceRevision", "taskId", "testOnly", "toolCallCount", "toolPolicy"],
+      "properties": {
+        "event": { "const": "process-audit-output" }, "protocol": { "const": "prompted-codex-screening-final-transcript/v2" }, "runId": { "type": "string" }, "planSha256": { "$ref": "#/$defs/digest" }, "judgmentPrefixSha256": { "$ref": "#/$defs/digest" }, "sourceRevision": { "type": "string" }, "auditInstructionSha256": { "$ref": "#/$defs/digest" }, "auditInputSha256": { "$ref": "#/$defs/digest" }, "auditInvocationSha256": { "$ref": "#/$defs/digest" }, "auditDispatchSha256": { "$ref": "#/$defs/digest" }, "rawAuditPayloadSha256": { "$ref": "#/$defs/digest" }, "rawAuditPayloadByteLength": { "type": "integer", "minimum": 1 }, "rawAuditPayloadBase64": { "type": "string" }, "auditEnvelopeSha256": { "$ref": "#/$defs/digest" }, "auditEnvelopeByteLength": { "type": "integer", "minimum": 1 }, "auditEnvelopeBase64": { "type": "string" }, "taskId": { "type": "string" }, "modelAlias": { "const": "gpt-5.6-sol" }, "reasoning": { "const": "high" }, "toolPolicy": { "const": "none" }, "executionMode": { "enum": ["production-recording", "test-only-simulation"] }, "testOnly": { "type": "boolean" }, "modelRunOccurred": { "type": "boolean" }, "operatorAttestation": { "$ref": "#/$defs/attestation" }, "infrastructureFailureCount": { "const": 0 }, "retryCount": { "const": 0 }, "toolCallCount": { "const": 0 }, "assessment": { "enum": ["PASS", "FAIL", "REFUSE"] }, "materialFindingCount": { "type": "integer", "minimum": 0, "maximum": 7 }
+      }
+    },
+    "auditPolicy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["assessment", "auditEnvelopeSha256", "auditInvocationSha256", "event", "materialFindingCount", "planSha256", "policyPass", "protocol", "rawAuditPayloadSha256", "runId", "status"],
+      "properties": { "event": { "const": "audit-policy" }, "protocol": { "const": "prompted-codex-screening-final-transcript/v2" }, "runId": { "type": "string" }, "planSha256": { "$ref": "#/$defs/digest" }, "auditInvocationSha256": { "$ref": "#/$defs/digest" }, "rawAuditPayloadSha256": { "$ref": "#/$defs/digest" }, "auditEnvelopeSha256": { "$ref": "#/$defs/digest" }, "assessment": { "enum": ["PASS", "FAIL", "REFUSE"] }, "materialFindingCount": { "type": "integer", "minimum": 0, "maximum": 7 }, "policyPass": { "type": "boolean" }, "status": { "enum": ["PASS", "REFUSE"] } }
+    },
+    "terminal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["admissionEligible", "auditEnvelopeSha256", "auditInvocationSha256", "event", "modelRunOccurred", "pendingRitsu", "planSha256", "policyPass", "productionFinalizationEligible", "protocol", "rawAuditPayloadSha256", "runId", "sourceRevision", "status", "testOnly"],
+      "properties": { "event": { "const": "terminal" }, "protocol": { "const": "prompted-codex-screening-final-transcript/v2" }, "runId": { "type": "string" }, "planSha256": { "$ref": "#/$defs/digest" }, "sourceRevision": { "type": "string" }, "auditInvocationSha256": { "$ref": "#/$defs/digest" }, "rawAuditPayloadSha256": { "$ref": "#/$defs/digest" }, "auditEnvelopeSha256": { "$ref": "#/$defs/digest" }, "testOnly": { "type": "boolean" }, "modelRunOccurred": { "type": "boolean" }, "policyPass": { "type": "boolean" }, "productionFinalizationEligible": { "type": "boolean" }, "pendingRitsu": { "type": "boolean" }, "admissionEligible": { "const": false }, "status": { "enum": ["TEST_ONLY_NON_ADMISSIBLE", "PENDING_RITSU", "PROCESS_REFUSED"] } }
+    }
+  }
+}

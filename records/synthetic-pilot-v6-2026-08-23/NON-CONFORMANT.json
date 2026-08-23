@@ -1,0 +1,18 @@
+{
+  "schema": "prompted-screening-synthetic-pilot-v6-stop/v1",
+  "runId": "prompted-screening-synthetic-pilot-v6-2026-08-23",
+  "status": "NON_CONFORMANT",
+  "reason": "AUDIT_OUTPUT_SCHEMA_REJECTED",
+  "sourceRevision": "ec4c904605598e69fc0a42681b93bafa8e391d30",
+  "judgmentPrefixSha256": "sha256:d9c54b48aeb7504c75d6f76be8bbd7f95e6aa482780e364a1ba79ef3353567d9",
+  "auditInputSha256": "sha256:16a00ab2eb6408ab888280e6d0dd95676441bed75b53ac0e7d42e11aec943f1c",
+  "auditDispatchSha256": "sha256:f8bfd11d2d0c5b0aebfe05eccc48a0b8c602adac2d51615c3a19c0f464ba40f9",
+  "rejectedRawAuditOutputSha256": "sha256:59dd7e04b5b4a307b72a2bd97390fe647ecb32c881b1cc628222f84f3a578898",
+  "auditOutputRecorded": false,
+  "finalTranscriptCreated": false,
+  "ritsuDecisionCount": 0,
+  "accepted": false,
+  "reusable": false,
+  "admissionEligible": false,
+  "realCandidateScreening": false
+}

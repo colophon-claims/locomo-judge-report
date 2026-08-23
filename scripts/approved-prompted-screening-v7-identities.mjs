@@ -1,0 +1,31 @@
+export const APPROVED_PROMPTED_SCREENING_V7_SHA256 = Object.freeze({
+  coordinatorPromptV7: 'sha256:91ff8ebddcb8d62d216de9099482e8bce6a27a3abbad12adc219250ef88a782d',
+  auditInstructionV3: 'sha256:9a2fd20a606c9cd3edfb0497a06da30c02e46556aefccd28e2311d7b9712271b',
+  auditFindingsSchemaV1: 'sha256:cd29aefdb9327fd4c24aee3598f4bd4b5007bbeacf7c9d6fc315d744152ab2d5',
+  auditFindingsParserV1: 'sha256:e7d92c2cfc4b2b1f23765efb7e5e806e78fe7e9abe7c3bec98d48c9023446149',
+  auditEnvelopeSchemaV1: 'sha256:550067619e836ed5717954ca20f1b183bb2d587897b97e5a0b2b5a4a7c37738f',
+  compactBaseSchemaV3: 'sha256:8a9d791c57298fd64df12dc4fdeaafaccae7548622bd8d1b144a0fff712aa6a9',
+  runtimeCompactInputSchemaV2: 'sha256:3f4b54af915944bd572a50726cbbed8b1c90d3a0853ec5bb95d39bb3354519f9',
+  preDispatchSchemaV2: 'sha256:16d5efeb71c1257dbb593c1800f02222fcbb930368df2d5d54c319bed2143140',
+  runtimePrefixSchemaV2: 'sha256:d383e2375ab238df6111cb284dc3e712b00c661cebdf50f8f280c5b337f012c6',
+  finalTranscriptSchemaV2: 'sha256:05313abc75463b44640832f0e908b90249bf8ddc69b11e9791e49e0cfb87d323',
+  preDispatchPlannerV1: 'sha256:2dad680e22545f5a09ae2837c2e80564599823ac2a8112c7321108687cff2540',
+  runtimeBuilderV1: 'sha256:ec3d77b38fba1bb9338a303556ee9d868f09aa0c77e6773efd79b61426e90c4e',
+  runtimeGateV1: 'sha256:f2989d610ab2b9f4d153d89f1f00cfab9c7091ea791b7ba6a6000b478f70ea21',
+  recorderV1: 'sha256:54ef1b7a0a3b75bb01a2eeb2f23a12a1b35a9327751816eff04d0b81e1ab8920',
+  simulationOutputsV1: 'sha256:1b47c4b21c6dd02297841fb90ce01dc2a898c63ead8107c74fa2635343774f65',
+  simulationPrefixV1: 'sha256:de0387a102fb4d49478b3258f92b2730373f7f2e591b400c57e49d31884a1658',
+});
+
+export const APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V6_SHA256 = Object.freeze({
+  publicMain: 'ec4c904605598e69fc0a42681b93bafa8e391d30',
+  record: 'sha256:4fc78a99483c7d67d1c46b44be61b9032933c4fe8fe556a0fce1b6f4147129a1',
+  results: 'sha256:d4b199fe665c38b2391f4fb89adc2d73d5b2f575cb2c98a870ca6bd76fb06eb5',
+  processAudit: 'sha256:991dd56ffe17216310b66e0b986c97aefbaf3a9962c9fa6e260818a39dbe1e8e',
+  rawAudit: 'sha256:59dd7e04b5b4a307b72a2bd97390fe647ecb32c881b1cc628222f84f3a578898',
+  auditPreparation: 'sha256:2d68bdb5beb037c140e24fd8a4e32764d6f9b1fe051d1f130aac814bce60d052',
+  prefix: 'sha256:d9c54b48aeb7504c75d6f76be8bbd7f95e6aa482780e364a1ba79ef3353567d9',
+  review: 'sha256:d13902cdd3b553aa6fb1446415daaf10a2f8bdf62f6b4aee45ea9b2d39ed6218',
+  ritsuReview: 'sha256:fd63339ac86c4b237cdb00171aa290071d6f6362212393ea27b973fdc7b37c0c',
+  usage: 'sha256:8fedc71555af951b50266e08d650675ecf727ff2ccb1da31dc3018f21b521709',
+});
