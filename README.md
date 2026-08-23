@@ -8,8 +8,9 @@ release, or authorization to run one. No real or operator commitment instance,
 seed, LoCoMo conversation, audit dataset, real screening output, candidate pool,
 or benchmark result is present now. Versioned Colophon-authored prompt and
 instruction bytes define a future procedure. Clearly named synthetic fixtures
-and the preserved non-conformant synthetic pilot are permanently ineligible for
-admission. None is a commitment or freeze, and the pilot is not accepted.
+and the two preserved non-conformant synthetic pilots are permanently
+ineligible for admission. None is a commitment or freeze, and neither pilot is
+accepted.
 
 The sole repository operator is `ritsukai`. A future commitment may be added
 only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -31,7 +32,8 @@ synthetic execution evidence below.
   normative future coordinator procedure with opaque judgment identities,
   non-grouped order, and mandatory byte-exact rendering.
 - [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt)
-  is the independent exact judgment-agent instruction used by version 2.
+  is the independent exact judgment-agent instruction used by coordinator
+  prompt versions 2 and 3.
 - [fixtures/prompted-screening-pilot-v1.json](fixtures/prompted-screening-pilot-v1.json)
   contains only 24 synthetic, permanently excluded validation cases and no
   model output or operator decision.
