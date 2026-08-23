@@ -32,7 +32,7 @@ export function runNoModelSimulationV7() {
     run(['seal-judgments', '--state', state, '--owner', owner, '--run-id', 'test-only-v7-simulation-2026-08-23']);
     run(['prepare-audit', '--state', state, '--owner', owner, '--task', 'test-only-v7-cli/process-audit']);
     const loaded = readPromptedScreeningAuditPreparationV7({ stateDir: state, owner });
-    const auditOutputBytes = renderTestAuditFindingsV1({ auditInvocationSha256: loaded.prepared.auditInvocationSha256, nonMaterialObservations: [{ code: 'SUSPICIOUS_AGREEMENT', evidenceReferences: ['/aggregates/agreements'], summary: 'Perfect agreement is expected for the clear synthetic fixture and is non-material.' }] }); const auditOutputPath = join(root, 'audit-output.json'); writeFileSync(auditOutputPath, auditOutputBytes);
+    const auditOutputBytes = renderTestAuditFindingsV1({ auditInvocationSha256: loaded.prepared.auditInvocationSha256, nonMaterialObservations: [{ code: 'EXPECTED_SYNTHETIC_AGREEMENT', evidenceReferences: ['/aggregates/agreements'] }] }); const auditOutputPath = join(root, 'audit-output.json'); writeFileSync(auditOutputPath, auditOutputBytes);
     run(['record-audit', '--state', state, '--owner', owner, '--output', auditOutputPath, '--failures', '0', '--retries', '0', '--tool-calls', '0']);
     const finalized = spawnSync(process.execPath, [recorderPath, 'finalize', '--state', state, '--owner', owner], { encoding: 'utf8' });
     if (finalized.status !== 2) fail('simulationFinalizer', `must refuse production finalization with status 2, got ${finalized.status}: ${finalized.stderr}`);

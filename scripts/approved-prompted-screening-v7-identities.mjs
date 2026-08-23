@@ -1,8 +1,8 @@
 export const APPROVED_PROMPTED_SCREENING_V7_SHA256 = Object.freeze({
-  coordinatorPromptV7: 'sha256:91ff8ebddcb8d62d216de9099482e8bce6a27a3abbad12adc219250ef88a782d',
-  auditInstructionV3: 'sha256:9a2fd20a606c9cd3edfb0497a06da30c02e46556aefccd28e2311d7b9712271b',
-  auditFindingsSchemaV1: 'sha256:cd29aefdb9327fd4c24aee3598f4bd4b5007bbeacf7c9d6fc315d744152ab2d5',
-  auditFindingsParserV1: 'sha256:e7d92c2cfc4b2b1f23765efb7e5e806e78fe7e9abe7c3bec98d48c9023446149',
+  coordinatorPromptV7: 'sha256:48d6c5a37d99f745479302e4bb69bd2295e28fda880a2fd4245515bd42a645b3',
+  auditInstructionV3: 'sha256:0bb8eb97173cc4f3922fbb5554a90d9f44ea52f24ec31abe49795730ce066304',
+  auditFindingsSchemaV1: 'sha256:8d2486a381a372f166ec8d3877e9690eb55f395a75e41b5510729764e0fdd609',
+  auditFindingsParserV1: 'sha256:641aba91b000934e852241bfacf5db59813084e7327196a2d99362e95284d2e4',
   auditEnvelopeSchemaV1: 'sha256:550067619e836ed5717954ca20f1b183bb2d587897b97e5a0b2b5a4a7c37738f',
   compactBaseSchemaV3: 'sha256:8a9d791c57298fd64df12dc4fdeaafaccae7548622bd8d1b144a0fff712aa6a9',
   runtimeCompactInputSchemaV2: 'sha256:3f4b54af915944bd572a50726cbbed8b1c90d3a0853ec5bb95d39bb3354519f9',
@@ -14,7 +14,7 @@ export const APPROVED_PROMPTED_SCREENING_V7_SHA256 = Object.freeze({
   runtimeGateV1: 'sha256:f2989d610ab2b9f4d153d89f1f00cfab9c7091ea791b7ba6a6000b478f70ea21',
   recorderV1: 'sha256:54ef1b7a0a3b75bb01a2eeb2f23a12a1b35a9327751816eff04d0b81e1ab8920',
   simulationOutputsV1: 'sha256:1b47c4b21c6dd02297841fb90ce01dc2a898c63ead8107c74fa2635343774f65',
-  simulationPrefixV1: 'sha256:de0387a102fb4d49478b3258f92b2730373f7f2e591b400c57e49d31884a1658',
+  simulationPrefixV1: 'sha256:c38c27e7eb47d7325517a6d939a1351f56a7b59d7b6995598cb44637c58d731c',
 });
 
 export const APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V6_SHA256 = Object.freeze({

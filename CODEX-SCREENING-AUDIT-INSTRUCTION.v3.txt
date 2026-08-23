@@ -18,18 +18,20 @@ auditInvocationSha256 must equal the exact digest on the binding line.
 assessment must be exactly PASS, FAIL, or REFUSE.
 materialFindings and nonMaterialObservations must be JSON arrays.
 
-Every array entry must use exactly these three keys: code, evidenceReferences, summary.
-code must be one of COVERAGE, DECLARATION_DRIFT, SHARD_DRIFT, CROSS_STAGE_ASYMMETRY, SUSPICIOUS_AGREEMENT, PROCESS_DEFECT, OTHER_MATERIAL, OTHER_OBSERVATION.
-Use OTHER_MATERIAL only in materialFindings. Use OTHER_OBSERVATION only in nonMaterialObservations.
+Every materialFindings entry must use exactly these three keys: code, evidenceReferences, summary.
+Its code must be one of COVERAGE_GAP, DECLARATION_DRIFT, SHARD_DRIFT, CROSS_STAGE_ASYMMETRY, UNEXPLAINED_SUSPICIOUS_AGREEMENT, PROCESS_DEFECT, OTHER_MATERIAL.
+Use OTHER_MATERIAL only for a material anomaly not represented by another code. Its summary must meaningfully identify that anomaly using at least 24 characters and three words.
+Every nonMaterialObservations entry must use exactly these two keys: code, evidenceReferences. It has no summary, text, severity, or other free-form field.
+Its code must be one of EXPECTED_SYNTHETIC_AGREEMENT, KNOWN_CAPABILITY_BOUNDARY, KNOWN_AUDIT_INPUT_AMBIGUITY, KNOWN_AUDITOR_INABILITY.
 evidenceReferences must contain one to five unique JSON Pointers into the supplied compact input, each between 1 and 160 characters.
-summary must be one printable single line between 1 and 280 characters. Do not use an em dash.
+Each material summary must be one printable single line between 1 and 280 characters. Do not use an em dash.
 Do not include item judgments, required verification, extra keys, Markdown, or prose outside the object.
 
-PASS requires zero materialFindings.
-FAIL requires at least one materialFinding.
-REFUSE is only for inability or ambiguity. REFUSE requires zero materialFindings and at least one nonMaterialObservation explaining the refusal.
+PASS requires zero materialFindings. PASS nonMaterialObservations may use only EXPECTED_SYNTHETIC_AGREEMENT and KNOWN_CAPABILITY_BOUNDARY.
+FAIL requires at least one materialFinding. FAIL nonMaterialObservations may use only EXPECTED_SYNTHETIC_AGREEMENT and KNOWN_CAPABILITY_BOUNDARY.
+REFUSE is only for inability or ambiguity. REFUSE requires zero materialFindings and one or more nonMaterialObservations using only KNOWN_AUDIT_INPUT_AMBIGUITY or KNOWN_AUDITOR_INABILITY.
 Known limits on proving provider execution, freshness, independent generation, routing, prompt compliance, or invariant weights are not process defects.
 Perfect agreement on the deliberately clear fixed synthetic fixture is non-material.
 
 Exact valid example using an illustrative digest that must be replaced by the digest on the binding line:
-{"assessment":"PASS","auditInvocationSha256":"sha256:0000000000000000000000000000000000000000000000000000000000000000","materialFindings":[],"nonMaterialObservations":[{"code":"SUSPICIOUS_AGREEMENT","evidenceReferences":["/aggregates/agreements"],"summary":"Perfect agreement is expected for the clear synthetic fixture and is non-material."}],"protocol":"prompted-codex-screening-audit-findings/v1","schema":"https://colophon-claims.github.io/locomo-judge-report/prompted-screening-audit-findings/v1"}
+{"assessment":"PASS","auditInvocationSha256":"sha256:0000000000000000000000000000000000000000000000000000000000000000","materialFindings":[],"nonMaterialObservations":[{"code":"EXPECTED_SYNTHETIC_AGREEMENT","evidenceReferences":["/aggregates/agreements"]}],"protocol":"prompted-codex-screening-audit-findings/v1","schema":"https://colophon-claims.github.io/locomo-judge-report/prompted-screening-audit-findings/v1"}

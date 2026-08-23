@@ -13,11 +13,18 @@
     "protocol": { "const": "prompted-codex-screening-audit-findings/v1" },
     "schema": { "const": "https://colophon-claims.github.io/locomo-judge-report/prompted-screening-audit-findings/v1" }
   },
+  "allOf": [
+    { "if": { "properties": { "assessment": { "const": "PASS" } }, "required": ["assessment"] }, "then": { "properties": { "materialFindings": { "maxItems": 0 }, "nonMaterialObservations": { "items": { "$ref": "#/$defs/benignObservation" } } } } },
+    { "if": { "properties": { "assessment": { "const": "FAIL" } }, "required": ["assessment"] }, "then": { "properties": { "materialFindings": { "minItems": 1 }, "nonMaterialObservations": { "items": { "$ref": "#/$defs/benignObservation" } } } } },
+    { "if": { "properties": { "assessment": { "const": "REFUSE" } }, "required": ["assessment"] }, "then": { "properties": { "materialFindings": { "maxItems": 0 }, "nonMaterialObservations": { "minItems": 1, "items": { "$ref": "#/$defs/refusalObservation" } } } } }
+  ],
   "$defs": {
     "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
     "evidenceReferences": { "type": "array", "minItems": 1, "maxItems": 5, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 160, "pattern": "^(?:/(?:[^~/]|~[01])*)+$" } },
     "summary": { "type": "string", "minLength": 1, "maxLength": 280, "pattern": "^(?!.*\\b(?:[Cc][Oo][Rr][Rr][Ee][Cc][Tt]|[Ww][Rr][Oo][Nn][Gg]|[Uu][Nn][Ss][Uu][Rr][Ee])\\b)[ -~]+$" },
-    "materialFinding": { "type": "object", "additionalProperties": false, "required": ["code", "evidenceReferences", "summary"], "properties": { "code": { "enum": ["COVERAGE", "DECLARATION_DRIFT", "SHARD_DRIFT", "CROSS_STAGE_ASYMMETRY", "SUSPICIOUS_AGREEMENT", "PROCESS_DEFECT", "OTHER_MATERIAL"] }, "evidenceReferences": { "$ref": "#/$defs/evidenceReferences" }, "summary": { "$ref": "#/$defs/summary" } } },
-    "nonMaterialObservation": { "type": "object", "additionalProperties": false, "required": ["code", "evidenceReferences", "summary"], "properties": { "code": { "enum": ["COVERAGE", "DECLARATION_DRIFT", "SHARD_DRIFT", "CROSS_STAGE_ASYMMETRY", "SUSPICIOUS_AGREEMENT", "PROCESS_DEFECT", "OTHER_OBSERVATION"] }, "evidenceReferences": { "$ref": "#/$defs/evidenceReferences" }, "summary": { "$ref": "#/$defs/summary" } } }
+    "materialFinding": { "type": "object", "additionalProperties": false, "required": ["code", "evidenceReferences", "summary"], "properties": { "code": { "enum": ["COVERAGE_GAP", "DECLARATION_DRIFT", "SHARD_DRIFT", "CROSS_STAGE_ASYMMETRY", "UNEXPLAINED_SUSPICIOUS_AGREEMENT", "PROCESS_DEFECT", "OTHER_MATERIAL"] }, "evidenceReferences": { "$ref": "#/$defs/evidenceReferences" }, "summary": { "$ref": "#/$defs/summary" } }, "allOf": [{ "if": { "properties": { "code": { "const": "OTHER_MATERIAL" } }, "required": ["code"] }, "then": { "properties": { "summary": { "minLength": 24, "pattern": "^(?=(?:.*[A-Za-z0-9]+){3})[ -~]+$" } } } }] },
+    "nonMaterialObservation": { "type": "object", "additionalProperties": false, "required": ["code", "evidenceReferences"], "properties": { "code": { "enum": ["EXPECTED_SYNTHETIC_AGREEMENT", "KNOWN_CAPABILITY_BOUNDARY", "KNOWN_AUDIT_INPUT_AMBIGUITY", "KNOWN_AUDITOR_INABILITY"] }, "evidenceReferences": { "$ref": "#/$defs/evidenceReferences" } } },
+    "benignObservation": { "allOf": [{ "$ref": "#/$defs/nonMaterialObservation" }, { "properties": { "code": { "enum": ["EXPECTED_SYNTHETIC_AGREEMENT", "KNOWN_CAPABILITY_BOUNDARY"] } } }] },
+    "refusalObservation": { "allOf": [{ "$ref": "#/$defs/nonMaterialObservation" }, { "properties": { "code": { "enum": ["KNOWN_AUDIT_INPUT_AMBIGUITY", "KNOWN_AUDITOR_INABILITY"] } } }] }
   }
 }

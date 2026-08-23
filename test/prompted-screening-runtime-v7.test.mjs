@@ -30,7 +30,7 @@ function testRun({ changeFirstVerdict = false } = {}) {
   return { sources, plan, prefixBytes };
 }
 function passPayload(preparation) {
-  return renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, nonMaterialObservations: [{ code: 'SUSPICIOUS_AGREEMENT', evidenceReferences: ['/aggregates/agreements'], summary: 'Perfect agreement is expected for the clear synthetic fixture and is non-material.' }] });
+  return renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, nonMaterialObservations: [{ code: 'EXPECTED_SYNTHETIC_AGREEMENT', evidenceReferences: ['/aggregates/agreements'] }] });
 }
 function mutation(bytes, mutate) { const value = JSON.parse(bytes); mutate(value); return Buffer.from(`${canonical(value)}\n`); }
 function temporaryProductionCheckout() {
@@ -71,8 +71,8 @@ test('664-item compact audit plus the self-contained instruction retains hard-ca
   assert.equal(capacity.batchCount, 146);
   assert.equal(capacity.byteLength, 42_754);
   assert.equal(projectedCompactByteLength, 42_768);
-  assert.equal(projectedDispatchByteLength, 45_769);
-  assert.equal(65_536 - projectedDispatchByteLength, 19_767);
+  assert.equal(projectedDispatchByteLength, 46_324);
+  assert.equal(65_536 - projectedDispatchByteLength, 19_212);
   assert.ok(projectedDispatchByteLength < 65_536);
 });
 
@@ -83,11 +83,34 @@ test('closed semantic payload accepts PASS, FAIL, and REFUSE only under exact co
   const finding = { code: 'SHARD_DRIFT', evidenceReferences: ['/batches/0', '/batches/1'], summary: 'One supplied shard differs materially from its peers.' };
   const fail = renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, assessment: 'FAIL', materialFindings: [finding] });
   assert.equal(parsePromptedScreeningAuditFindingsV1(fail, { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }).assessment, 'FAIL');
-  const refuse = renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, assessment: 'REFUSE', nonMaterialObservations: [{ code: 'OTHER_OBSERVATION', evidenceReferences: ['/auditScope'], summary: 'The supplied scope is ambiguous, so no semantic assessment is possible.' }] });
+  const refuse = renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, assessment: 'REFUSE', nonMaterialObservations: [{ code: 'KNOWN_AUDIT_INPUT_AMBIGUITY', evidenceReferences: ['/auditScope'] }] });
   assert.equal(parsePromptedScreeningAuditFindingsV1(refuse, { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }).assessment, 'REFUSE');
   assert.throws(() => parsePromptedScreeningAuditFindingsV1(mutation(pass, (value) => { value.materialFindings = [finding]; }), { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }), /PASS requires zero/u);
   assert.throws(() => parsePromptedScreeningAuditFindingsV1(mutation(pass, (value) => { value.assessment = 'FAIL'; }), { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }), /FAIL requires/u);
   assert.throws(() => parsePromptedScreeningAuditFindingsV1(mutation(pass, (value) => { value.assessment = 'REFUSE'; value.nonMaterialObservations = []; }), { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }), /REFUSE requires/u);
+  assert.throws(() => renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, assessment: 'FAIL', materialFindings: [{ code: 'OTHER_MATERIAL', evidenceReferences: ['/auditScope'], summary: 'Too vague.' }] }), /meaningful summary/u);
+});
+
+test('material anomaly codes cannot hide in observations or reach the composed policy path', () => {
+  const preparation = preparePromptedScreeningAuditV7({ ...testRun(), taskId: 'test-v7-materiality/audit' });
+  const pass = passPayload(preparation);
+  const hiddenMaterialPayloads = [
+    { code: 'PROCESS_DEFECT', evidenceReferences: ['/auditScope'], summary: 'A material process defect blocks acceptance.' },
+    { code: 'OTHER_OBSERVATION', evidenceReferences: ['/auditScope'], summary: 'A material concern remains unresolved and blocks acceptance.' },
+    { code: 'SHARD_DRIFT', evidenceReferences: ['/batches/0'], summary: 'Shard drift is severe enough to invalidate this run.' },
+  ].map((entry) => mutation(pass, (value) => { value.nonMaterialObservations = [entry]; }));
+  for (const payload of hiddenMaterialPayloads) {
+    assert.throws(() => parsePromptedScreeningAuditFindingsV1(payload, { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }), /closed non-material-observation/u);
+    assert.throws(() => buildPromptedScreeningAuditOutputEventV7({ preparation, rawPayloadBytes: payload }), /closed non-material-observation/u);
+  }
+  const extraObservationFields = [
+    mutation(pass, (value) => { value.nonMaterialObservations[0].summary = 'No free-form observation summary is allowed.'; }),
+    mutation(pass, (value) => { value.nonMaterialObservations[0].text = 'No free-form observation text is allowed.'; }),
+    mutation(pass, (value) => { value.nonMaterialObservations[0].severity = 'non-material'; }),
+  ];
+  for (const payload of extraObservationFields) assert.throws(() => buildPromptedScreeningAuditOutputEventV7({ preparation, rawPayloadBytes: payload }), /closed non-material-observation/u);
+  assert.throws(() => parsePromptedScreeningAuditFindingsV1(mutation(pass, (value) => { value.nonMaterialObservations[0].code = 'PROCESS_DEFECT'; }), { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }), /closed non-material-observation/u);
+  assert.throws(() => parsePromptedScreeningAuditFindingsV1(mutation(pass, (value) => { value.assessment = 'FAIL'; value.materialFindings = [{ code: 'EXPECTED_SYNTHETIC_AGREEMENT', evidenceReferences: ['/aggregates/agreements'], summary: 'This benign code cannot occupy the material array.' }]; }), { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }), /closed material-finding/u);
 });
 
 test('wrong or missing invocation, extra keys, prose, nesting, invalid code, and stale payload all refuse without repair', () => {
@@ -100,7 +123,7 @@ test('wrong or missing invocation, extra keys, prose, nesting, invalid code, and
     Buffer.concat([valid, Buffer.from('prose\n')]),
     Buffer.from(`${canonical({ invocation: { auditInvocationSha256: first.auditInvocationSha256 }, assessment: 'PASS' })}\n`),
     mutation(valid, (value) => { value.nonMaterialObservations[0].code = 'UNKNOWN'; }),
-    mutation(valid, (value) => { value.nonMaterialObservations[0].summary = 'This item is WRONG.'; }),
+    mutation(valid, (value) => { value.nonMaterialObservations[0].summary = 'Extra free-form text is forbidden.'; }),
   ];
   hostile.forEach((bytes) => assert.throws(() => parsePromptedScreeningAuditFindingsV1(bytes, { expectedAuditInvocationSha256: first.auditInvocationSha256 }), /JSON|canonical|closed|invalid|does not match|item judgment/u));
   const missingEvidence = mutation(valid, (value) => { value.nonMaterialObservations[0].evidenceReferences = ['/does-not-exist']; });
@@ -177,6 +200,12 @@ test('v6 evidence remains exact, nonconformant, decision-free, and rejected by v
 
 test('v7 schemas close every load-bearing root and event shape', () => {
   for (const path of ['schemas/prompted-screening-audit-findings.v1.schema.json', 'schemas/prompted-screening-audit-envelope.v1.schema.json']) assert.equal(JSON.parse(readFileSync(join(root, path))).additionalProperties, false);
+  const findingsSchema = JSON.parse(readFileSync(join(root, 'schemas/prompted-screening-audit-findings.v1.schema.json')));
+  assert.deepEqual(findingsSchema.$defs.materialFinding.properties.code.enum, ['COVERAGE_GAP', 'DECLARATION_DRIFT', 'SHARD_DRIFT', 'CROSS_STAGE_ASYMMETRY', 'UNEXPLAINED_SUSPICIOUS_AGREEMENT', 'PROCESS_DEFECT', 'OTHER_MATERIAL']);
+  assert.deepEqual(findingsSchema.$defs.nonMaterialObservation.required, ['code', 'evidenceReferences']);
+  assert.deepEqual(findingsSchema.$defs.nonMaterialObservation.properties.code.enum, ['EXPECTED_SYNTHETIC_AGREEMENT', 'KNOWN_CAPABILITY_BOUNDARY', 'KNOWN_AUDIT_INPUT_AMBIGUITY', 'KNOWN_AUDITOR_INABILITY']);
+  assert.equal(findingsSchema.$defs.nonMaterialObservation.properties.summary, undefined);
+  assert.deepEqual(findingsSchema.allOf.map((rule) => rule.if.properties.assessment.const), ['PASS', 'FAIL', 'REFUSE']);
   const finalSchema = JSON.parse(readFileSync(join(root, 'schemas/prompted-screening-final-transcript.v2.schema.json')));
   for (const key of ['auditDispatch', 'auditOutput', 'auditPolicy', 'terminal']) assert.equal(finalSchema.$defs[key].additionalProperties, false);
   assert.equal(finalSchema.minItems, 18);

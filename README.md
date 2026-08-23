@@ -91,8 +91,10 @@ synthetic execution evidence below.
   [CODEX-SCREENING-AUDIT-INSTRUCTION.v3.txt](CODEX-SCREENING-AUDIT-INSTRUCTION.v3.txt)
   define the current no-run audit interface. The recorder owns every mechanical
   binding and the full audit envelope. Sol returns only one invocation digest,
-  `PASS`, `FAIL`, or `REFUSE`, and bounded semantic findings or observations
-  using the complete closed shape and exact example supplied in-band.
+  `PASS`, `FAIL`, or `REFUSE`. Material anomalies have their own closed codes,
+  evidence references, and bounded summaries. Non-material observations use a
+  separate predefined code set with evidence references and no free-form text.
+  The complete closed shape and exact example are supplied in-band.
 - [fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl](fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl)
   and its exact output fixture provide a deterministic no-model, test-only
   reachability simulation. They are not a run, acceptance, admission record,

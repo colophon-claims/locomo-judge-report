@@ -4,18 +4,30 @@ export const AUDIT_FINDINGS_SCHEMA_V1 = 'https://colophon-claims.github.io/locom
 export const AUDIT_FINDINGS_PROTOCOL_V1 = 'prompted-codex-screening-audit-findings/v1';
 
 const rootKeys = ['assessment', 'auditInvocationSha256', 'materialFindings', 'nonMaterialObservations', 'protocol', 'schema'];
-const entryKeys = ['code', 'evidenceReferences', 'summary'];
-const materialCodes = new Set(['COVERAGE', 'DECLARATION_DRIFT', 'SHARD_DRIFT', 'CROSS_STAGE_ASYMMETRY', 'SUSPICIOUS_AGREEMENT', 'PROCESS_DEFECT', 'OTHER_MATERIAL']);
-const observationCodes = new Set(['COVERAGE', 'DECLARATION_DRIFT', 'SHARD_DRIFT', 'CROSS_STAGE_ASYMMETRY', 'SUSPICIOUS_AGREEMENT', 'PROCESS_DEFECT', 'OTHER_OBSERVATION']);
+const materialEntryKeys = ['code', 'evidenceReferences', 'summary'];
+const observationEntryKeys = ['code', 'evidenceReferences'];
+const materialCodes = new Set(['COVERAGE_GAP', 'DECLARATION_DRIFT', 'SHARD_DRIFT', 'CROSS_STAGE_ASYMMETRY', 'UNEXPLAINED_SUSPICIOUS_AGREEMENT', 'PROCESS_DEFECT', 'OTHER_MATERIAL']);
+const benignObservationCodes = new Set(['EXPECTED_SYNTHETIC_AGREEMENT', 'KNOWN_CAPABILITY_BOUNDARY']);
+const refusalObservationCodes = new Set(['KNOWN_AUDIT_INPUT_AMBIGUITY', 'KNOWN_AUDITOR_INABILITY']);
+const observationCodes = new Set([...benignObservationCodes, ...refusalObservationCodes]);
 
 function fail(path, detail) { throw new Error(`${path}: ${detail}`); }
 function exactKeys(value, keys) { return value !== null && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).sort().join(',') === [...keys].sort().join(','); }
-function validateEntry(entry, index, codes, kind) {
-  const path = `auditFindings.${kind}[${index}]`;
-  if (!exactKeys(entry, entryKeys) || !codes.has(entry.code)) fail(path, 'has an invalid closed shape or code');
+function validateEvidenceReferences(entry, path) {
   if (!Array.isArray(entry.evidenceReferences) || entry.evidenceReferences.length < 1 || entry.evidenceReferences.length > 5 || new Set(entry.evidenceReferences).size !== entry.evidenceReferences.length) fail(`${path}.evidenceReferences`, 'must contain one to five unique JSON Pointers');
   for (const reference of entry.evidenceReferences) if (typeof reference !== 'string' || reference.length > 160 || !/^(?:\/(?:[^~/]|~[01])*)+$/u.test(reference)) fail(`${path}.evidenceReferences`, 'contains an invalid bounded JSON Pointer');
+}
+function validateMaterialFinding(entry, index) {
+  const path = `auditFindings.materialFindings[${index}]`;
+  if (!exactKeys(entry, materialEntryKeys) || !materialCodes.has(entry.code)) fail(path, 'has an invalid closed material-finding shape or code');
+  validateEvidenceReferences(entry, path);
   if (typeof entry.summary !== 'string' || entry.summary.length < 1 || entry.summary.length > 280 || !/^[\x20-\x7e]+$/u.test(entry.summary) || /\b(?:correct|wrong|unsure)\b/iu.test(entry.summary)) fail(`${path}.summary`, 'must be one bounded printable ASCII process summary without an item judgment');
+  if (entry.code === 'OTHER_MATERIAL' && (entry.summary.length < 24 || (entry.summary.match(/[A-Za-z0-9]+/gu) ?? []).length < 3)) fail(`${path}.summary`, 'OTHER_MATERIAL requires a meaningful summary of at least 24 characters and three words');
+}
+function validateNonMaterialObservation(entry, index) {
+  const path = `auditFindings.nonMaterialObservations[${index}]`;
+  if (!exactKeys(entry, observationEntryKeys) || !observationCodes.has(entry.code)) fail(path, 'has an invalid closed non-material-observation shape or code');
+  validateEvidenceReferences(entry, path);
 }
 
 export function parsePromptedScreeningAuditFindingsV1(bytes, { expectedAuditInvocationSha256 } = {}) {
@@ -28,12 +40,13 @@ export function parsePromptedScreeningAuditFindingsV1(bytes, { expectedAuditInvo
   if (!/^sha256:[0-9a-f]{64}$/u.test(value.auditInvocationSha256)) fail('auditFindings.auditInvocationSha256', 'must be a SHA-256 digest');
   if (expectedAuditInvocationSha256 !== undefined && value.auditInvocationSha256 !== expectedAuditInvocationSha256) fail('auditFindings.auditInvocationSha256', 'does not match the exact recorder-owned invocation');
   if (!['PASS', 'FAIL', 'REFUSE'].includes(value.assessment) || !Array.isArray(value.materialFindings) || value.materialFindings.length > 7 || !Array.isArray(value.nonMaterialObservations) || value.nonMaterialObservations.length > 8) fail('auditFindings', 'has invalid assessment or array bounds');
-  value.materialFindings.forEach((entry, index) => validateEntry(entry, index, materialCodes, 'materialFindings'));
-  value.nonMaterialObservations.forEach((entry, index) => validateEntry(entry, index, observationCodes, 'nonMaterialObservations'));
+  value.materialFindings.forEach(validateMaterialFinding);
+  value.nonMaterialObservations.forEach(validateNonMaterialObservation);
   if (new Set(value.materialFindings.map(canonical)).size !== value.materialFindings.length || new Set(value.nonMaterialObservations.map(canonical)).size !== value.nonMaterialObservations.length) fail('auditFindings', 'contains duplicate entries');
   if (value.assessment === 'PASS' && value.materialFindings.length !== 0) fail('auditFindings.assessment', 'PASS requires zero material findings');
   if (value.assessment === 'FAIL' && value.materialFindings.length < 1) fail('auditFindings.assessment', 'FAIL requires at least one material finding');
-  if (value.assessment === 'REFUSE' && (value.materialFindings.length !== 0 || value.nonMaterialObservations.length < 1)) fail('auditFindings.assessment', 'REFUSE requires zero material findings and at least one explanatory observation');
+  if ((value.assessment === 'PASS' || value.assessment === 'FAIL') && value.nonMaterialObservations.some((entry) => !benignObservationCodes.has(entry.code))) fail('auditFindings.assessment', 'PASS and FAIL accept only predefined benign non-material observations');
+  if (value.assessment === 'REFUSE' && (value.materialFindings.length !== 0 || value.nonMaterialObservations.length < 1 || value.nonMaterialObservations.some((entry) => !refusalObservationCodes.has(entry.code)))) fail('auditFindings.assessment', 'REFUSE requires zero material findings and one or more closed inability or ambiguity observations');
   return value;
 }
 
