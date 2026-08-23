@@ -2,6 +2,10 @@ export const APPROVED_PROMPTED_SCREENING_V4_SHA256 = Object.freeze({
   coordinatorPromptV4: 'sha256:cee375eb08d48f7bda3ec8803c434591be8306d95c2a8a96ba2da38e7992b126',
   compactAuditSchemaV1: 'sha256:e103d03c009713edb50651df1317acf13aae6d8475721679c8547ed5e26f0bd7',
   compactAuditRendererV1: 'sha256:446f335edd8ea09d2f13a62d94575b8d1e067b58e7ecb24e9e3b9ac848a98311',
+  // The terminal v3 evidence binds compactAuditRendererV1 above. This separate
+  // reviewed source identity binds the load-bearing cross-field repair while
+  // leaving that append-only historical record byte-exact.
+  compactAuditRendererV1CrossFieldRevision: 'sha256:2f42bcca46de93e8b83be9b87f1156625a0d8a520d1a91cd8645d30160feab2d',
   compactAuditPilotV4Fixture: 'sha256:8638e0e3d403247f614e642a58eb8ade81e763eae81ba3837cdc1bd3bb1f4b38',
 });
 

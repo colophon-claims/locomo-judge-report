@@ -52,7 +52,7 @@ const allowedFiles = new Map([
   ['scripts/check-no-em-dash.mjs', ['application/javascript', 8192]],
   ['scripts/approved-prompted-screening-v3-identities.mjs', ['application/javascript', 16384]],
   ['scripts/approved-prompted-screening-v4-identities.mjs', ['application/javascript', 4096]],
-  ['scripts/render-compact-process-audit-input-v1.mjs', ['application/javascript', 32768]],
+  ['scripts/render-compact-process-audit-input-v1.mjs', ['application/javascript', 40960]],
   ['scripts/render-prompted-screening-dispatch-v2.mjs', ['application/javascript', 16384]],
   ['scripts/render-prompted-screening-dispatch-v3.mjs', ['application/javascript', 32768]],
   ['scripts/validate-prompted-screening-pilot.mjs', ['application/javascript', 16384]],

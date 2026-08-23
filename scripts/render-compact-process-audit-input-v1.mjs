@@ -31,6 +31,7 @@ const stageVerdictKeys = ['correctCount', 'stage', 'unsureCount', 'wrongCount'];
 const agreementKeys = ['allDifferentCount', 'anyDisagreementCount', 'lunaOnlyDisagreesCount', 'lunaSolDisagreementCount', 'lunaTerraDisagreementCount', 'solOnlyDisagreesCount', 'terraOnlyDisagreesCount', 'terraSolDisagreementCount', 'threeStageAgreementCount'];
 const cellKeys = ['anyDisagreementCount', 'candidateClass', 'invalidCount', 'itemCount', 'luna', 'sol', 'stratum', 'terra', 'threeStageAgreementCount'];
 const verdictKeys = ['correctCount', 'unsureCount', 'wrongCount'];
+const verdictCountKeys = ['correctCount', 'wrongCount', 'unsureCount'];
 const fixtureRootKeys = ['compactAuditInput', 'expectedExecution', 'schema', 'status'];
 const expectedExecutionKeys = ['auditDeclaration', 'inputByteLimit', 'measuredV3Baseline', 'modelRunOccurred', 'renderedInputByteLength', 'renderedInputSha256', 'usage'];
 const usageKeys = ['cachedInputTokens', 'inputTokens', 'outputTokens', 'reasoningOutputTokens', 'status', 'totalTokens'];
@@ -107,7 +108,7 @@ export function validateV4SourceBytes({
   for (const [path, bytes, approved] of [
     ['promptBytes', promptBytes, APPROVED_PROMPTED_SCREENING_V4_SHA256.coordinatorPromptV4],
     ['schemaBytes', schemaBytes, APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditSchemaV1],
-    ['rendererBytes', rendererBytes, APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditRendererV1],
+    ['rendererBytes', rendererBytes, APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditRendererV1CrossFieldRevision],
   ]) {
     const text = Buffer.from(bytes).toString('utf8');
     if (!text.endsWith('\n') || text.includes('\r') || text.includes(String.fromCodePoint(0x2014))) fail(path, 'must be LF-terminated UTF-8 without em dash');
@@ -202,14 +203,150 @@ function validateBatch(row, expected, path) {
     || batch.rawOutputRecordCount !== batch.itemCount - batch.missingCount + batch.extraCount
     || batch.duplicateCount > batch.extraCount
     || batch.invalidCount > batch.itemCount
+    || batch.invalidCount > batch.itemCount - batch.missingCount
     || batch.infrastructureFailureCount > 1
-    || batch.retryCount > 1) fail(path, 'has inconsistent output, verdict, invalid, failure, retry, or duplicate counts');
+    || batch.retryCount > 1
+    || batch.retryCount > batch.infrastructureFailureCount) fail(path, 'has inconsistent output, verdict, invalid, failure, retry, or duplicate counts');
+  const requiredUnsureCount = Math.max(
+    batch.invalidCount + batch.missingCount,
+    batch.extraCount > 0 || batch.duplicateCount > 0 ? 1 : 0,
+  );
+  if (batch.unsureCount < requiredUnsureCount) fail(path, 'does not route invalid, missing, extra, or duplicate output conditions to compatible UNSURE totals');
   if (batch.dispatchDigestVerified !== true
     || batch.outputDigestVerified !== true
     || batch.summaryCountsVerified !== true
     || !Array.isArray(batch.machineValidationErrors)
     || batch.machineValidationErrors.length !== 0) fail(`${path}.validation`, 'machine validation must be fully true with no errors');
   return batch;
+}
+
+function verdictVector(value) {
+  return verdictCountKeys.map((key) => value[key]);
+}
+
+function tripleAgreementBounds(cell) {
+  const rows = [cell.luna, cell.terra, cell.sol].map(verdictVector);
+  let minimum = 0;
+  let maximum = 0;
+  for (let verdict = 0; verdict < verdictCountKeys.length; verdict += 1) {
+    const counts = rows.map((row) => row[verdict]);
+    minimum += Math.max(0, counts[0] + counts[1] + counts[2] - 2 * cell.itemCount);
+    maximum += Math.min(...counts);
+  }
+  return { minimum, maximum };
+}
+
+function transportationFeasible(left, right, diagonalCaps) {
+  const nodeCount = 8;
+  const source = 0;
+  const sink = 7;
+  const capacity = Array.from({ length: nodeCount }, () => Array(nodeCount).fill(0));
+  const addEdge = (from, to, limit) => { capacity[from][to] = limit; };
+  for (let index = 0; index < 3; index += 1) {
+    addEdge(source, 1 + index, left[index]);
+    addEdge(4 + index, sink, right[index]);
+  }
+  const total = left.reduce((sumValue, count) => sumValue + count, 0);
+  for (let leftIndex = 0; leftIndex < 3; leftIndex += 1) {
+    for (let rightIndex = 0; rightIndex < 3; rightIndex += 1) {
+      addEdge(1 + leftIndex, 4 + rightIndex, leftIndex === rightIndex ? diagonalCaps[leftIndex] : total);
+    }
+  }
+  let flow = 0;
+  while (true) {
+    const parent = Array(nodeCount).fill(-1);
+    parent[source] = source;
+    const queue = [source];
+    for (let cursor = 0; cursor < queue.length && parent[sink] === -1; cursor += 1) {
+      const from = queue[cursor];
+      for (let to = 0; to < nodeCount; to += 1) {
+        if (parent[to] === -1 && capacity[from][to] > 0) {
+          parent[to] = from;
+          queue.push(to);
+        }
+      }
+    }
+    if (parent[sink] === -1) break;
+    let amount = total;
+    for (let node = sink; node !== source; node = parent[node]) amount = Math.min(amount, capacity[parent[node]][node]);
+    for (let node = sink; node !== source; node = parent[node]) {
+      capacity[parent[node]][node] -= amount;
+      capacity[node][parent[node]] += amount;
+    }
+    flow += amount;
+  }
+  return flow === total;
+}
+
+function exactTripleAgreementFeasible(cell) {
+  const rows = [cell.luna, cell.terra, cell.sol].map(verdictVector);
+  const maximumByVerdict = verdictCountKeys.map((_, index) => Math.min(rows[0][index], rows[1][index], rows[2][index]));
+  const target = cell.threeStageAgreementCount;
+  const remainingItemCount = cell.itemCount - target;
+  for (let first = 0; first <= Math.min(maximumByVerdict[0], target); first += 1) {
+    const secondMinimum = Math.max(0, target - first - maximumByVerdict[2]);
+    const secondMaximum = Math.min(maximumByVerdict[1], target - first);
+    for (let second = secondMinimum; second <= secondMaximum; second += 1) {
+      const diagonal = [first, second, target - first - second];
+      if (diagonal[2] < 0 || diagonal[2] > maximumByVerdict[2]) continue;
+      const remaining = rows.map((row) => row.map((count, index) => count - diagonal[index]));
+      const diagonalCaps = remaining[2].map((count) => remainingItemCount - count);
+      if (diagonalCaps.some((cap) => cap < 0)) continue;
+      // Couple Luna and Terra subject to a per-label diagonal cap. Sol can then
+      // fill those pair cells without creating another all-equal triple exactly
+      // when each Sol label fits outside its one forbidden diagonal cell.
+      if (transportationFeasible(remaining[0], remaining[1], diagonalCaps)) return true;
+    }
+  }
+  return false;
+}
+
+function pairwiseDisagreementBounds(left, right, itemCount, tripleAgreementCount) {
+  const leftCounts = verdictVector(left);
+  const rightCounts = verdictVector(right);
+  const maximumPairAgreement = leftCounts.reduce((total, count, index) => total + Math.min(count, rightCounts[index]), 0);
+  const minimumPairAgreement = leftCounts.reduce((total, count, index) => total + Math.max(0, count + rightCounts[index] - itemCount), 0);
+  return {
+    minimum: itemCount - maximumPairAgreement,
+    maximum: itemCount - Math.max(minimumPairAgreement, tripleAgreementCount),
+  };
+}
+
+function exactPairwiseDisagreementValues(cell, left, right) {
+  const leftCounts = verdictVector(left);
+  const rightCounts = verdictVector(right);
+  const maximumDiagonal = leftCounts.map((count, index) => Math.min(count, rightCounts[index]));
+  const values = new Set();
+  for (let first = 0; first <= maximumDiagonal[0]; first += 1) {
+    for (let second = 0; second <= maximumDiagonal[1]; second += 1) {
+      for (let third = 0; third <= maximumDiagonal[2]; third += 1) {
+        const diagonal = [first, second, third];
+        const pairAgreement = first + second + third;
+        if (pairAgreement < cell.threeStageAgreementCount) continue;
+        const remainingItemCount = cell.itemCount - pairAgreement;
+        const remainingLeft = leftCounts.map((count, index) => count - diagonal[index]);
+        const remainingRight = rightCounts.map((count, index) => count - diagonal[index]);
+        // A 3 by 3 transportation table with a forbidden diagonal exists exactly
+        // when no remaining row and its same-label column exceed total capacity.
+        if (remainingLeft.every((count, index) => count + remainingRight[index] <= remainingItemCount)) values.add(cell.itemCount - pairAgreement);
+      }
+    }
+  }
+  return values;
+}
+
+function aggregateDisagreementFeasible(valueSets, target) {
+  let possible = new Uint8Array(target + 1);
+  possible[0] = 1;
+  for (const values of valueSets) {
+    const next = new Uint8Array(target + 1);
+    for (let prefix = 0; prefix <= target; prefix += 1) {
+      if (possible[prefix] !== 1) continue;
+      for (const value of values) if (prefix + value <= target) next[prefix + value] = 1;
+    }
+    possible = next;
+  }
+  return possible[target] === 1;
 }
 
 function validateAgreements(value, itemCount, path) {
@@ -252,6 +389,11 @@ function validateCells(cells, aggregates, itemCount) {
       if (!hasExactKeys(verdicts, verdictKeys) || Object.values(verdicts).some((count) => !integer(count, cell.itemCount))
         || verdicts.correctCount + verdicts.wrongCount + verdicts.unsureCount !== cell.itemCount) fail(`input.cells[${index}].${stage}`, 'has inconsistent verdict aggregates');
     }
+    const tripleBounds = tripleAgreementBounds(cell);
+    if (cell.threeStageAgreementCount < tripleBounds.minimum || cell.threeStageAgreementCount > tripleBounds.maximum) fail(`input.cells[${index}].threeStageAgreementCount`, `must be within necessary marginal bounds ${tripleBounds.minimum}..${tripleBounds.maximum}`);
+    if (!exactTripleAgreementFeasible(cell)) fail(`input.cells[${index}].threeStageAgreementCount`, 'is not exactly feasible for the three stage verdict marginals');
+    const cellUnsureCount = cell.luna.unsureCount + cell.terra.unsureCount + cell.sol.unsureCount;
+    if (cell.invalidCount > cellUnsureCount) fail(`input.cells[${index}].invalidCount`, 'cannot exceed routed stage UNSURE totals');
   });
   if (sum(cells, 'itemCount') !== itemCount || sum(cells, 'invalidCount') !== aggregates.invalidCount
     || sum(cells, 'threeStageAgreementCount') !== aggregates.agreements.threeStageAgreementCount
@@ -260,6 +402,30 @@ function validateCells(cells, aggregates, itemCount) {
     const aggregate = aggregates.verdicts[index];
     for (const key of verdictKeys) if (cells.reduce((total, cell) => total + cell[stage][key], 0) !== aggregate[key]) fail('input.cells', `does not reconcile ${stage}.${key}`);
   }
+  const pairwise = [
+    ['lunaTerraDisagreementCount', 'luna', 'terra'],
+    ['lunaSolDisagreementCount', 'luna', 'sol'],
+    ['terraSolDisagreementCount', 'terra', 'sol'],
+  ];
+  for (const [rootKey, left, right] of pairwise) {
+    const bounds = cells.map((cell) => pairwiseDisagreementBounds(cell[left], cell[right], cell.itemCount, cell.threeStageAgreementCount));
+    const minimum = sum(bounds, 'minimum');
+    const maximum = sum(bounds, 'maximum');
+    if (aggregates.agreements[rootKey] < minimum || aggregates.agreements[rootKey] > maximum) fail(`input.aggregates.agreements.${rootKey}`, `must be within cell-marginal feasibility bounds ${minimum}..${maximum}`);
+    const exactValues = cells.map((cell) => exactPairwiseDisagreementValues(cell, cell[left], cell[right]));
+    if (!aggregateDisagreementFeasible(exactValues, aggregates.agreements[rootKey])) fail(`input.aggregates.agreements.${rootKey}`, 'is not exactly attainable from the ordered cell pairwise marginals');
+  }
+  const agreement = aggregates.agreements;
+  const allDifferentMaximum = cells.reduce((total, cell) => {
+    const totals = verdictCountKeys.map((key) => cell.luna[key] + cell.terra[key] + cell.sol[key]);
+    return total + Math.min(cell.itemCount, ...totals);
+  }, 0);
+  if (agreement.allDifferentCount > allDifferentMaximum) fail('input.aggregates.agreements.allDifferentCount', `exceeds cell-marginal feasibility maximum ${allDifferentMaximum}`);
+  const triple = agreement.threeStageAgreementCount;
+  if (agreement.lunaOnlyDisagreesCount !== itemCount - agreement.terraSolDisagreementCount - triple
+    || agreement.terraOnlyDisagreesCount !== itemCount - agreement.lunaSolDisagreementCount - triple
+    || agreement.solOnlyDisagreesCount !== itemCount - agreement.lunaTerraDisagreementCount - triple
+    || agreement.allDifferentCount !== agreement.lunaTerraDisagreementCount + agreement.lunaSolDisagreementCount + agreement.terraSolDisagreementCount - 2 * agreement.anyDisagreementCount) fail('input.aggregates.agreements', 'pairwise disagreement and asymmetry counts do not reconcile with item and three-stage agreement totals');
 }
 
 export function validateCompactProcessAuditInput(value) {
