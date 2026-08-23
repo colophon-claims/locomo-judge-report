@@ -10,9 +10,9 @@ export const APPROVED_PROMPTED_SCREENING_V6_SHA256 = Object.freeze({
   preDispatchPlannerV1: 'sha256:d3bf5c24c39caf95ef7a4a4f15e1e0c382cfb4e06dab2ae2b3063c347c1c056d',
   runtimeBuilderV1: 'sha256:7c6f4e90080c384071de79869fd8cf254c0f326968f058970522e5e646499bce',
   runtimeGateV1: 'sha256:42030b24a7834766cb301e2f725fbbc987b9c729769de07d769c637f64e55fd0',
-  recorderV1: 'sha256:dbbbeb1f674508bf3ff3ef669461d07da51feb32723853a8c53cfa772e41726b',
+  recorderV1: 'sha256:e32637661d79791ff3c904f1bd9ff59f2b6c8da8eb5d2a968c5eff7937cb8a7b',
   simulationOutputsV1: 'sha256:1b47c4b21c6dd02297841fb90ce01dc2a898c63ead8107c74fa2635343774f65',
-  simulationPrefixV1: 'sha256:b35f96804bc924c119e8bc329b5e1aa2609e9e93b9386d2076f00df25b217138',
+  simulationPrefixV1: 'sha256:0a2303d0bd543fb983852616f40349064c3d660c762dca87b0d19e864eea85ce',
 });
 
 export const APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V5_STOP_SHA256 = Object.freeze({

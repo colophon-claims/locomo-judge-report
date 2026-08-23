@@ -151,6 +151,9 @@ node --test test/*.test.mjs
 
 The callable production recorder owns append-only local state but never
 dispatches an agent. Run it only from a tracked-clean exact public checkout.
+Its `init` command requires exactly one `--mode`, whose value is either
+`production-recording` or `test-only`; omission, duplication, or any other
+value refuses before the state directory is created.
 The operator separately obtains each returned output byte file and records it
 with the matching planned stage, batch, task, model, reasoning, and zero-tool
 declarations:

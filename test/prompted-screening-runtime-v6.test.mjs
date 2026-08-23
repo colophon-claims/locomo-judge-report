@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -364,6 +364,38 @@ test('all v6 schemas close their load-bearing root and event shapes', () => {
   assert.equal(finalSchema.minItems, 18);
   assert.equal(finalSchema.maxItems, 18);
   assert.equal(finalSchema.items, false);
+});
+
+test('recorder init requires one exact mode before creating state', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'colophon-v6-cli-mode-'));
+  const cli = (args) => spawnSync(process.execPath, [recorder, ...args], { encoding: 'utf8' });
+  try {
+    const hostile = [
+      [],
+      ['--mode', 'production'],
+      ['--mode', 'test-only', '--mode', 'test-only'],
+      ['--mode', 'test-only', '--mode', 'production-recording'],
+      ['--mode', 'production-recording', 'ambiguous-positional-value'],
+    ];
+    hostile.forEach((modeArgs, index) => {
+      const state = join(directory, `invalid-${index}`); const result = cli(['init', '--state', state, '--owner', 'test-cli-mode', ...modeArgs]);
+      assert.notEqual(result.status, 0); assert.match(result.stderr, /mode|occur exactly once/u); assert.equal(existsSync(state), false);
+    });
+    const testState = join(directory, 'valid-test-only');
+    assert.equal(cli(['init', '--state', testState, '--owner', 'test-cli-mode', '--mode', 'test-only']).status, 0);
+    assert.equal(existsSync(join(testState, '00-init.json')), true);
+
+    const checkout = temporaryProductionCheckout();
+    try {
+      const productionState = join(directory, 'valid-production');
+      assert.equal(cli(['init', '--state', productionState, '--owner', 'test-cli-mode', '--mode', 'production-recording', '--repo', checkout.repo, '--expected-public-commit', checkout.revision]).status, 0);
+      const init = JSON.parse(readFileSync(join(productionState, '00-init.json'))); assert.equal(init.executionMode, 'production-recording'); assert.equal(init.plan.sourceRevision, checkout.revision);
+    } finally {
+      rmSync(checkout.repo, { recursive: true, force: true });
+    }
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });
 
 test('recorder CLI has a callable plan-to-seal workflow and refuses state reuse', () => {

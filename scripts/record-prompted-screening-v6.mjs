@@ -33,7 +33,7 @@ function withLock(stateDir, operation) {
 }
 function parseArgs(args) {
   const out = { _: [] };
-  for (let index = 0; index < args.length; index += 1) { const arg = args[index]; if (!arg.startsWith('--')) { out._.push(arg); continue; } if (index + 1 >= args.length) fail('usage', `${arg} requires a value`); out[arg.slice(2)] = args[index + 1]; index += 1; }
+  for (let index = 0; index < args.length; index += 1) { const arg = args[index]; if (!arg.startsWith('--')) { out._.push(arg); continue; } const key = arg.slice(2); if (index + 1 >= args.length) fail('usage', `${arg} requires a value`); if (Object.hasOwn(out, key)) fail('usage', `${arg} must occur exactly once`); out[key] = args[index + 1]; index += 1; }
   return out;
 }
 function loadInit(root, owner, sources) {
@@ -113,7 +113,10 @@ export function validatePromptedScreeningRecorderFinalizationV6({ stateDir, owne
 
 function cli() {
   const [command, ...rest] = process.argv.slice(2); const args = parseArgs(rest); if (!command || !args.state || !args.owner) fail('usage', 'command requires --state and --owner'); let value;
-  if (command === 'init') value = initializePromptedScreeningRecorderV6({ stateDir: args.state, owner: args.owner, testOnly: args.mode === 'test-only', repoRoot: args.repo, expectedPublicCommit: args['expected-public-commit'] });
+  if (command === 'init') {
+    const allowed = new Set(['_', 'expected-public-commit', 'mode', 'owner', 'repo', 'state']); if (args._.length !== 0 || Object.keys(args).some((key) => !allowed.has(key)) || !['production-recording', 'test-only'].includes(args.mode)) fail('usage', 'init requires exactly one --mode with value production-recording or test-only');
+    value = initializePromptedScreeningRecorderV6({ stateDir: args.state, owner: args.owner, testOnly: args.mode === 'test-only', repoRoot: args.repo, expectedPublicCommit: args['expected-public-commit'] });
+  }
   else if (command === 'record-judgment') value = recordPromptedScreeningJudgmentV6({ stateDir: args.state, owner: args.owner, stage: args.stage, batchOrdinal: args.batch, taskId: args.task, modelAlias: args.model, reasoning: args.reasoning, toolPolicy: args.tools, outputBytes: readFileSync(args.output), infrastructureFailureCount: Number(args.failures), retryCount: Number(args.retries), toolCallCount: Number(args['tool-calls']) });
   else if (command === 'seal-judgments') value = { prefixSha256: sha256(sealPromptedScreeningJudgmentsV6({ stateDir: args.state, owner: args.owner, runId: args['run-id'], attestedBy: args['attested-by'] })) };
   else if (command === 'prepare-audit') { const prepared = preparePromptedScreeningRecorderAuditV6({ stateDir: args.state, owner: args.owner, taskId: args.task }); value = { auditDispatchSha256: sha256(prepared.auditDispatchBytes), auditInputSha256: sha256(prepared.compactInputBytes), invocation: prepared.invocation }; }
