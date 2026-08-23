@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import {
   MAX_COMPACT_PROCESS_AUDIT_BYTES,
+  sha256,
 } from '../scripts/render-compact-process-audit-input-v1.mjs';
 import {
   buildRealCapacityProbeV2,
@@ -17,6 +18,11 @@ import {
 
 const v4Fixture = JSON.parse(readFileSync('fixtures/prompted-screening-pilot-v4-joint-compact-audit.json', 'utf8'));
 const input = upgradeV1CompactInput(v4Fixture.compactAuditInput);
+const v4PrefixBytes = readFileSync('records/synthetic-pilot-v4-2026-08-23/judgment-prefix.transcript.jsonl');
+const v4RunInput = upgradeV1CompactInput(
+  JSON.parse(readFileSync('records/synthetic-pilot-v4-2026-08-23/compact-process-audit-input.json', 'utf8')),
+  { transcriptPrefixBytes: v4PrefixBytes },
+);
 
 function clone(value = input) {
   return structuredClone(value);
@@ -68,6 +74,26 @@ test('content digest equality is permitted while transcript event identity reuse
   samePairRows[0].transcriptOutputEventSha256 = samePairRows[0].transcriptDispatchEventSha256;
   samePair.batches = encodeBatchColumns(samePairRows);
   assert.throws(() => validateCompactProcessAuditInputV2(samePair), /distinct dispatch and output/u);
+});
+
+test('sealed prefix binds each named digest to exact decoded content bytes', () => {
+  assert.doesNotThrow(() => validateCompactProcessAuditInputV2(v4RunInput, { transcriptPrefixBytes: v4PrefixBytes }));
+
+  const lines = v4PrefixBytes.toString('utf8').trimEnd().split('\n');
+  const changedOutput = JSON.parse(lines[3]);
+  changedOutput.rawOutputSha256 = sha256(Buffer.from('coordinated-substitution', 'utf8'));
+  lines[3] = JSON.stringify(changedOutput);
+  const changedPrefixBytes = Buffer.from(`${lines.join('\n')}\n`, 'utf8');
+  const changed = clone(v4RunInput);
+  changed.judgmentTranscriptPrefixSha256 = sha256(changedPrefixBytes);
+  const changedBatches = decodeBatchColumns(changed.batches);
+  changedBatches[0].rawOutputSha256 = changedOutput.rawOutputSha256;
+  changedBatches[0].transcriptOutputEventSha256 = sha256(Buffer.from(`${lines[3]}\n`, 'utf8'));
+  changed.batches = encodeBatchColumns(changedBatches);
+  assert.throws(
+    () => validateCompactProcessAuditInputV2(changed, { transcriptPrefixBytes: changedPrefixBytes }),
+    /exact instruction, blinded, dispatch, output, and event identities/u,
+  );
 });
 
 test('synthetic branch is the entire fixed fixture with null sampling identities', () => {

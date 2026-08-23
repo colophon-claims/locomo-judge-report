@@ -10,6 +10,7 @@ import {
 
 const promptPath = new URL('../CODEX-SCREENING-PROMPT.v5.md', import.meta.url);
 const schemaPath = new URL('../schemas/compact-process-audit-input.v2.schema.json', import.meta.url);
+const instructionPath = new URL('../CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', import.meta.url);
 
 export const COMPACT_PROCESS_AUDIT_PROTOCOL_V2 = 'prompted-codex-screening-compact-process-audit/v2';
 export const COMPACT_PROCESS_AUDIT_SCHEMA_V2 = 'https://colophon-claims.github.io/locomo-judge-report/compact-process-audit-input/v2';
@@ -247,6 +248,10 @@ export function validateTranscriptPrefixForCompactInput(value, prefixBytes) {
   pairs.forEach(({ dispatch, output, transcriptDispatchEventSha256, transcriptOutputEventSha256 }, index) => {
     const batch = batches[index];
     const profile = stageProfiles.find((candidate) => candidate.stage === batch.stage);
+    const instructionBytes = readFileSync(instructionPath);
+    const dispatchBytes = typeof dispatch?.dispatchBytesBase64 === 'string' ? Buffer.from(dispatch.dispatchBytesBase64, 'base64') : Buffer.alloc(0);
+    const outputBytes = typeof output?.rawOutputBase64 === 'string' ? Buffer.from(output.rawOutputBase64, 'base64') : Buffer.alloc(0);
+    const blindedItemsBytes = dispatchBytes.subarray(instructionBytes.length);
     if (dispatch?.event !== 'judgment-dispatch' || output?.event !== 'judgment-output'
       || dispatch.taskName !== output.taskName || typeof dispatch.taskName !== 'string'
       || taskNames.has(dispatch.taskName)
@@ -255,9 +260,26 @@ export function validateTranscriptPrefixForCompactInput(value, prefixBytes) {
       || dispatch.reasoning !== profile?.reasoning || output.reasoning !== profile?.reasoning
       || dispatch.batchOrdinal !== batch.batchOrdinal || output.batchOrdinal !== batch.batchOrdinal
       || dispatch.batchCount !== batch.batchCount || dispatch.itemCount !== batch.itemCount
+      || dispatch.instructionSha256 !== value.publicArtifacts.judgmentInstructionSha256
       || dispatch.blindedItemsSha256 !== batch.blindedItemsSha256
       || dispatch.dispatchSha256 !== batch.dispatchSha256
-      || output.rawOutputSha256 !== batch.rawOutputSha256) fail(`transcriptPrefixBytes.batch[${index}]`, 'does not bind one distinct declared task and exact dispatch/output content identities');
+      || output.rawOutputSha256 !== batch.rawOutputSha256
+      || dispatch.dispatchByteLength !== dispatchBytes.length
+      || output.rawOutputByteLength !== outputBytes.length
+      || dispatch.dispatchBytesBase64 !== dispatchBytes.toString('base64')
+      || output.rawOutputBase64 !== outputBytes.toString('base64')
+      || !dispatchBytes.subarray(0, instructionBytes.length).equals(instructionBytes)
+      || sha256(dispatchBytes) !== batch.dispatchSha256
+      || sha256(blindedItemsBytes) !== batch.blindedItemsSha256
+      || sha256(outputBytes) !== batch.rawOutputSha256) fail(`transcriptPrefixBytes.batch[${index}]`, 'does not bind one distinct declared task and exact instruction, blinded, dispatch, output, and event identities');
+    let blindedItems;
+    try {
+      blindedItems = JSON.parse(blindedItemsBytes.toString('utf8'));
+    } catch {
+      fail(`transcriptPrefixBytes.batch[${index}]`, 'does not carry canonical blinded item JSON after the exact instruction');
+    }
+    if (!Array.isArray(blindedItems) || blindedItems.length !== batch.itemCount
+      || `${canonical(blindedItems)}\n` !== blindedItemsBytes.toString('utf8')) fail(`transcriptPrefixBytes.batch[${index}]`, 'does not carry the exact canonical ordered blinded subset');
     taskNames.add(dispatch.taskName);
     if (batch.transcriptDispatchEventSha256 !== transcriptDispatchEventSha256
       || batch.transcriptOutputEventSha256 !== transcriptOutputEventSha256) fail(`input.batches[${index}]`, 'transcript event identity does not derive from the exact sealed prefix event bytes');
