@@ -113,6 +113,30 @@ test('material anomaly codes cannot hide in observations or reach the composed p
   assert.throws(() => parsePromptedScreeningAuditFindingsV1(mutation(pass, (value) => { value.assessment = 'FAIL'; value.materialFindings = [{ code: 'EXPECTED_SYNTHETIC_AGREEMENT', evidenceReferences: ['/aggregates/agreements'], summary: 'This benign code cannot occupy the material array.' }]; }), { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }), /closed material-finding/u);
 });
 
+test('OTHER_MATERIAL schema and parser require three actual alphanumeric tokens at the 24-character boundary', () => {
+  const schema = JSON.parse(readFileSync(join(root, 'schemas/prompted-screening-audit-findings.v1.schema.json')));
+  const summaryRule = schema.$defs.materialFinding.allOf[0].then.properties.summary;
+  const schemaAccepts = (summary) => summary.length >= summaryRule.minLength && new RegExp(summaryRule.pattern, 'u').test(summary);
+  const oneLongToken = 'abcdefghijklmnopqrstuvwx';
+  const twoLongTokens = 'abcdefghijkl abcdefghijk';
+  const exactPositiveBoundary = 'abcdefgh ijklmnop qrstuv';
+  const punctuatedPositiveBoundary = 'abcdefgh-ijklmnop/qrstuv';
+  assert.equal(oneLongToken.length, 24);
+  assert.equal(twoLongTokens.length, 24);
+  assert.equal(exactPositiveBoundary.length, 24);
+  assert.equal(punctuatedPositiveBoundary.length, 24);
+  assert.equal(schemaAccepts(oneLongToken), false);
+  assert.equal(schemaAccepts(twoLongTokens), false);
+  assert.equal(schemaAccepts(exactPositiveBoundary), true);
+  assert.equal(schemaAccepts(punctuatedPositiveBoundary), true);
+  const preparation = preparePromptedScreeningAuditV7({ ...testRun(), taskId: 'test-v7-other-material/audit' });
+  const finding = (summary) => ({ code: 'OTHER_MATERIAL', evidenceReferences: ['/auditScope'], summary });
+  assert.throws(() => renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, assessment: 'FAIL', materialFindings: [finding(oneLongToken)] }), /meaningful summary/u);
+  assert.throws(() => renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, assessment: 'FAIL', materialFindings: [finding(twoLongTokens)] }), /meaningful summary/u);
+  assert.equal(parsePromptedScreeningAuditFindingsV1(renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, assessment: 'FAIL', materialFindings: [finding(exactPositiveBoundary)] }), { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }).assessment, 'FAIL');
+  assert.equal(parsePromptedScreeningAuditFindingsV1(renderTestAuditFindingsV1({ auditInvocationSha256: preparation.auditInvocationSha256, assessment: 'FAIL', materialFindings: [finding(punctuatedPositiveBoundary)] }), { expectedAuditInvocationSha256: preparation.auditInvocationSha256 }).assessment, 'FAIL');
+});
+
 test('wrong or missing invocation, extra keys, prose, nesting, invalid code, and stale payload all refuse without repair', () => {
   const first = preparePromptedScreeningAuditV7({ ...testRun(), taskId: 'test-v7-hostile/audit-one' });
   const valid = passPayload(first);
