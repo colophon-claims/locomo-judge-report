@@ -65,9 +65,9 @@ synthetic execution evidence below.
   renders to 9,159 bytes; the synthetic 664-item capacity probe renders to
   48,766 bytes. Usage remains explicitly unmeasured and no model was run.
 - [fixtures/prompted-screening-pilot-v5-compact-audit.json](fixtures/prompted-screening-pilot-v5-compact-audit.json)
-  is the current no-run fixture. Its compact input renders to 11,465 bytes. The
-  deterministic 664-item, 146-batch capacity probe renders to 49,954 bytes,
-  leaving 15,582 bytes below the unchanged 65,536-byte cap. It derives event
+  is the current no-run fixture. Its compact input renders to 11,825 bytes. The
+  deterministic 664-item, 146-batch capacity probe renders to 42,754 bytes,
+  leaving 22,782 bytes below the unchanged 65,536-byte cap. It derives event
   identities from the preserved version 4 judgment prefix without running any
   model or creating new judgment output.
 - [records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json](records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json)
