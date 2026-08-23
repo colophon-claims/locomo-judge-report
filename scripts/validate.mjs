@@ -33,6 +33,7 @@ const allowedFiles = new Map([
   ['fixtures/prompted-screening-pilot-v1.json', ['application/json', 32768]],
   ['fixtures/prompted-screening-pilot-v2.json', ['application/json', 32768]],
   ['fixtures/prompted-screening-pilot-v4-compact-audit.json', ['application/json', 32768]],
+  ['fixtures/prompted-screening-pilot-v4-joint-compact-audit.json', ['application/json', 32768]],
   ['records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json', ['application/json', 16384]],
   ['records/synthetic-pilot-2026-08-22/pilot-results.pending-ritsu.json', ['application/json', 32768]],
   ['records/synthetic-pilot-2026-08-22/process-audit.md', ['text/markdown', 8192]],

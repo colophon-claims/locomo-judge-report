@@ -15,7 +15,7 @@ import {
   validateV4SourceBytes,
 } from '../scripts/render-compact-process-audit-input-v1.mjs';
 
-const fixtureBytes = readFileSync('fixtures/prompted-screening-pilot-v4-compact-audit.json');
+const fixtureBytes = readFileSync('fixtures/prompted-screening-pilot-v4-joint-compact-audit.json');
 const fixtureRaw = fixtureBytes.toString('utf8');
 const fixture = JSON.parse(fixtureRaw);
 const input = fixture.compactAuditInput;
@@ -34,6 +34,8 @@ function routedInvalidInput() {
   const cell = changed.cells[4];
   cell.luna.wrongCount -= 1;
   cell.luna.unsureCount += 1;
+  cell.jointVerdictCounts[13] -= 1;
+  cell.jointVerdictCounts[22] += 1;
   cell.invalidCount = 1;
   cell.threeStageAgreementCount = 1;
   cell.anyDisagreementCount = 1;
@@ -51,20 +53,51 @@ function routedInvalidInput() {
   return changed;
 }
 
+function jointCounterexampleInput() {
+  const changed = clone();
+  const cell = changed.cells[0];
+  Object.assign(cell.luna, { correctCount: 0, wrongCount: 1, unsureCount: 1 });
+  Object.assign(cell.terra, { correctCount: 0, wrongCount: 1, unsureCount: 1 });
+  Object.assign(cell.sol, { correctCount: 1, wrongCount: 0, unsureCount: 1 });
+  cell.jointVerdictCounts = Array(27).fill(0);
+  cell.jointVerdictCounts[17] = 1;
+  cell.jointVerdictCounts[21] = 1;
+  cell.threeStageAgreementCount = 0;
+  cell.anyDisagreementCount = 2;
+  Object.assign(changed.aggregates.verdicts[0], { correctCount: 6, wrongCount: 17, unsureCount: 1 });
+  Object.assign(changed.aggregates.verdicts[1], { correctCount: 6, wrongCount: 17, unsureCount: 1 });
+  Object.assign(changed.aggregates.verdicts[2], { correctCount: 7, wrongCount: 16, unsureCount: 1 });
+  Object.assign(changed.batches[0], { 9: 6, 10: 17, 11: 1 });
+  Object.assign(changed.batches[1], { 9: 4, 10: 11, 11: 1 });
+  Object.assign(changed.batches[3], { 9: 1, 10: 6, 11: 1 });
+  Object.assign(changed.aggregates.agreements, {
+    threeStageAgreementCount: 22,
+    anyDisagreementCount: 2,
+    lunaTerraDisagreementCount: 2,
+    lunaSolDisagreementCount: 1,
+    terraSolDisagreementCount: 1,
+    lunaOnlyDisagreesCount: 1,
+    terraOnlyDisagreesCount: 1,
+    solOnlyDisagreesCount: 0,
+    allDifferentCount: 0,
+  });
+  return changed;
+}
+
 test('approved v4 sources and deterministic no-run compact fixture validate exactly', () => {
   assert.doesNotThrow(() => validateV4SourceBytes());
-  assert.equal(sha256(fixtureBytes), APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditPilotV4Fixture);
+  assert.equal(sha256(fixtureBytes), APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditPilotV4JointFixture);
   assert.doesNotThrow(() => validateCompactPilotV4FixtureBytes(fixtureBytes));
   assert.doesNotThrow(() => validateCompactPilotV4Fixture(fixture, fixtureRaw));
-  assert.equal(rendered.length, 8235);
-  assert.equal(sha256(rendered), 'sha256:db144bcbeb9a6e1fa2b60a07d5b3c6339f349648706e8208519bb71d9e222a4d');
+  assert.equal(rendered.length, 9159);
+  assert.equal(sha256(rendered), 'sha256:5983f2b68aa6cb98bd42d33c1246aba5fce589a5769dd47b38c153c0805a0bfc');
   assert.equal(fixture.expectedExecution.modelRunOccurred, false);
   assert.equal(fixture.expectedExecution.usage.status, 'not-measured-no-model-run');
 });
 
 test('664-item capacity remains deterministically inside the hard byte cap', () => {
   const capacity = renderCompactProcessAuditInput(buildSyntheticCapacityProbe(664));
-  assert.equal(capacity.length, 47830);
+  assert.equal(capacity.length, 48766);
   assert.ok(capacity.length <= MAX_COMPACT_PROCESS_AUDIT_BYTES);
   assert.doesNotThrow(() => validateRenderedCompactProcessAuditInput(buildSyntheticCapacityProbe(664), capacity));
 });
@@ -174,6 +207,37 @@ test('properly routed invalid output reconciles batch, stage, cell, and agreemen
   assert.doesNotThrow(() => renderCompactProcessAuditInput(changed));
 });
 
+test('joint contingency derives every marginal, pairwise, asymmetry, and all-different count', () => {
+  const changed = jointCounterexampleInput();
+  Object.assign(changed.aggregates.agreements, {
+    threeStageAgreementCount: 22,
+    anyDisagreementCount: 2,
+    lunaTerraDisagreementCount: 2,
+    lunaSolDisagreementCount: 2,
+    terraSolDisagreementCount: 1,
+    lunaOnlyDisagreesCount: 1,
+    terraOnlyDisagreesCount: 0,
+    solOnlyDisagreesCount: 0,
+    allDifferentCount: 1,
+  });
+  assert.doesNotThrow(() => validateCompactProcessAuditInput(changed));
+});
+
+test('joint contingency refuses missing, wrong-length, negative, total, and positional drift', () => {
+  const mutations = [
+    (value) => { delete value.cells[0].jointVerdictCounts; },
+    (value) => { value.cells[0].jointVerdictCounts.pop(); },
+    (value) => { value.cells[0].jointVerdictCounts[0] = -1; },
+    (value) => { value.cells[0].jointVerdictCounts[0] += 1; },
+    (value) => { value.cells[0].jointVerdictCounts[1] = value.cells[0].jointVerdictCounts[0]; value.cells[0].jointVerdictCounts[0] = 0; },
+  ];
+  for (const mutate of mutations) {
+    const changed = clone();
+    mutate(changed);
+    assert.throws(() => validateCompactProcessAuditInput(changed));
+  }
+});
+
 test('multiple extra or duplicate records may route one affected item to UNSURE', () => {
   const changed = routedInvalidInput();
   changed.batches[0][12] = 0;
@@ -202,83 +266,24 @@ test('coordinated unanimous-marginal disagreement attack refuses', () => {
     solOnlyDisagreesCount: 0,
     allDifferentCount: 0,
   });
-  assert.throws(() => validateCompactProcessAuditInput(changed), /marginal bounds/u);
+  assert.throws(() => validateCompactProcessAuditInput(changed), /joint verdict contingency/u);
 });
 
-test('coordinated mixed marginals refuse an infeasible intermediate agreement count', () => {
-  const changed = clone();
-  for (const stage of ['luna', 'terra', 'sol']) {
-    changed.cells[0][stage].correctCount = 1;
-    changed.cells[0][stage].wrongCount = 1;
-  }
-  for (const verdicts of changed.aggregates.verdicts) {
-    verdicts.correctCount -= 1;
-    verdicts.wrongCount += 1;
-  }
-  for (const batchIndex of [0, 1, 3]) {
-    changed.batches[batchIndex][9] -= 1;
-    changed.batches[batchIndex][10] += 1;
-  }
-  changed.cells[0].threeStageAgreementCount = 1;
-  changed.cells[0].anyDisagreementCount = 1;
-  Object.assign(changed.aggregates.agreements, {
-    threeStageAgreementCount: 23,
-    anyDisagreementCount: 1,
-    lunaTerraDisagreementCount: 1,
-    lunaSolDisagreementCount: 1,
-    terraSolDisagreementCount: 0,
-    lunaOnlyDisagreesCount: 1,
-    terraOnlyDisagreesCount: 0,
-    solOnlyDisagreesCount: 0,
-    allDifferentCount: 0,
-  });
-  assert.throws(() => validateCompactProcessAuditInput(changed), /not exactly feasible/u);
+test('exact independently-feasible pairwise counterexample refuses as one joint tuple', () => {
+  const changed = jointCounterexampleInput();
+  assert.throws(() => validateCompactProcessAuditInput(changed), /joint cell contingencies|joint verdict contingency/u);
 });
 
-test('coordinated pairwise marginals refuse an unattainable disagreement total', () => {
-  const changed = clone();
-  for (const stage of ['luna', 'terra', 'sol']) {
-    changed.cells[0][stage].correctCount = 1;
-    changed.cells[0][stage].wrongCount = 1;
+test('coordinated alternative pairwise and asymmetry tuples cannot replace the joint table', () => {
+  const variants = [
+    { lunaTerraDisagreementCount: 2, lunaSolDisagreementCount: 1, terraSolDisagreementCount: 2, lunaOnlyDisagreesCount: 0, terraOnlyDisagreesCount: 1, solOnlyDisagreesCount: 0, allDifferentCount: 1 },
+    { lunaTerraDisagreementCount: 0, lunaSolDisagreementCount: 2, terraSolDisagreementCount: 2, lunaOnlyDisagreesCount: 0, terraOnlyDisagreesCount: 0, solOnlyDisagreesCount: 2, allDifferentCount: 0 },
+  ];
+  for (const variant of variants) {
+    const changed = jointCounterexampleInput();
+    Object.assign(changed.aggregates.agreements, variant);
+    assert.throws(() => validateCompactProcessAuditInput(changed), /joint cell contingencies/u);
   }
-  for (const verdicts of changed.aggregates.verdicts) {
-    verdicts.correctCount -= 1;
-    verdicts.wrongCount += 1;
-  }
-  for (const batchIndex of [0, 1, 3]) {
-    changed.batches[batchIndex][9] -= 1;
-    changed.batches[batchIndex][10] += 1;
-  }
-  changed.cells[0].threeStageAgreementCount = 0;
-  changed.cells[0].anyDisagreementCount = 2;
-  Object.assign(changed.aggregates.agreements, {
-    threeStageAgreementCount: 22,
-    anyDisagreementCount: 2,
-    lunaTerraDisagreementCount: 2,
-    lunaSolDisagreementCount: 1,
-    terraSolDisagreementCount: 1,
-    lunaOnlyDisagreesCount: 1,
-    terraOnlyDisagreesCount: 1,
-    solOnlyDisagreesCount: 0,
-    allDifferentCount: 0,
-  });
-  assert.throws(() => validateCompactProcessAuditInput(changed), /not exactly attainable/u);
-});
-
-test('coordinated pairwise and asymmetry attack refuses against cell marginals', () => {
-  const changed = routedInvalidInput();
-  Object.assign(changed.aggregates.agreements, {
-    threeStageAgreementCount: 23,
-    anyDisagreementCount: 1,
-    lunaTerraDisagreementCount: 1,
-    lunaSolDisagreementCount: 1,
-    terraSolDisagreementCount: 1,
-    lunaOnlyDisagreesCount: 0,
-    terraOnlyDisagreesCount: 0,
-    solOnlyDisagreesCount: 0,
-    allDifferentCount: 1,
-  });
-  assert.throws(() => validateCompactProcessAuditInput(changed), /cell-marginal feasibility|allDifferentCount/u);
 });
 
 test('model, reasoning, batch, tool, source, and timing drift refuse', () => {
@@ -315,6 +320,6 @@ test('fixture identity defeats full downstream recanonicalization', () => {
   changed.expectedExecution.renderedInputSha256 = sha256(changedRendered);
   const changedBytes = Buffer.from(`${JSON.stringify(changed, null, 2)}\n`);
   const manifestEquivalent = sha256(changedBytes);
-  assert.notEqual(manifestEquivalent, APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditPilotV4Fixture);
+  assert.notEqual(manifestEquivalent, APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditPilotV4JointFixture);
   assert.throws(() => validateCompactPilotV4FixtureBytes(changedBytes), /must match approved/u);
 });

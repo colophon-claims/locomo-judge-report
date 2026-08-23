@@ -7,6 +7,9 @@ export const APPROVED_PROMPTED_SCREENING_V4_SHA256 = Object.freeze({
   // leaving that append-only historical record byte-exact.
   compactAuditRendererV1CrossFieldRevision: 'sha256:2f42bcca46de93e8b83be9b87f1156625a0d8a520d1a91cd8645d30160feab2d',
   compactAuditPilotV4Fixture: 'sha256:8638e0e3d403247f614e642a58eb8ade81e763eae81ba3837cdc1bd3bb1f4b38',
+  compactAuditSchemaV1JointRevision: 'sha256:097f2396defede861497658e54f3c1624f98b5487d782405cddaf71e14f78529',
+  compactAuditRendererV1JointRevision: 'sha256:10444899fff6dddf24dd08d221053910b08991e7568db24d665808b1b0823570',
+  compactAuditPilotV4JointFixture: 'sha256:6efedf5f63bf1c0961366a442aa7b36d2b16dca0065643d15eb84d5fa5f428b2',
 });
 
 export const APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V3_RUN_SHA256 = Object.freeze({

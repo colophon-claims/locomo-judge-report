@@ -50,6 +50,12 @@ Sol audit input with the exact canonical
 approved prompt, schema, and source bytes before dispatch. It must then enforce
 closed shapes, fixed declaration and aggregate order, all batch and cell counts,
 true machine-validation flags, exact digests, and a 65,536-byte maximum.
+Each ordered class/stratum cell must carry the closed 27-count joint verdict
+contingency in lexicographic Luna, Terra, Sol order with each axis ordered
+`CORRECT`, `WRONG`, `UNSURE`. The renderer derives all three stage marginals,
+three-stage agreement, pairwise disagreements, one-stage asymmetries, and
+all-different counts from that one contingency. Independently feasible
+pairwise totals are not sufficient.
 
 The compact process audit receives public references and digests, per-batch
 digests and counts, aggregate verdict and agreement metrics, twelve ordered

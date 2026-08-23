@@ -49,9 +49,14 @@ synthetic execution evidence below.
   identities and a sealed non-grouped dispatch order. Outer metadata remains
   outside blinded dispatch bytes.
 - [fixtures/prompted-screening-pilot-v4-compact-audit.json](fixtures/prompted-screening-pilot-v4-compact-audit.json)
-  deterministically renders an 8,235-byte compact process-audit input from
-  synthetic aggregate evidence. Its usage fields are explicitly unmeasured and
-  no model was run. A synthetic 664-item capacity probe renders to 47,830 bytes.
+  preserves the initial 8,235-byte compact process-audit fixture bound by the
+  append-only third-pilot record.
+- [fixtures/prompted-screening-pilot-v4-joint-compact-audit.json](fixtures/prompted-screening-pilot-v4-joint-compact-audit.json)
+  is the current no-run fixture. Each ordered cell carries an exact 27-count
+  Luna/Terra/Sol verdict contingency from which every marginal, agreement,
+  pairwise disagreement, asymmetry, and all-different count is derived. It
+  renders to 9,159 bytes; the synthetic 664-item capacity probe renders to
+  48,766 bytes. Usage remains explicitly unmeasured and no model was run.
 - [records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json](records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json)
   preserves the failed synthetic pilot, its privacy-safe raw evidence, exact
   artifact identities, zero Ritsu decisions, and non-acceptance.
@@ -69,8 +74,9 @@ synthetic execution evidence below.
   accepted or reusable.
 - [schemas/compact-process-audit-input.v1.schema.json](schemas/compact-process-audit-input.v1.schema.json)
   and its renderer define the closed process-only summary used by prompt v4.
-  Sol relies on machine validation flags and digests for raw-byte integrity;
-  the later public artifact verifier must resolve and hash published artifacts.
+  The current reviewed source revision requires the joint cell contingencies.
+  Sol relies on machine validation flags and digests for raw-byte integrity; the
+  later public artifact verifier must resolve and hash published artifacts.
 - [schemas/sampling-commitment.schema.json](schemas/sampling-commitment.schema.json)
   defines a validation interface, not a commitment instance.
 - [docs/software-heritage.md](docs/software-heritage.md) describes a future

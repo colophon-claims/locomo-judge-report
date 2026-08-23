@@ -5,12 +5,6 @@ import {
   APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V3_RUN_SHA256,
   APPROVED_PROMPTED_SCREENING_V4_SHA256,
 } from './approved-prompted-screening-v4-identities.mjs';
-import {
-  buildSyntheticCapacityProbe,
-  renderCompactProcessAuditInput,
-  sha256,
-  validateCompactPilotV4Fixture,
-} from './render-compact-process-audit-input-v1.mjs';
 
 const recordDir = new URL('../records/synthetic-pilot-v3-2026-08-23/', import.meta.url);
 const recordPath = new URL('NOT-APPROVED.json', recordDir);
@@ -184,10 +178,13 @@ export function validateSyntheticPilotV3RunRecord(rawBytes, evidence) {
   validateDerivatives(evidence);
   const compactFixtureRaw = Buffer.from(evidence.compactFixtureBytes).toString('utf8');
   const compactFixture = JSON.parse(compactFixtureRaw);
-  validateCompactPilotV4Fixture(compactFixture, compactFixtureRaw);
-  const compactBytes = renderCompactProcessAuditInput(compactFixture.compactAuditInput);
-  const capacityBytes = renderCompactProcessAuditInput(buildSyntheticCapacityProbe());
-  const expectedAmendment = { coordinatorPromptV4Sha256: APPROVED_PROMPTED_SCREENING_V4_SHA256.coordinatorPromptV4, compactAuditSchemaV1Sha256: APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditSchemaV1, compactAuditRendererV1Sha256: APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditRendererV1, compactAuditPilotV4FixtureSha256: APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditPilotV4Fixture, compactAuditPilotRenderedInputSha256: sha256(compactBytes), compactAuditPilotRenderedInputByteLength: compactBytes.length, compactAuditMaximumByteLength: 65536, compactAuditSynthetic664CapacityByteLength: capacityBytes.length, modelRunOccurred: false };
+  if (compactFixtureRaw !== `${JSON.stringify(compactFixture, null, 2)}\n`
+    || compactFixture.schema !== 'https://colophon-claims.github.io/locomo-judge-report/compact-process-audit-pilot-fixture/v4'
+    || compactFixture.status !== 'synthetic-validation-only-no-model-run'
+    || compactFixture.expectedExecution?.renderedInputSha256 !== 'sha256:db144bcbeb9a6e1fa2b60a07d5b3c6339f349648706e8208519bb71d9e222a4d'
+    || compactFixture.expectedExecution?.renderedInputByteLength !== 8235
+    || compactFixture.expectedExecution?.modelRunOccurred !== false) fail('evidence.compactFixtureBytes', 'does not preserve the exact historical no-run compact amendment wrapper');
+  const expectedAmendment = { coordinatorPromptV4Sha256: APPROVED_PROMPTED_SCREENING_V4_SHA256.coordinatorPromptV4, compactAuditSchemaV1Sha256: APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditSchemaV1, compactAuditRendererV1Sha256: APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditRendererV1, compactAuditPilotV4FixtureSha256: APPROVED_PROMPTED_SCREENING_V4_SHA256.compactAuditPilotV4Fixture, compactAuditPilotRenderedInputSha256: 'sha256:db144bcbeb9a6e1fa2b60a07d5b3c6339f349648706e8208519bb71d9e222a4d', compactAuditPilotRenderedInputByteLength: 8235, compactAuditMaximumByteLength: 65536, compactAuditSynthetic664CapacityByteLength: 47830, modelRunOccurred: false };
   if (!same(record.costAmendmentArtifacts, expectedAmendment)) fail('record.costAmendmentArtifacts', 'does not bind exact no-run compact amendment evidence and capacity');
   return record;
 }
