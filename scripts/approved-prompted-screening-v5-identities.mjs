@@ -1,0 +1,31 @@
+export const APPROVED_PROMPTED_SCREENING_V5_SHA256 = Object.freeze({
+  sourceRevision: '1f1e9fa37a5b711a52ac2f3e6d416514f6cb94d1',
+  coordinatorPromptV5: 'sha256:b1dc57e6b34803f2bf73f604fe63d38d63d327477977c305135c6d59304925cb',
+  compactAuditSchemaV2: 'sha256:4f55c5f42672749804ec76542689f8b8546001d54f0031731c5262ff597268e6',
+  compactAuditRendererV2: 'sha256:da833aba66bb1485e10c02892abf691ee1149b0e9bea24151960d0848317d07f',
+  compactAuditPilotV5Fixture: 'sha256:0a473f27819a14d0d2767918a1a00805a121ec58069e61cfac11b8aa46d6b4ec',
+});
+
+export const APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V4_RUN_SHA256 = Object.freeze({
+  sourcePublicHead: 'e9b0208dbee0003a2b7f59b9561386fa99475669',
+  coordinatorPromptV4: 'sha256:cee375eb08d48f7bda3ec8803c434591be8306d95c2a8a96ba2da38e7992b126',
+  judgmentInstructionV1: 'sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837',
+  syntheticFixtureV2: 'sha256:09411e91bb467ecf9881998118c898766d77242556b45f49ae7238aa28d1283b',
+  judgmentRendererV3: 'sha256:31f21fd042a211939e2c40b3fe38c1fb60fc8016289409bba669702648afe5cd',
+  compactSchemaV1: 'sha256:097f2396defede861497658e54f3c1624f98b5487d782405cddaf71e14f78529',
+  compactRendererV1: 'sha256:10444899fff6dddf24dd08d221053910b08991e7568db24d665808b1b0823570',
+  compactFixtureV4: 'sha256:6efedf5f63bf1c0961366a442aa7b36d2b16dca0065643d15eb84d5fa5f428b2',
+  compactAuditInput: 'sha256:ff9736b1444d5c70561fbbd15ff9e7066621b88821f2da5ba3f08055bd9da597',
+  judgmentTranscriptPrefix: 'sha256:db454100bc6bee6a740624583d6ea07c634c8711c8e49c840c23717d94e2478f',
+  results: 'sha256:3109c46be155c5f9ae180937df8f070c080ae1b10eb4bde1fb245fe8dd0fcdbe',
+  processAuditDerivative: 'sha256:cca77b750f5751762ab28b76476c71145d81364620d9f384d323c914d8a0d54d',
+  ritsuReview: 'sha256:cd9c5c02270fe739ae0c1772b50852eea86ee7d4e480de3ea7148656c9a28ce0',
+  finalTranscript: 'sha256:b578dcb776ec6bcc1718042731f1682a7ee2e2c1de7e2a9a14ad695ebafae3c7',
+  usage: 'sha256:3b35058a1959ba8111d6ab2da0fd286cd011cf70f54da6c8cfd0e605a69a49ea',
+  rawProcessAuditOutput: 'sha256:915f9dcdf2a0490259e142657301622fc1749f39b7fa699f99e965b4ef88a22b',
+  processAuditEvent: 'sha256:e211b7f43751e3a8f17d50fa85441f5d3c1077296ba346172d0a2db37bd4a30d',
+  comparisonEvent: 'sha256:533abbaf7758c7c9233f9783c1001b02f9aca68c6761151cae89073aba2e3677',
+  mechanicalCorrection: 'sha256:6335631bf14d4a4137d9daa25e210301bc238922002266628fd314e082da2b35',
+  terminalRecord: 'sha256:00e9048fd6ddd6e9f93b555fdff30e223aac83568c5378d05260cf64b3ddf1d2',
+  independentReview: 'sha256:ebacd1130af4a296dd10914bf9fe508f275bdcca95b206b2f6c64a7d9ac88ae1',
+});

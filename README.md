@@ -11,8 +11,10 @@ instruction bytes define a future procedure. Clearly named synthetic fixtures
 and the preserved synthetic pilots are permanently ineligible for admission.
 The first two pilots are non-conformant. The process-green third pilot is an
 acceptance candidate but remains `NOT-APPROVED` because its raw-material audit
-shape was rejected for excessive usage pending Ritsu. None is accepted,
-reusable, a commitment, or a freeze.
+shape was rejected for excessive usage pending Ritsu. The fourth pilot remains
+`NON-CONFORMANT / PROCESS_AUDIT_MATERIAL_FLAG`; the append-only amendment does
+not change its returned audit. None is accepted, reusable, a commitment, or a
+freeze.
 
 The sole repository operator is `ritsukai`. A future commitment may be added
 only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -35,12 +37,17 @@ synthetic execution evidence below.
   synthetic pilot. It introduced opaque judgment identities, non-grouped
   order, and mandatory byte-exact rendering.
 - [CODEX-SCREENING-PROMPT.v4.md](CODEX-SCREENING-PROMPT.v4.md) records the
-  normative future coordinator procedure. It retains the v3 judgment path and
-  limits Sol process-audit input to a closed canonical summary no larger than
-  65,536 bytes. The audit cannot reperform item judgments.
+  immutable procedure used by the non-conformant fourth synthetic pilot. It
+  retains the v3 judgment path and limits Sol process-audit input to a closed
+  canonical summary no larger than 65,536 bytes.
+- [CODEX-SCREENING-PROMPT.v5.md](CODEX-SCREENING-PROMPT.v5.md) records the
+  normative future coordinator procedure. It names content and transcript
+  event identities in-band, closes synthetic and real selection semantics, and
+  retains the strict unqualified `PASS` with zero material flags gate. The
+  audit cannot reperform item judgments or prove provider execution.
 - [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt)
   is the independent exact judgment-agent instruction used by coordinator
-  prompt versions 2, 3, and 4.
+  prompt versions 2, 3, 4, and 5.
 - [fixtures/prompted-screening-pilot-v1.json](fixtures/prompted-screening-pilot-v1.json)
   contains only 24 synthetic, permanently excluded validation cases and no
   model output or operator decision.
@@ -52,11 +59,17 @@ synthetic execution evidence below.
   preserves the initial 8,235-byte compact process-audit fixture bound by the
   append-only third-pilot record.
 - [fixtures/prompted-screening-pilot-v4-joint-compact-audit.json](fixtures/prompted-screening-pilot-v4-joint-compact-audit.json)
-  is the current no-run fixture. Each ordered cell carries an exact 27-count
+  is the immutable version 4 no-run fixture. Each ordered cell carries an exact 27-count
   Luna/Terra/Sol verdict contingency from which every marginal, agreement,
   pairwise disagreement, asymmetry, and all-different count is derived. It
   renders to 9,159 bytes; the synthetic 664-item capacity probe renders to
   48,766 bytes. Usage remains explicitly unmeasured and no model was run.
+- [fixtures/prompted-screening-pilot-v5-compact-audit.json](fixtures/prompted-screening-pilot-v5-compact-audit.json)
+  is the current no-run fixture. Its compact input renders to 11,465 bytes. The
+  deterministic 664-item, 146-batch capacity probe renders to 49,954 bytes,
+  leaving 15,582 bytes below the unchanged 65,536-byte cap. It derives event
+  identities from the preserved version 4 judgment prefix without running any
+  model or creating new judgment output.
 - [records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json](records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json)
   preserves the failed synthetic pilot, its privacy-safe raw evidence, exact
   artifact identities, zero Ritsu decisions, and non-acceptance.
@@ -72,11 +85,22 @@ synthetic execution evidence below.
   token total. The separate Sol process audit made 11 tool calls and consumed
   464,147 observable tokens, so that audit shape is rejected. The record is not
   accepted or reusable.
+- [records/synthetic-pilot-v4-2026-08-23/NON-CONFORMANT.json](records/synthetic-pilot-v4-2026-08-23/NON-CONFORMANT.json)
+  preserves the exact fourth-pilot evidence, 72 valid judgments, 24 of 24
+  agreement, zero errors, retries, tools, or Ritsu decisions, and the raw
+  `qualified-pass` audit with one material flag. Its append-only mechanical
+  correction narrows an overclaim about process freshness without rewriting
+  the returned audit or accepting the run.
 - [schemas/compact-process-audit-input.v1.schema.json](schemas/compact-process-audit-input.v1.schema.json)
   and its renderer define the closed process-only summary used by prompt v4.
   The current reviewed source revision requires the joint cell contingencies.
   Sol relies on machine validation flags and digests for raw-byte integrity; the
   later public artifact verifier must resolve and hash published artifacts.
+- [schemas/compact-process-audit-input.v2.schema.json](schemas/compact-process-audit-input.v2.schema.json)
+  and its renderer define the version 5 closed, self-describing keyed-column
+  summary. The schema distinguishes content digests from exact dispatch/output
+  transcript event identities and states the provider capability boundary
+  in-band.
 - [schemas/sampling-commitment.schema.json](schemas/sampling-commitment.schema.json)
   defines a validation interface, not a commitment instance.
 - [docs/software-heritage.md](docs/software-heritage.md) describes a future
@@ -91,9 +115,12 @@ node scripts/validate-prompted-screening-pilot.mjs
 node scripts/render-prompted-screening-dispatch-v2.mjs
 node scripts/render-prompted-screening-dispatch-v3.mjs
 node scripts/render-compact-process-audit-input-v1.mjs
+node scripts/render-compact-process-audit-input-v2.mjs
 node scripts/validate-synthetic-pilot-run-record.mjs
 node scripts/validate-synthetic-pilot-v2-run-record.mjs
 node scripts/validate-synthetic-pilot-v3-run-record.mjs
+node scripts/validate-synthetic-pilot-v4-run-record.mjs
+node scripts/validate-prompted-screening-v5-fixture.mjs
 node --test test/*.test.mjs
 ```
 

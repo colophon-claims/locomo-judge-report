@@ -1,0 +1,965 @@
+{
+  "schema": "https://colophon-claims.github.io/locomo-judge-report/compact-process-audit-pilot-fixture/v5",
+  "status": "synthetic-validation-only-no-model-run",
+  "compactAuditInput": {
+    "aggregateTiming": "after-all-judgment-outputs-before-process-audit",
+    "aggregates": {
+      "agreements": {
+        "allDifferentCount": 0,
+        "anyDisagreementCount": 0,
+        "lunaOnlyDisagreesCount": 0,
+        "lunaSolDisagreementCount": 0,
+        "lunaTerraDisagreementCount": 0,
+        "solOnlyDisagreesCount": 0,
+        "terraOnlyDisagreesCount": 0,
+        "terraSolDisagreementCount": 0,
+        "threeStageAgreementCount": 24
+      },
+      "duplicateCount": 0,
+      "extraCount": 0,
+      "infrastructureFailureCount": 0,
+      "invalidCount": 0,
+      "judgmentAgentToolCallCount": 0,
+      "judgmentCount": 72,
+      "missingCount": 0,
+      "retryCount": 0,
+      "verdicts": [
+        {
+          "correctCount": 8,
+          "stage": "Luna",
+          "unsureCount": 0,
+          "wrongCount": 16
+        },
+        {
+          "correctCount": 8,
+          "stage": "Terra",
+          "unsureCount": 0,
+          "wrongCount": 16
+        },
+        {
+          "correctCount": 8,
+          "stage": "Sol",
+          "unsureCount": 0,
+          "wrongCount": 16
+        }
+      ]
+    },
+    "auditScope": {
+      "inputBoundary": "canonical-summary-only",
+      "mayInspect": [
+        "coverage",
+        "declaration-drift",
+        "suspicious-agreement",
+        "cross-stage-asymmetry",
+        "process-defects"
+      ],
+      "mustNot": "reperform-item-judgments",
+      "publicVerificationBoundary": "later-verifier-resolves-and-hashes-published-artifacts",
+      "rawIntegrityBasis": "machine-validation-flags-and-digests"
+    },
+    "batches": {
+      "alignment": "named columns share zero-based batch index",
+      "rowCount": 6,
+      "sha256ColumnEncoding": "base64url-no-pad SHA-256 digests concatenated as fixed 43-character chunks by batch index",
+      "batchCount": [
+        1,
+        2,
+        2,
+        3,
+        3,
+        3
+      ],
+      "batchOrdinal": [
+        1,
+        1,
+        2,
+        1,
+        2,
+        3
+      ],
+      "blindedItemsSha256": "YXy-lYk1294S1YVsVloSKfAC-6jATCUIb7IuGz8vPoQErl0pt8La3BQU11qdoEhSFYvzBth2zROGYcsYoUTWvEaloKRaTjE3S2FrB3IF6v1szKEqHve_5pEYhH7tmPxVwQ5uuHkZrmRZakxYJqi9PSB4fXQbiDx1oDaxXLXr-XVMUxupFLkK7-Uot3KOS_KNzDIhRuEIMdjC5XDE5TTgZCEaloKRaTjE3S2FrB3IF6v1szKEqHve_5pEYhH7tmPxVw",
+      "correctCount": [
+        8,
+        6,
+        2,
+        2,
+        4,
+        2
+      ],
+      "dispatchDigestVerified": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "dispatchSha256": "jOXL20Bnl5HyNYE4oRwbYg65kHJcYIxqjRARz7ysHe4QCvwsv6w6bm0Vmm7mvsEPtNpXuR_VxbunFOjX01ysGEWgLqsM5_5qoGMOcQ7L64xd7g6s9aEjfNXtvA-7ytHtUb8oERtBQOLMOsb8uux0KVCd6Ig98m7mEZECTL_4pzwAItwJhNftDz7m8OuUWqRJVguPg_dnbY640EeBQGCT3NAWgLqsM5_5qoGMOcQ7L64xd7g6s9aEjfNXtvA-7ytHtU",
+      "duplicateCount": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "extraCount": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "infrastructureFailureCount": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "invalidCount": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "itemCount": [
+        24,
+        16,
+        8,
+        8,
+        8,
+        8
+      ],
+      "machineValidationErrors": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "missingCount": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "outputDigestVerified": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "rawOutputRecordCount": [
+        24,
+        16,
+        8,
+        8,
+        8,
+        8
+      ],
+      "rawOutputSha256": "yd87W6t2Q3ssSpI-tRzitJsHz3c__gbug8nAVmdrggM7LYTxkoWHPINxVhOfGJbnKXVTkkxjmIrbMtvsi8A4swvVPQVsGNwAX4p2CvQ1H839eSY-RrJU1LFGOTD9jemiAjPNscNyAANmL3s9cn0F_OMCL6-bUjM-21bbWXmimiJcKucgfk1YRBbM_JYw08YThYS-0NXmoMXQXsr-lLvz4rYvVPQVsGNwAX4p2CvQ1H839eSY-RrJU1LFGOTD9jemiA",
+      "retryCount": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "routedVerdictCount": [
+        24,
+        16,
+        8,
+        8,
+        8,
+        8
+      ],
+      "stage": [
+        "Luna",
+        "Terra",
+        "Terra",
+        "Sol",
+        "Sol",
+        "Sol"
+      ],
+      "summaryCountsVerified": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "toolCallCount": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "transcriptDispatchEventSha256": "nqDJktueHcy_zpGqCulSbO8JqkVAcG0Jk2xGaiX5R8YQ1S3j2nik9oS1sDiGiGDSvjh6Av7ZEgesxQh-iimFw8QR90XKjDJmgNP5gs6dTTYPzxhbUgD6VnLXNKGRqrcZUAl0iu1J2WjOcqiAuPVv2L1hbJVirAt98clVZg81ZcLoe2H-Lwy43SuB1zwLfGZv0yx_8c1CLW-f-UoZ6I2UrzYmOBGfM-uPgK-OMRo6J79ETLzWaEWvUPSpJMXzwhL6rI",
+      "transcriptOutputEventSha256": "W7m-1kVgfwmImDN_h2KuIns1QJMD1cqiQLxcslP9uacmKp8Q07XpUqNA5iJp0Z7bNj0DDNM7OZoGU-KNy_9jig-d38UDcFlfFAk7UexhrawV0ZVhGLxxOdIUju7lxuVc8fpwAl__bL0J0t9n7ckZaMJs1RkH7BiO8bS92Zfo0e04xOyTOI02UuV1Oj9PJxOBkdsY2y9mtMvxnrSSn8538CAklwhUUCCtDYO_LfXrjDrU9sraCGh4UTlCgvCZb6mMfo",
+      "unsureCount": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "wrongCount": [
+        16,
+        10,
+        6,
+        6,
+        4,
+        6
+      ]
+    },
+    "cells": [
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "correct",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "sol": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "stratum": "category-1",
+        "terra": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "correct",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "sol": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "stratum": "category-2",
+        "terra": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "correct",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "sol": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "stratum": "category-3",
+        "terra": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "correct",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "sol": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "stratum": "category-4",
+        "terra": {
+          "correctCount": 2,
+          "unsureCount": 0,
+          "wrongCount": 0
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "specific-wrong",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "sol": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "stratum": "category-1",
+        "terra": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "specific-wrong",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "sol": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "stratum": "category-2",
+        "terra": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "specific-wrong",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "sol": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "stratum": "category-3",
+        "terra": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "specific-wrong",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "sol": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "stratum": "category-4",
+        "terra": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "vague-topical-wrong",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "sol": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "stratum": "category-1",
+        "terra": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "vague-topical-wrong",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "sol": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "stratum": "category-2",
+        "terra": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "vague-topical-wrong",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "sol": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "stratum": "category-3",
+        "terra": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "threeStageAgreementCount": 2
+      },
+      {
+        "anyDisagreementCount": 0,
+        "candidateClass": "vague-topical-wrong",
+        "invalidCount": 0,
+        "itemCount": 2,
+        "jointVerdictCounts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "luna": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "sol": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "stratum": "category-4",
+        "terra": {
+          "correctCount": 0,
+          "unsureCount": 0,
+          "wrongCount": 2
+        },
+        "threeStageAgreementCount": 2
+      }
+    ],
+    "declarations": {
+      "coordinator": {
+        "modelAlias": "gpt-5.6-sol",
+        "reasoning": "high"
+      },
+      "judgmentStages": [
+        {
+          "batchCount": 1,
+          "batchLimit": 32,
+          "modelAlias": "gpt-5.6-luna",
+          "reasoning": "medium",
+          "stage": "Luna"
+        },
+        {
+          "batchCount": 2,
+          "batchLimit": 16,
+          "modelAlias": "gpt-5.6-terra",
+          "reasoning": "high",
+          "stage": "Terra"
+        },
+        {
+          "batchCount": 3,
+          "batchLimit": 8,
+          "modelAlias": "gpt-5.6-sol",
+          "reasoning": "high",
+          "stage": "Sol"
+        }
+      ],
+      "processAudit": {
+        "modelAlias": "gpt-5.6-sol",
+        "reasoning": "high",
+        "toolPolicy": "none"
+      }
+    },
+    "itemCount": 24,
+    "judgmentTranscriptPrefixSha256": "sha256:db454100bc6bee6a740624583d6ea07c634c8711c8e49c840c23717d94e2478f",
+    "protocol": "prompted-codex-screening-compact-process-audit/v2",
+    "publicArtifacts": {
+      "coordinatorPromptSha256": "sha256:b1dc57e6b34803f2bf73f604fe63d38d63d327477977c305135c6d59304925cb",
+      "dispatchOrderSha256": "sha256:8882b9d19ca6b7a27687304b468b836a11c3d58e06b70b48643808fa1399a070",
+      "judgmentInstructionSha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+      "opaqueIdentityMappingSha256": "sha256:4eae61d6692c2d437ad202e29ac1aa5a83a9ae1be2049153f9184c6bc6ee74c2",
+      "rendererSha256": "sha256:31f21fd042a211939e2c40b3fe38c1fb60fc8016289409bba669702648afe5cd",
+      "repository": "https://github.com/colophon-claims/locomo-judge-report",
+      "samplingCommitmentSha256": null,
+      "samplingScriptSha256": null,
+      "screeningPoolOrFixtureSha256": "sha256:09411e91bb467ecf9881998118c898766d77242556b45f49ae7238aa28d1283b",
+      "screeningProcedureSha256": "sha256:b1dc57e6b34803f2bf73f604fe63d38d63d327477977c305135c6d59304925cb",
+      "sourceRevision": "1f1e9fa37a5b711a52ac2f3e6d416514f6cb94d1"
+    },
+    "schema": "https://colophon-claims.github.io/locomo-judge-report/compact-process-audit-input/v2",
+    "sourceKind": "synthetic-pilot",
+    "selectionBasis": {
+      "kind": "entire-fixed-synthetic-fixture-no-sampling",
+      "populationScope": "exact-fixed-24-item-synthetic-fixture",
+      "populationItemCount": 24,
+      "dispatchedItemCountPerStage": 24,
+      "deterministicFixtureOrder": true,
+      "samplingPerformed": false
+    },
+    "digestSemantics": {
+      "blindedItemsSha256": "canonical ordered stage-agnostic blinded subset content; equal bytes may repeat",
+      "dispatchSha256": "exact instruction plus the same blinded subset content; equal bytes may repeat across stages",
+      "rawOutputSha256": "exact ordered raw output content; equal verdict bytes may repeat",
+      "transcriptDispatchEventSha256": "exact sealed JSONL dispatch event with final LF; unique within the prefix",
+      "transcriptOutputEventSha256": "exact sealed JSONL output event with final LF; unique within the prefix",
+      "contentDigestEqualityRule": "content digest equality alone is not evidence of reuse",
+      "eventIdentityRule": "distinct transcript event identities prove only recorded event separation, not provider or process freshness"
+    },
+    "capabilityBoundary": {
+      "providerExecution": "not-machine-verified",
+      "providerProcessFreshness": "not-machine-verified",
+      "modelRouting": "not-machine-verified",
+      "invariantAliasWeights": "not-machine-verified",
+      "promptCompliance": "not-machine-verified",
+      "absenceOfBoundaryProofIsProcessDefect": false,
+      "materialProcessDefectRule": "requires a contradiction in supplied sealed and machine-validated evidence",
+      "perfectAgreementRule": "auditable non-material observation allowed for a deliberately clear synthetic fixture"
+    },
+    "auditAcceptancePolicy": {
+      "requiredAssessment": "PASS",
+      "materialProcessDefectFlagCount": 0,
+      "qualifiedPassAccepted": false,
+      "ritsuApprovalStillRequired": true
+    }
+  },
+  "expectedExecution": {
+    "auditDispatchDeclaration": {
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high",
+      "toolPolicy": "none"
+    },
+    "maximumByteLength": 65536,
+    "renderedByteLength": 11465,
+    "renderedSha256": "sha256:96a899161d4d2cb30bcb413945d9581d401e03b73fa7f6b48ea9235660a84f57",
+    "real664CapacityByteLength": 49954,
+    "real664CapacityBatchCount": 146,
+    "capacityHeadroomByteLength": 15582,
+    "modelRunOccurred": false,
+    "observableUsage": null
+  },
+  "provenance": {
+    "sourceRevision": "1f1e9fa37a5b711a52ac2f3e6d416514f6cb94d1",
+    "coordinatorPromptV5Sha256": "sha256:b1dc57e6b34803f2bf73f604fe63d38d63d327477977c305135c6d59304925cb",
+    "compactAuditSchemaV2Sha256": "sha256:4f55c5f42672749804ec76542689f8b8546001d54f0031731c5262ff597268e6",
+    "compactAuditRendererV2Sha256": "sha256:da833aba66bb1485e10c02892abf691ee1149b0e9bea24151960d0848317d07f",
+    "derivedFromPreservedV4JudgmentPrefixSha256": "sha256:db454100bc6bee6a740624583d6ea07c634c8711c8e49c840c23717d94e2478f",
+    "newJudgmentOrAuditModelRunOccurred": false
+  }
+}

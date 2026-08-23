@@ -73,6 +73,48 @@ is the reason for this process amendment, not permission to rerun it. Any real
 664-row execution still requires a separately sealed opaque identity mapping and
 non-grouped dispatch order before commitment or screening.
 
+## Self-describing compact process-audit amendment
+
+Coordinator prompt v5 keeps the version 4 judgment path and supersedes only
+the compact process-audit interface. It does not repair or accept the preserved
+version 4 pilot. The version 5 input uses a closed keyed-column batch structure
+whose named columns align by zero-based batch index. The five SHA-256 columns
+name stage-agnostic blinded content, exact dispatch content, exact raw-output
+content, exact sealed dispatch events, and exact sealed output events. Compact
+encoding may avoid repeating labels per batch, but the labels and alignment
+rule must remain in-band and closed.
+
+The transcript event identities are recomputed from the exact LF-terminated
+sealed prefix events. They must be distinct and must join exact task, stage,
+model alias, reasoning, batch, dispatch, and output declarations. Distinct
+recorded event identities prove only transcript separation. They do not prove
+provider execution, process freshness, model routing, prompt compliance,
+independent generation, or invariant alias weights. Content digest equality
+alone is not evidence of reuse. Absence of provider-bound proof is not a
+process defect. A material process-defect flag must cite a contradiction in
+supplied sealed and machine-validated evidence.
+
+For `synthetic-pilot`, the fixed 24-item fixture is the entire population in
+deterministic fixture order. No sample is drawn and both sampling identities
+must be null. For `real-screening`, the exact 664-item pool is the population
+and both the public sampling commitment and sampling-script identities are
+required and non-null. The branches are mutually exclusive.
+
+Suspicious perfect agreement remains auditable and may be recorded as a
+non-material observation for a deliberately clear synthetic fixture. It is not
+suppressed and does not establish independent generation or acceptance. The
+strict acceptance gate remains unqualified `PASS` with zero material
+process-defect flags, followed by separate Ritsu authority. A qualified pass or
+any material flag fails the gate.
+
+The preserved version 4 run remains
+`NON-CONFORMANT / PROCESS_AUDIT_MATERIAL_FLAG`. Its raw audit and prior
+derivatives are immutable. The new mechanical correction states only that
+distinct task names, model declarations, and dispatch/output events were
+recorded; provider and process freshness are unproved. The version 5 fixture is
+validation-only, derives identities from preserved synthetic event bytes, and
+records no new model run, result, or Ritsu decision.
+
 ## After a commitment
 
 Once a sampling commitment is published, amendments are append-only. Do not
