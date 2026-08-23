@@ -5,6 +5,7 @@ import './render-prompted-screening-dispatch-v2.mjs';
 import './render-prompted-screening-dispatch-v3.mjs';
 import './render-compact-process-audit-input-v1.mjs';
 import './render-compact-process-audit-input-v2.mjs';
+import './validate-compact-process-audit-output-v1.mjs';
 import './validate-synthetic-pilot-run-record.mjs';
 import './validate-synthetic-pilot-v2-run-record.mjs';
 import './validate-synthetic-pilot-v3-run-record.mjs';
@@ -23,6 +24,7 @@ const allowedFiles = new Map([
   ['ATTRIBUTION.md', ['text/markdown', 8192]],
   ['CITATION.cff', ['text/yaml', 4096]],
   ['CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
+  ['CODEX-SCREENING-AUDIT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
   ['CODEX-SCREENING-PROMPT.v1.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v2.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v3.md', ['text/markdown', 16384]],
@@ -39,6 +41,9 @@ const allowedFiles = new Map([
   ['fixtures/prompted-screening-pilot-v4-compact-audit.json', ['application/json', 32768]],
   ['fixtures/prompted-screening-pilot-v4-joint-compact-audit.json', ['application/json', 32768]],
   ['fixtures/prompted-screening-pilot-v5-compact-audit.json', ['application/json', 32768]],
+  ['fixtures/prompted-screening-pilot-v2-dispatch-order.canonical.json', ['application/json', 4096]],
+  ['fixtures/prompted-screening-pilot-v2-identity-map.canonical.json', ['application/json', 4096]],
+  ['fixtures/prompted-screening-pilot-v5-no-run-audit-output.canonical.json', ['application/json', 4096]],
   ['records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json', ['application/json', 16384]],
   ['records/synthetic-pilot-2026-08-22/pilot-results.pending-ritsu.json', ['application/json', 32768]],
   ['records/synthetic-pilot-2026-08-22/process-audit.md', ['text/markdown', 8192]],
@@ -64,17 +69,20 @@ const allowedFiles = new Map([
   ['records/synthetic-pilot-v4-2026-08-23/usage.md', ['text/markdown', 4096]],
   ['schemas/compact-process-audit-input.v1.schema.json', ['application/json', 16384]],
   ['schemas/compact-process-audit-input.v2.schema.json', ['application/json', 32768]],
+  ['schemas/compact-process-audit-output.v1.schema.json', ['application/json', 16384]],
   ['schemas/sampling-commitment.schema.json', ['application/json', 8192]],
   ['scripts/check-no-em-dash.mjs', ['application/javascript', 8192]],
   ['scripts/approved-prompted-screening-v3-identities.mjs', ['application/javascript', 16384]],
   ['scripts/approved-prompted-screening-v4-identities.mjs', ['application/javascript', 4096]],
   ['scripts/approved-prompted-screening-v5-identities.mjs', ['application/javascript', 8192]],
   ['scripts/render-compact-process-audit-input-v1.mjs', ['application/javascript', 40960]],
-  ['scripts/render-compact-process-audit-input-v2.mjs', ['application/javascript', 32768]],
+  ['scripts/render-compact-process-audit-input-v2.mjs', ['application/javascript', 40960]],
+  ['scripts/generate-prompted-screening-v5-fixture.mjs', ['application/javascript', 8192]],
   ['scripts/render-prompted-screening-dispatch-v2.mjs', ['application/javascript', 16384]],
   ['scripts/render-prompted-screening-dispatch-v3.mjs', ['application/javascript', 32768]],
   ['scripts/validate-prompted-screening-pilot.mjs', ['application/javascript', 16384]],
   ['scripts/validate-prompted-screening-v5-fixture.mjs', ['application/javascript', 16384]],
+  ['scripts/validate-compact-process-audit-output-v1.mjs', ['application/javascript', 16384]],
   ['scripts/validate-sampling-commitment.mjs', ['application/javascript', 8192]],
   ['scripts/validate-synthetic-pilot-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate-synthetic-pilot-v2-run-record.mjs', ['application/javascript', 32768]],

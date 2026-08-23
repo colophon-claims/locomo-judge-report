@@ -1,5 +1,5 @@
 export const APPROVED_PROMPTED_SCREENING_V5_SHA256 = Object.freeze({
-  sourceRevision: '1f1e9fa37a5b711a52ac2f3e6d416514f6cb94d1',
+  sourceRevision: 'b3a7cb24de2a193c779b98e7db0214d7faa29fd4',
   coordinatorPromptV5: 'sha256:6d59843fb591db734753023f54f895817ef4193ac340d5192d02b080b4fd9855',
   compactAuditSchemaV2: 'sha256:583d2c9024c1b5dba987c4df9ab6ebc9db6cf14594e209740343ac557e06f524',
   compactAuditRendererV2: 'sha256:639253841a302d52df1f465a4878a8f708ce5c5b7b4c41372cc8369533051367',
@@ -9,7 +9,8 @@ export const APPROVED_PROMPTED_SCREENING_V5_SHA256 = Object.freeze({
   syntheticIdentityMapping: 'sha256:4eae61d6692c2d437ad202e29ac1aa5a83a9ae1be2049153f9184c6bc6ee74c2',
   syntheticDispatchOrder: 'sha256:8882b9d19ca6b7a27687304b468b836a11c3d58e06b70b48643808fa1399a070',
   syntheticJudgmentPrefixV5Source: 'sha256:db454100bc6bee6a740624583d6ea07c634c8711c8e49c840c23717d94e2478f',
-  compactAuditPilotV5Fixture: 'sha256:0a473f27819a14d0d2767918a1a00805a121ec58069e61cfac11b8aa46d6b4ec',
+  processAuditNoRunOutputFixtureV1: 'sha256:5da342939f98785e28a601d4c85ee3fdb9723c1a518336727ff923aa0e53947f',
+  compactAuditPilotV5Fixture: 'sha256:b992293777d431049fa934079f8c2dea550037d057595727887db05f5eb82efa',
 });
 
 export const APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V4_RUN_SHA256 = Object.freeze({

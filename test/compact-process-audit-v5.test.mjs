@@ -1,167 +1,130 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
+import { canonical, MAX_COMPACT_PROCESS_AUDIT_BYTES, sha256 } from '../scripts/render-compact-process-audit-input-v1.mjs';
 import {
-  MAX_COMPACT_PROCESS_AUDIT_BYTES,
-  sha256,
-} from '../scripts/render-compact-process-audit-input-v1.mjs';
-import {
-  buildRealCapacityProbeV2,
+  CAPACITY_MEASUREMENT_KIND,
   decodeBatchColumns,
-  encodeBatchColumns,
+  deriveCompactProcessAuditInputV2,
+  loadApprovedSyntheticAuditEvidenceV2,
+  measureRealScreeningCapacityV2,
   renderCompactProcessAuditInputV2,
-  upgradeV1CompactInput,
   validateCompactProcessAuditInputV2,
   validateRenderedCompactProcessAuditInputV2,
-  validateV5SourceShape,
 } from '../scripts/render-compact-process-audit-input-v2.mjs';
 
-const v4Fixture = JSON.parse(readFileSync('fixtures/prompted-screening-pilot-v4-joint-compact-audit.json', 'utf8'));
-const input = upgradeV1CompactInput(v4Fixture.compactAuditInput);
-const v4PrefixBytes = readFileSync('records/synthetic-pilot-v4-2026-08-23/judgment-prefix.transcript.jsonl');
-const v4RunInput = upgradeV1CompactInput(
-  JSON.parse(readFileSync('records/synthetic-pilot-v4-2026-08-23/compact-process-audit-input.json', 'utf8')),
-  { transcriptPrefixBytes: v4PrefixBytes },
-);
-
-function clone(value = input) {
-  return structuredClone(value);
+function cloneEvidence() {
+  return Object.fromEntries(Object.entries(loadApprovedSyntheticAuditEvidenceV2()).map(([key, value]) => [key, Buffer.from(value)]));
 }
+function clone(value) { return structuredClone(value); }
 
-test('version 5 sources and keyed synthetic input validate without a model run', () => {
-  assert.doesNotThrow(() => validateV5SourceShape());
-  assert.doesNotThrow(() => validateCompactProcessAuditInputV2(input));
-  const rendered = renderCompactProcessAuditInputV2(input);
-  assert.ok(rendered.length <= MAX_COMPACT_PROCESS_AUDIT_BYTES);
-  assert.doesNotThrow(() => validateRenderedCompactProcessAuditInputV2(input, rendered));
-  assert.throws(() => validateRenderedCompactProcessAuditInputV2(input, Buffer.concat([rendered, Buffer.from('suffix')])));
+test('exact evidence replay derives all six batches, 72 verdicts, and joint closure', () => {
+  const evidence = cloneEvidence();
+  const input = deriveCompactProcessAuditInputV2(evidence);
+  const bytes = renderCompactProcessAuditInputV2(evidence);
+  assert.equal(input.executionKind, 'validation-only-no-model-run');
+  assert.equal(decodeBatchColumns(input.batches).length, 6);
+  assert.equal(input.aggregates.judgmentCount, 72);
+  assert.equal(input.cells.length, 12);
+  assert.equal(input.cells.flatMap((cell) => cell.jointVerdictCounts).reduce((a, b) => a + b), 24);
+  assert.equal(input.aggregates.agreements.threeStageAgreementCount, 24);
+  assert.equal(bytes.length, 11_825);
+  assert.doesNotThrow(() => validateCompactProcessAuditInputV2(input, evidence));
+  assert.doesNotThrow(() => validateRenderedCompactProcessAuditInputV2(bytes, evidence));
+  assert.throws(() => validateCompactProcessAuditInputV2(input), /exact authenticated sources/u);
+  assert.throws(() => validateRenderedCompactProcessAuditInputV2(Buffer.concat([bytes, Buffer.from('suffix')]), evidence), /exact evidence-derived/u);
 });
 
-test('keyed digest labels are in-band and positional or mislabeled rows refuse', () => {
-  const positional = clone();
-  positional.batches[0] = v4Fixture.compactAuditInput.batches[0];
-  assert.throws(() => validateCompactProcessAuditInputV2(positional), /self-describing keyed/u);
-
-  const mislabeled = clone();
-  [mislabeled.digestSemantics.blindedItemsSha256, mislabeled.digestSemantics.dispatchSha256]
-    = [mislabeled.digestSemantics.dispatchSha256, mislabeled.digestSemantics.blindedItemsSha256];
-  assert.throws(() => validateCompactProcessAuditInputV2(mislabeled), /five digest labels/u);
-
-  const renamed = clone();
-  renamed.batches.outputSha256 = renamed.batches.rawOutputSha256;
-  delete renamed.batches.rawOutputSha256;
-  assert.throws(() => validateCompactProcessAuditInputV2(renamed), /self-describing keyed/u);
-});
-
-test('content digest equality is permitted while transcript event identity reuse refuses', () => {
-  const decoded = decodeBatchColumns(input.batches);
-  const terra = decoded[2];
-  const sol = decoded[5];
-  assert.equal(terra.blindedItemsSha256, sol.blindedItemsSha256);
-  assert.equal(terra.dispatchSha256, sol.dispatchSha256);
-  assert.equal(terra.rawOutputSha256, sol.rawOutputSha256);
-  assert.notEqual(terra.transcriptDispatchEventSha256, sol.transcriptDispatchEventSha256);
-  assert.notEqual(terra.transcriptOutputEventSha256, sol.transcriptOutputEventSha256);
-  assert.doesNotThrow(() => validateCompactProcessAuditInputV2(input));
-
-  const reused = clone();
-  const reusedRows = decodeBatchColumns(reused.batches);
-  reusedRows[5].transcriptOutputEventSha256 = reusedRows[2].transcriptOutputEventSha256;
-  reused.batches = encodeBatchColumns(reusedRows);
-  assert.throws(() => validateCompactProcessAuditInputV2(reused), /reused or duplicated/u);
-  const samePair = clone();
-  const samePairRows = decodeBatchColumns(samePair.batches);
-  samePairRows[0].transcriptOutputEventSha256 = samePairRows[0].transcriptDispatchEventSha256;
-  samePair.batches = encodeBatchColumns(samePairRows);
-  assert.throws(() => validateCompactProcessAuditInputV2(samePair), /distinct dispatch and output/u);
-});
-
-test('sealed prefix binds each named digest to exact decoded content bytes', () => {
-  assert.doesNotThrow(() => validateCompactProcessAuditInputV2(v4RunInput, { transcriptPrefixBytes: v4PrefixBytes }));
-
-  const lines = v4PrefixBytes.toString('utf8').trimEnd().split('\n');
-  const changedOutput = JSON.parse(lines[3]);
-  changedOutput.rawOutputSha256 = sha256(Buffer.from('coordinated-substitution', 'utf8'));
-  lines[3] = JSON.stringify(changedOutput);
-  const changedPrefixBytes = Buffer.from(`${lines.join('\n')}\n`, 'utf8');
-  const changed = clone(v4RunInput);
-  changed.judgmentTranscriptPrefixSha256 = sha256(changedPrefixBytes);
-  const changedBatches = decodeBatchColumns(changed.batches);
-  changedBatches[0].rawOutputSha256 = changedOutput.rawOutputSha256;
-  changedBatches[0].transcriptOutputEventSha256 = sha256(Buffer.from(`${lines[3]}\n`, 'utf8'));
-  changed.batches = encodeBatchColumns(changedBatches);
-  assert.throws(
-    () => validateCompactProcessAuditInputV2(changed, { transcriptPrefixBytes: changedPrefixBytes }),
-    /exact instruction, blinded, dispatch, output, and event identities/u,
-  );
-});
-
-test('synthetic branch is the entire fixed fixture with null sampling identities', () => {
-  assert.equal(input.itemCount, 24);
-  assert.equal(input.selectionBasis.populationItemCount, 24);
-  assert.equal(input.selectionBasis.dispatchedItemCountPerStage, 24);
-  assert.equal(input.selectionBasis.samplingPerformed, false);
-  assert.equal(input.publicArtifacts.samplingCommitmentSha256, null);
-  assert.equal(input.publicArtifacts.samplingScriptSha256, null);
-
+test('caller summaries and green booleans cannot substitute for derivation', () => {
+  const evidence = cloneEvidence();
+  const input = deriveCompactProcessAuditInputV2(evidence);
   for (const mutate of [
-    (value) => { value.publicArtifacts.samplingCommitmentSha256 = `sha256:${'1'.repeat(64)}`; },
-    (value) => { value.publicArtifacts.samplingScriptSha256 = `sha256:${'2'.repeat(64)}`; },
-    (value) => { value.selectionBasis.samplingPerformed = true; },
-    (value) => { value.selectionBasis.populationItemCount = 25; },
-    (value) => { value.selectionBasis.populationScope = 'sampled-subset'; },
+    (value) => { value.aggregates.invalidCount = 0; value.aggregates.verdicts[0].correctCount += 1; value.aggregates.verdicts[0].wrongCount -= 1; },
+    (value) => { value.cells[0].jointVerdictCounts[0] = 1; value.cells[0].jointVerdictCounts[1] = 1; },
+    (value) => { value.batches.correctCount[0] += 1; value.batches.wrongCount[0] -= 1; },
+    (value) => { value.publicArtifacts.rendererSha256 = sha256(Buffer.from('invented')); },
   ]) {
-    const changed = clone();
+    const changed = clone(input);
     mutate(changed);
-    assert.throws(() => validateCompactProcessAuditInputV2(changed), /synthetic pilot/u);
+    assert.throws(() => validateCompactProcessAuditInputV2(changed, evidence), /does not derive byte-for-byte/u);
   }
+  const withGreenMirror = clone(input);
+  withGreenMirror.batches.machineValidationPassed = Array(6).fill(true);
+  assert.throws(() => validateCompactProcessAuditInputV2(withGreenMirror, evidence), /invalid closed|does not derive byte-for-byte/u);
 });
 
-test('real branch requires exact non-null commitment and sampling-script identities', () => {
-  const real = buildRealCapacityProbeV2();
-  assert.doesNotThrow(() => validateCompactProcessAuditInputV2(real));
-  for (const field of ['samplingCommitmentSha256', 'samplingScriptSha256']) {
-    const changed = clone(real);
-    changed.publicArtifacts[field] = null;
-    assert.throws(() => validateCompactProcessAuditInputV2(changed), /real screening/u);
-  }
-  const wrongCount = clone(real);
-  wrongCount.itemCount = 663;
-  assert.throws(() => validateCompactProcessAuditInputV2(wrongCount), /real screening/u);
-});
-
-test('capability and audit acceptance overclaims refuse', () => {
-  const mutations = [
-    (value) => { value.capabilityBoundary.providerExecution = 'verified'; },
-    (value) => { value.capabilityBoundary.providerProcessFreshness = 'verified'; },
-    (value) => { value.capabilityBoundary.absenceOfBoundaryProofIsProcessDefect = true; },
-    (value) => { value.capabilityBoundary.materialProcessDefectRule = 'may infer from missing freshness proof'; },
-    (value) => { value.capabilityBoundary.perfectAgreementRule = 'must be suppressed'; },
-    (value) => { value.auditAcceptancePolicy.requiredAssessment = 'qualified-pass'; },
-    (value) => { value.auditAcceptancePolicy.materialProcessDefectFlagCount = 1; },
-    (value) => { value.auditAcceptancePolicy.qualifiedPassAccepted = true; },
+test('omitted, substituted, swapped, and recanonicalized source artifacts refuse before summaries', () => {
+  const input = deriveCompactProcessAuditInputV2(cloneEvidence());
+  const attacks = [
+    (evidence) => { evidence.transcriptPrefixBytes = Buffer.alloc(0); },
+    (evidence) => { evidence.coordinatorPromptBytes = Buffer.concat([evidence.coordinatorPromptBytes, Buffer.from('contradiction\n')]); },
+    (evidence) => { [evidence.coordinatorPromptBytes, evidence.judgmentProcedureBytes] = [evidence.judgmentProcedureBytes, evidence.coordinatorPromptBytes]; },
+    (evidence) => { evidence.judgmentRendererBytes = Buffer.from('export default false;\n'); },
+    (evidence) => {
+      const fixture = JSON.parse(evidence.screeningPoolOrFixtureBytes);
+      fixture.cases[0].blindedInput.question = 'Substituted synthetic question?';
+      evidence.screeningPoolOrFixtureBytes = Buffer.from(`${JSON.stringify(fixture, null, 2)}\n`);
+      const mapping = fixture.cases.map((row) => [row.pilotCaseId, row.judgmentItemId]);
+      evidence.opaqueIdentityMappingBytes = Buffer.from(canonical(mapping));
+      evidence.dispatchOrderBytes = Buffer.from(canonical(fixture.dispatchOrder));
+    },
   ];
-  for (const mutate of mutations) {
-    const changed = clone();
-    mutate(changed);
-    assert.throws(() => validateCompactProcessAuditInputV2(changed), /capability|unqualified PASS/u);
+  for (const mutate of attacks) {
+    const evidence = cloneEvidence();
+    mutate(evidence);
+    assert.throws(() => validateCompactProcessAuditInputV2(input, evidence), /literal approved|must match literal|source artifact|prefix/u);
   }
 });
 
-test('664-item keyed capacity remains below the unchanged hard cap', () => {
-  const capacity = renderCompactProcessAuditInputV2(buildRealCapacityProbeV2());
-  assert.equal(capacity.length, 49_954);
-  assert.ok(capacity.length <= 60_000);
-  assert.ok(capacity.length < MAX_COMPACT_PROCESS_AUDIT_BYTES);
-  assert.ok(capacity.length > 48_766);
+test('sealed event bytes are closed, paired, and strict-canonical base64', () => {
+  const input = deriveCompactProcessAuditInputV2(cloneEvidence());
+  for (const mutate of [
+    (rows) => { [rows[2], rows[4]] = [rows[4], rows[2]]; },
+    (rows) => { const output = JSON.parse(rows[3]); output.rawOutputBase64 = 'W10K'; output.rawOutputByteLength = 3; output.rawOutputSha256 = sha256(Buffer.from('[]\n')); output.rawOutputRecordCount = 0; output.routedVerdictCount = 24; output.validCompactOutput = true; rows[3] = JSON.stringify(output); },
+    (rows) => { const dispatch = JSON.parse(rows[2]); dispatch.taskName = JSON.parse(rows[4]).taskName; rows[2] = JSON.stringify(dispatch); },
+    (rows) => { const dispatch = JSON.parse(rows[2]); dispatch.extra = true; rows[2] = JSON.stringify(dispatch); },
+    (rows) => { const output = JSON.parse(rows[3]); output.rawOutputBase64 = `${output.rawOutputBase64.slice(0, -2)}A=`; rows[3] = JSON.stringify(output); },
+  ]) {
+    const evidence = cloneEvidence();
+    const rows = evidence.transcriptPrefixBytes.toString('utf8').trimEnd().split('\n');
+    mutate(rows);
+    evidence.transcriptPrefixBytes = Buffer.from(`${rows.join('\n')}\n`);
+    assert.throws(() => validateCompactProcessAuditInputV2(input, evidence), /literal approved|canonical|closed|base64/u);
+  }
 });
 
-test('schema closes the new keyed and branch-specific structures', () => {
-  const schema = JSON.parse(readFileSync('schemas/compact-process-audit-input.v2.schema.json', 'utf8'));
+test('digest column decoding refuses noncanonical base64url aliases', () => {
+  const input = deriveCompactProcessAuditInputV2(cloneEvidence());
+  const changed = clone(input);
+  const column = changed.batches.blindedItemsSha256;
+  const final = column[42];
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+  const index = alphabet.indexOf(final);
+  changed.batches.blindedItemsSha256 = `${column.slice(0, 42)}${alphabet[(index ^ 1) % 64]}${column.slice(43)}`;
+  assert.throws(() => decodeBatchColumns(changed.batches), /re-encode byte-identically/u);
+});
+
+test('capacity measurement is separate, bounded, and cannot masquerade as audit input', () => {
+  const capacity = measureRealScreeningCapacityV2();
+  assert.equal(capacity.measurementKind, CAPACITY_MEASUREMENT_KIND);
+  assert.equal(capacity.itemCount, 664);
+  assert.equal(capacity.batchCount, 146);
+  assert.equal(capacity.byteLength, 42_754);
+  assert.equal(capacity.headroomByteLength, 22_782);
+  assert.equal(capacity.canValidateAsAuditInput, false);
+  assert.ok(capacity.byteLength <= 60_000);
+  assert.ok(capacity.byteLength < MAX_COMPACT_PROCESS_AUDIT_BYTES);
+  assert.throws(() => validateCompactProcessAuditInputV2(capacity, cloneEvidence()), /invalid closed/u);
+});
+
+test('schema closes exact derived fields and removes caller validation mirrors', () => {
+  const schema = JSON.parse(readFileSync('schemas/compact-process-audit-input.v2.schema.json'));
   assert.equal(schema.additionalProperties, false);
-  assert.equal(schema.$defs.batches.type, 'object');
+  assert.ok(schema.required.includes('executionKind'));
   assert.equal(schema.$defs.batches.additionalProperties, false);
-  assert.deepEqual(schema.$defs.batches.required.sort(), Object.keys(schema.$defs.batches.properties).sort());
-  assert.equal(schema.$defs.selectionBasis.additionalProperties, false);
-  assert.equal(schema.allOf.length, 2);
+  for (const key of ['dispatchDigestVerified', 'outputDigestVerified', 'summaryCountsVerified', 'machineValidationErrors']) {
+    assert.equal(schema.$defs.batches.required.includes(key), false);
+    assert.equal(Object.hasOwn(schema.$defs.batches.properties, key), false);
+  }
+  assert.equal(schema.$defs.auditScope.properties.rawIntegrityBasis.const, 'derived-from-exact-authenticated-source-and-prefix-bytes');
 });

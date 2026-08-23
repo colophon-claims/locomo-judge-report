@@ -4,8 +4,14 @@ import { fileURLToPath } from 'node:url';
 import { canonical, validateCompactProcessAuditInput } from './render-compact-process-audit-input-v1.mjs';
 import {
   APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V4_RUN_SHA256,
-  APPROVED_PROMPTED_SCREENING_V5_SHA256,
 } from './approved-prompted-screening-v5-identities.mjs';
+
+const PRESERVED_V4_DECLARED_V5_AMENDMENT = Object.freeze({
+  sourceRevision: '1f1e9fa37a5b711a52ac2f3e6d416514f6cb94d1',
+  coordinatorPromptV5: 'sha256:b1dc57e6b34803f2bf73f604fe63d38d63d327477977c305135c6d59304925cb',
+  compactAuditSchemaV2: 'sha256:4f55c5f42672749804ec76542689f8b8546001d54f0031731c5262ff597268e6',
+  compactAuditRendererV2: 'sha256:da833aba66bb1485e10c02892abf691ee1149b0e9bea24151960d0848317d07f',
+});
 
 const recordDir = new URL('../records/synthetic-pilot-v4-2026-08-23/', import.meta.url);
 const sourcePaths = Object.freeze({
@@ -198,10 +204,10 @@ export function validateSyntheticPilotV4RunRecord(evidence) {
     || record.independentReview?.sha256 !== APPROVED_IMMUTABLE_SYNTHETIC_PILOT_V4_RUN_SHA256.independentReview
     || record.independentReview?.publishedCopy !== false
     || !record.independentReview?.omissionReason.includes('operator-local absolute preservation path')) fail('record.independentReview', 'does not preserve exact independent review classification and omission reason');
-  if (record.v5Amendment?.sourceRevision !== APPROVED_PROMPTED_SCREENING_V5_SHA256.sourceRevision
-    || record.v5Amendment?.coordinatorPromptV5Sha256 !== APPROVED_PROMPTED_SCREENING_V5_SHA256.coordinatorPromptV5
-    || record.v5Amendment?.compactAuditSchemaV2Sha256 !== APPROVED_PROMPTED_SCREENING_V5_SHA256.compactAuditSchemaV2
-    || record.v5Amendment?.compactAuditRendererV2Sha256 !== APPROVED_PROMPTED_SCREENING_V5_SHA256.compactAuditRendererV2
+  if (record.v5Amendment?.sourceRevision !== PRESERVED_V4_DECLARED_V5_AMENDMENT.sourceRevision
+    || record.v5Amendment?.coordinatorPromptV5Sha256 !== PRESERVED_V4_DECLARED_V5_AMENDMENT.coordinatorPromptV5
+    || record.v5Amendment?.compactAuditSchemaV2Sha256 !== PRESERVED_V4_DECLARED_V5_AMENDMENT.compactAuditSchemaV2
+    || record.v5Amendment?.compactAuditRendererV2Sha256 !== PRESERVED_V4_DECLARED_V5_AMENDMENT.compactAuditRendererV2
     || record.v5Amendment?.compactAuditReal664CapacityByteLength !== 49_954
     || record.v5Amendment?.compactAuditReal664CapacityBatchCount !== 146
     || record.v5Amendment?.modelRunOccurred !== false) fail('record.v5Amendment', 'does not bind exact no-run amendment sources and capacity');
