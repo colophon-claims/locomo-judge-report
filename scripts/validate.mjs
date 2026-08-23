@@ -2,7 +2,9 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import './render-prompted-screening-dispatch-v2.mjs';
+import './render-prompted-screening-dispatch-v3.mjs';
 import './validate-synthetic-pilot-run-record.mjs';
+import './validate-synthetic-pilot-v2-run-record.mjs';
 import './validate-prompted-screening-pilot.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
@@ -18,6 +20,7 @@ const allowedFiles = new Map([
   ['CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
   ['CODEX-SCREENING-PROMPT.v1.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v2.md', ['text/markdown', 16384]],
+  ['CODEX-SCREENING-PROMPT.v3.md', ['text/markdown', 16384]],
   ['CONTRIBUTING.md', ['text/markdown', 8192]],
   ['LICENSE', ['text/plain', 32768]],
   ['LICENSES/THIRD-PARTY-NOTICES.md', ['text/markdown', 8192]],
@@ -25,21 +28,31 @@ const allowedFiles = new Map([
   ['docs/sampling-commitment.md', ['text/markdown', 8192]],
   ['docs/software-heritage.md', ['text/markdown', 8192]],
   ['fixtures/prompted-screening-pilot-v1.json', ['application/json', 32768]],
+  ['fixtures/prompted-screening-pilot-v2.json', ['application/json', 32768]],
   ['records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json', ['application/json', 16384]],
   ['records/synthetic-pilot-2026-08-22/pilot-results.pending-ritsu.json', ['application/json', 32768]],
   ['records/synthetic-pilot-2026-08-22/process-audit.md', ['text/markdown', 8192]],
+  ['records/synthetic-pilot-v2-2026-08-23/NON-CONFORMANT.json', ['application/json', 16384]],
+  ['records/synthetic-pilot-v2-2026-08-23/pilot-results.pending-ritsu.json', ['application/json', 32768]],
+  ['records/synthetic-pilot-v2-2026-08-23/process-audit.md', ['text/markdown', 8192]],
+  ['records/synthetic-pilot-v2-2026-08-23/transcript.jsonl', ['application/x-ndjson', 131072]],
   ['schemas/sampling-commitment.schema.json', ['application/json', 8192]],
   ['scripts/check-no-em-dash.mjs', ['application/javascript', 8192]],
+  ['scripts/approved-prompted-screening-v3-identities.mjs', ['application/javascript', 16384]],
   ['scripts/render-prompted-screening-dispatch-v2.mjs', ['application/javascript', 16384]],
+  ['scripts/render-prompted-screening-dispatch-v3.mjs', ['application/javascript', 32768]],
   ['scripts/validate-prompted-screening-pilot.mjs', ['application/javascript', 16384]],
   ['scripts/validate-sampling-commitment.mjs', ['application/javascript', 8192]],
   ['scripts/validate-synthetic-pilot-run-record.mjs', ['application/javascript', 24576]],
+  ['scripts/validate-synthetic-pilot-v2-run-record.mjs', ['application/javascript', 32768]],
   ['scripts/validate.mjs', ['application/javascript', 16384]],
   ['source-register.json', ['application/json', 8192]],
   ['test/validate.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-pilot.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-dispatch-v2.test.mjs', ['application/javascript', 16384]],
+  ['test/prompted-screening-dispatch-v3.test.mjs', ['application/javascript', 24576]],
   ['test/synthetic-pilot-run-record.test.mjs', ['application/javascript', 16384]],
+  ['test/synthetic-pilot-v2-run-record.test.mjs', ['application/javascript', 24576]],
 ]);
 const registerKeys = ['schema', 'sources'];
 const sourceKeys = ['id', 'includedLaterByOperatorDecision', 'license', 'licenseNote', 'promptBytesCopied', 'provenance', 'public', 'source', 'title', 'url'];
@@ -49,6 +62,7 @@ const provenanceKeys = ['role', 'url'];
 function expectedContentType(path) {
   if (path.endsWith('.md')) return 'text/markdown';
   if (path.endsWith('.json')) return 'application/json';
+  if (path.endsWith('.jsonl')) return 'application/x-ndjson';
   if (path.endsWith('.mjs')) return 'application/javascript';
   if (path.endsWith('.yml') || path.endsWith('.cff')) return 'text/yaml';
   return 'text/plain';

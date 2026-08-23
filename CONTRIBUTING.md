@@ -29,6 +29,19 @@ delete a prior prompt, instruction, fixture, result, audit, or run record. A
 process repair uses a new versioned prompt or instruction and a dated
 superseding record. It does not repair, rerun, or accept the prior execution.
 
+Judgment identities must not carry intended label, class, stratum, pool status,
+source, slot, sample, replacement, or prior-output metadata. A process version
+that repairs identity blinding uses a new immutable outer-to-opaque mapping and
+a separately sealed non-grouped dispatch order. Neither mapping nor outer
+metadata enters judgment-agent bytes. A synthetic mapping does not authorize a
+real mapping or real screening.
+
+A transcript with a post-judgment process audit has two explicit stages. Seal
+the immutable judgment transcript before audit, require the audit to name that
+input digest, append every declared audit or comparison event, and then seal a
+distinct final transcript. The terminal record binds both scopes and every
+suffix event. A single transcript digest does not satisfy this policy.
+
 ## After a commitment
 
 Once a sampling commitment is published, amendments are append-only. Do not

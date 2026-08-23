@@ -8,11 +8,11 @@ Colophon-authored material and are licensed under CC BY-NC 4.0 as stated in
 
 ## Synthetic execution evidence
 
-The dated synthetic pilot record preserves text returned during a
-Colophon-operated validation exercise over permanently excluded synthetic
-fixtures. Model names are declared mutable aliases only. The record makes no
+The dated synthetic pilot records preserve text returned during
+Colophon-operated validation exercises over permanently excluded synthetic
+fixtures. Model names are declared mutable aliases only. The records make no
 claim of provider authorship, endorsement, immutable weights, or provider-side
-execution logs. It includes no third-party dataset or real candidate bytes.
+execution logs. They include no third-party dataset or real candidate bytes.
 The repository license applies only to rights Colophon holds; no additional
 rights are asserted.
 

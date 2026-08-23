@@ -1,0 +1,116 @@
+{
+  "schema": "https://colophon-claims.github.io/locomo-judge-report/synthetic-pilot-run-record/v2",
+  "runId": "prompted-screening-synthetic-pilot-v2-2026-08-23",
+  "status": "NON-CONFORMANT",
+  "processOutcome": "PROCESS_DEFECT",
+  "accepted": false,
+  "syntheticOnly": true,
+  "permanentlyExcluded": true,
+  "realCandidateScreening": false,
+  "sourcePublicHead": "e0a0e8a47de543b1bbf5ed4972195f33fd1ed456",
+  "procedureVersion": "v2",
+  "supersededByProcedureVersion": "v3",
+  "defects": [
+    {
+      "kind": "metadata-bearing-judgment-identities",
+      "detail": "Every dispatched itemId embedded the fixture candidateClass and stratum literals, affecting all 24 items across Luna, Terra, and Sol for 72 item exposures.",
+      "disposition": "The run is preserved without rerun, repair, acceptance, or Ritsu decision. Version 3 requires a separate opaque identity mapping and non-grouped dispatch order."
+    },
+    {
+      "kind": "unscoped-transcript-identity-names",
+      "detail": "The process audit called the 14-record pre-audit judgment transcript Transcript while the raw results called the 16-record post-audit and post-comparison transcript transcriptSha256.",
+      "disposition": "The exact bytes prove distinct non-circular stages, but version 3 requires explicit judgmentTranscriptSha256 and finalTranscriptSha256 scopes and binds every suffix event."
+    }
+  ],
+  "judgmentStages": [
+    {
+      "stage": "Luna",
+      "modelAlias": "gpt-5.6-luna",
+      "reasoning": "medium",
+      "batchSizes": [
+        24
+      ],
+      "judgmentCount": 24
+    },
+    {
+      "stage": "Terra",
+      "modelAlias": "gpt-5.6-terra",
+      "reasoning": "high",
+      "batchSizes": [
+        16,
+        8
+      ],
+      "judgmentCount": 24
+    },
+    {
+      "stage": "Sol",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high",
+      "batchSizes": [
+        8,
+        8,
+        8
+      ],
+      "judgmentCount": 24
+    }
+  ],
+  "processAuditStage": {
+    "modelAlias": "gpt-5.6-sol",
+    "reasoning": "high",
+    "dispatchCount": 1,
+    "itemJudgmentCount": 0,
+    "afterAllJudgmentOutputs": true
+  },
+  "summary": {
+    "itemCount": 24,
+    "judgmentCount": 72,
+    "judgmentDispatchCount": 6,
+    "processAuditDispatchCount": 1,
+    "threeModelAgreementCount": 24,
+    "lunaIntendedLabelMatchCount": 24,
+    "errorCount": 0,
+    "unsureCount": 0,
+    "infrastructureFailureCount": 0,
+    "retryCount": 0,
+    "judgmentAgentToolCallCount": 0,
+    "ritsuDecisionCount": 0
+  },
+  "artifacts": {
+    "coordinatorPromptV2Sha256": "sha256:a724aed3aef285e961f9bb1ee0933c0c25e0669b944ce177b7951f88ac913704",
+    "judgmentInstructionV1Sha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+    "fixtureV1Sha256": "sha256:6d372a2242b339991817f5660c9d53812c19978c51efb74f9036dd95d07d3813",
+    "rendererV2Sha256": "sha256:eaed6d48189d438e76d29338a4fb7eb6296f24a7acffbb69a418372168a7030e",
+    "processAuditSha256": "sha256:78c93a11e183a98d75de407063973b2211855f7eb3daa3a542a2f8c136a0cbb2",
+    "rawResultsSha256": "sha256:3c8b7a56ffadcfd2a90b1804a5d5a29f6221ce10cac3fc21508759fbe8692dfb",
+    "judgmentTranscriptSha256": "sha256:c2c2157ba7eef0f342a0e7e5ee88674e9565da9d9425c5d0e708a64f3449ab63",
+    "processAuditEventSha256": "sha256:bd9e7f30b794a67e085970779bddb43090ee0c5f04f976a5663f7072d4a4bf0b",
+    "intendedLabelComparisonEventSha256": "sha256:2d85c9c27cf1d012ddd7397ef9191c4faec675c39f59cbd71cf52497da3b6df0",
+    "finalTranscriptSha256": "sha256:cf7fd69cd298bb0e9a7fbb370b840680e960e2c0771e2466d94280c00c9ff3bb"
+  },
+  "transcriptStages": {
+    "judgmentRecordCount": 14,
+    "judgmentTranscriptSha256": "sha256:c2c2157ba7eef0f342a0e7e5ee88674e9565da9d9425c5d0e708a64f3449ab63",
+    "auditInputScope": "records 1-14 inclusive: run declaration, preflight, and six judgment dispatch-output pairs",
+    "postJudgmentEvents": [
+      {
+        "recordNumber": 15,
+        "recordType": "process-audit-output",
+        "eventSha256": "sha256:bd9e7f30b794a67e085970779bddb43090ee0c5f04f976a5663f7072d4a4bf0b"
+      },
+      {
+        "recordNumber": 16,
+        "recordType": "intended-label-comparison",
+        "eventSha256": "sha256:2d85c9c27cf1d012ddd7397ef9191c4faec675c39f59cbd71cf52497da3b6df0"
+      }
+    ],
+    "finalRecordCount": 16,
+    "finalTranscriptSha256": "sha256:cf7fd69cd298bb0e9a7fbb370b840680e960e2c0771e2466d94280c00c9ff3bb"
+  },
+  "publishedEvidence": {
+    "processAuditPath": "records/synthetic-pilot-v2-2026-08-23/process-audit.md",
+    "rawResultsPath": "records/synthetic-pilot-v2-2026-08-23/pilot-results.pending-ritsu.json",
+    "rawTranscriptPath": "records/synthetic-pilot-v2-2026-08-23/transcript.jsonl",
+    "rawTranscriptIncluded": true,
+    "rawTranscriptPrivacyBoundary": "Included because it contains only synthetic fixture, dispatch, output, and audit records; deterministic scans found no credential, secret, real candidate, private source byte, or operator-local identifying path."
+  }
+}

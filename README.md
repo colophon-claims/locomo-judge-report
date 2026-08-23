@@ -25,15 +25,28 @@ synthetic execution evidence below.
   immutable procedure source used by the non-conformant pilot. Version 1 is
   superseded for future dispatches, not rewritten.
 - [CODEX-SCREENING-PROMPT.v2.md](CODEX-SCREENING-PROMPT.v2.md) records the
-  normative future coordinator procedure with mandatory byte-exact rendering.
+  immutable procedure source used by the non-conformant 2026-08-23 synthetic
+  pilot. Version 2 is superseded for future dispatches, not rewritten.
+- [CODEX-SCREENING-PROMPT.v3.md](CODEX-SCREENING-PROMPT.v3.md) records the
+  normative future coordinator procedure with opaque judgment identities,
+  non-grouped order, and mandatory byte-exact rendering.
 - [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt)
   is the independent exact judgment-agent instruction used by version 2.
 - [fixtures/prompted-screening-pilot-v1.json](fixtures/prompted-screening-pilot-v1.json)
   contains only 24 synthetic, permanently excluded validation cases and no
   model output or operator decision.
+- [fixtures/prompted-screening-pilot-v2.json](fixtures/prompted-screening-pilot-v2.json)
+  preserves the same 24 synthetic cases while assigning fixed opaque judgment
+  identities and a sealed non-grouped dispatch order. Outer metadata remains
+  outside blinded dispatch bytes.
 - [records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json](records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json)
   preserves the failed synthetic pilot, its privacy-safe raw evidence, exact
   artifact identities, zero Ritsu decisions, and non-acceptance.
+- [records/synthetic-pilot-v2-2026-08-23/NON-CONFORMANT.json](records/synthetic-pilot-v2-2026-08-23/NON-CONFORMANT.json)
+  preserves the second failed synthetic pilot and its privacy-safe raw results,
+  audit, and transcript. The record is `NON-CONFORMANT` with
+  `PROCESS_DEFECT`, records zero Ritsu decisions, and separates the pre-audit
+  judgment transcript identity from the final append-only transcript identity.
 - [schemas/sampling-commitment.schema.json](schemas/sampling-commitment.schema.json)
   defines a validation interface, not a commitment instance.
 - [docs/software-heritage.md](docs/software-heritage.md) describes a future
@@ -46,7 +59,9 @@ Run the local checks with:
 node scripts/validate.mjs
 node scripts/validate-prompted-screening-pilot.mjs
 node scripts/render-prompted-screening-dispatch-v2.mjs
+node scripts/render-prompted-screening-dispatch-v3.mjs
 node scripts/validate-synthetic-pilot-run-record.mjs
+node scripts/validate-synthetic-pilot-v2-run-record.mjs
 node --test test/*.test.mjs
 ```
 

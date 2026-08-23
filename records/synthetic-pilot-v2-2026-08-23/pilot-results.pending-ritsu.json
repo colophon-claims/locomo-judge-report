@@ -1,0 +1,803 @@
+{
+  "schema": "local://colophon/prompted-screening-synthetic-pilot-results/v2",
+  "runId": "prompted-screening-synthetic-pilot-v2-2026-08-23",
+  "status": "PENDING_RITSU_PROCESS_DEFECT",
+  "syntheticOnly": true,
+  "permanentlyExcluded": true,
+  "realCandidateScreening": false,
+  "pilotAccepted": false,
+  "acceptanceDeclared": false,
+  "acceptanceCandidate": false,
+  "publicRepoHead": "e0a0e8a47de543b1bbf5ed4972195f33fd1ed456",
+  "digests": {
+    "coordinatorPromptV2Sha256": "sha256:a724aed3aef285e961f9bb1ee0933c0c25e0669b944ce177b7951f88ac913704",
+    "judgmentInstructionV1Sha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+    "fixtureSha256": "sha256:6d372a2242b339991817f5660c9d53812c19978c51efb74f9036dd95d07d3813",
+    "rendererPreDispatchValidatorSha256": "sha256:eaed6d48189d438e76d29338a4fb7eb6296f24a7acffbb69a418372168a7030e",
+    "transcriptSha256": "sha256:cf7fd69cd298bb0e9a7fbb370b840680e960e2c0771e2466d94280c00c9ff3bb",
+    "processAuditSha256": "sha256:78c93a11e183a98d75de407063973b2211855f7eb3daa3a542a2f8c136a0cbb2",
+    "dispatchSha256": [
+      "sha256:7eeba50e014fa0422f495c7d8a5cd37fd0bced7db1935112e2eaa2fa22ecebc9",
+      "sha256:a72a76a13be1ff10f5cb8bc3fe232a8c8793c9fb7fd63e534959bc7304480dd9",
+      "sha256:2bfb3823e6f55b1fde6d27e8ae85b73e9a656d797a24dbfdc4ff94a35ff7623b",
+      "sha256:c0310217d7ac6c8a36face136d4126c0bfcb9388bd0e1dfe444a6b8bbf6dcfc0",
+      "sha256:4d0cdc817baff28a24dda0a480abafdc3d865567e152cfe2c073dbcb4a69b458",
+      "sha256:2bfb3823e6f55b1fde6d27e8ae85b73e9a656d797a24dbfdc4ff94a35ff7623b"
+    ],
+    "rawOutputSha256": [
+      "sha256:3fb9098235f1111b8a72cc0f5789b9d61e2b33004b8243fc9acf8187166f1044",
+      "sha256:eaa55a32a0455dc4608de6c7d0af9928f7ad9328038883fbad861187ec6e4b27",
+      "sha256:23767733d59fb68ba31529cb993a6fdc4763126ccd2e87cfa5e172913daca85f",
+      "sha256:fa38ab2a90301cff57535b97293bcc298e6fbd7ebe323b630e8cbffbd374472e",
+      "sha256:6c750aabe1ed1bdda7a738c59487db0ed1c84f6cfafae1882281e0b61e513bc5",
+      "sha256:23767733d59fb68ba31529cb993a6fdc4763126ccd2e87cfa5e172913daca85f"
+    ]
+  },
+  "declarations": {
+    "coordinator": {
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high"
+    },
+    "luna": {
+      "modelAlias": "gpt-5.6-luna",
+      "reasoning": "medium",
+      "batchSizes": [
+        24
+      ]
+    },
+    "terra": {
+      "modelAlias": "gpt-5.6-terra",
+      "reasoning": "high",
+      "batchSizes": [
+        16,
+        8
+      ]
+    },
+    "sol": {
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high",
+      "batchSizes": [
+        8,
+        8,
+        8
+      ]
+    },
+    "processAudit": {
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high",
+      "afterAllJudgmentOutputs": true
+    }
+  },
+  "dispatches": [
+    {
+      "stage": "Luna",
+      "batchOrdinal": 1,
+      "batchCount": 1,
+      "modelAlias": "gpt-5.6-luna",
+      "reasoning": "medium",
+      "itemIds": [
+        "synthetic-correct-category-1-01",
+        "synthetic-correct-category-1-02",
+        "synthetic-correct-category-2-01",
+        "synthetic-correct-category-2-02",
+        "synthetic-correct-category-3-01",
+        "synthetic-correct-category-3-02",
+        "synthetic-correct-category-4-01",
+        "synthetic-correct-category-4-02",
+        "synthetic-specific-wrong-category-1-01",
+        "synthetic-specific-wrong-category-1-02",
+        "synthetic-specific-wrong-category-2-01",
+        "synthetic-specific-wrong-category-2-02",
+        "synthetic-specific-wrong-category-3-01",
+        "synthetic-specific-wrong-category-3-02",
+        "synthetic-specific-wrong-category-4-01",
+        "synthetic-specific-wrong-category-4-02",
+        "synthetic-vague-topical-wrong-category-1-01",
+        "synthetic-vague-topical-wrong-category-1-02",
+        "synthetic-vague-topical-wrong-category-2-01",
+        "synthetic-vague-topical-wrong-category-2-02",
+        "synthetic-vague-topical-wrong-category-3-01",
+        "synthetic-vague-topical-wrong-category-3-02",
+        "synthetic-vague-topical-wrong-category-4-01",
+        "synthetic-vague-topical-wrong-category-4-02"
+      ],
+      "instructionSha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+      "blindedItemsSha256": "sha256:dffdd11e8448e856c5bd70e6cfc3a76a05cbde8d08433f7df653ea65a60dfa6c",
+      "dispatchSha256": "sha256:7eeba50e014fa0422f495c7d8a5cd37fd0bced7db1935112e2eaa2fa22ecebc9",
+      "byteLength": 6630,
+      "publicPreDispatchValidator": "PASS",
+      "independentByteReconstruction": "PASS"
+    },
+    {
+      "stage": "Terra",
+      "batchOrdinal": 1,
+      "batchCount": 2,
+      "modelAlias": "gpt-5.6-terra",
+      "reasoning": "high",
+      "itemIds": [
+        "synthetic-correct-category-1-01",
+        "synthetic-correct-category-1-02",
+        "synthetic-correct-category-2-01",
+        "synthetic-correct-category-2-02",
+        "synthetic-correct-category-3-01",
+        "synthetic-correct-category-3-02",
+        "synthetic-correct-category-4-01",
+        "synthetic-correct-category-4-02",
+        "synthetic-specific-wrong-category-1-01",
+        "synthetic-specific-wrong-category-1-02",
+        "synthetic-specific-wrong-category-2-01",
+        "synthetic-specific-wrong-category-2-02",
+        "synthetic-specific-wrong-category-3-01",
+        "synthetic-specific-wrong-category-3-02",
+        "synthetic-specific-wrong-category-4-01",
+        "synthetic-specific-wrong-category-4-02"
+      ],
+      "instructionSha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+      "blindedItemsSha256": "sha256:29c3ff220e3d5c9cd28411517138c7aabfeefade73859cabc3f2a8a27cdbd860",
+      "dispatchSha256": "sha256:a72a76a13be1ff10f5cb8bc3fe232a8c8793c9fb7fd63e534959bc7304480dd9",
+      "byteLength": 4803,
+      "publicPreDispatchValidator": "PASS",
+      "independentByteReconstruction": "PASS"
+    },
+    {
+      "stage": "Terra",
+      "batchOrdinal": 2,
+      "batchCount": 2,
+      "modelAlias": "gpt-5.6-terra",
+      "reasoning": "high",
+      "itemIds": [
+        "synthetic-vague-topical-wrong-category-1-01",
+        "synthetic-vague-topical-wrong-category-1-02",
+        "synthetic-vague-topical-wrong-category-2-01",
+        "synthetic-vague-topical-wrong-category-2-02",
+        "synthetic-vague-topical-wrong-category-3-01",
+        "synthetic-vague-topical-wrong-category-3-02",
+        "synthetic-vague-topical-wrong-category-4-01",
+        "synthetic-vague-topical-wrong-category-4-02"
+      ],
+      "instructionSha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+      "blindedItemsSha256": "sha256:c8aa8c9e67a2376f9bea3a850123a29053e9121886f3747a9b03e704f0a3c9a9",
+      "dispatchSha256": "sha256:2bfb3823e6f55b1fde6d27e8ae85b73e9a656d797a24dbfdc4ff94a35ff7623b",
+      "byteLength": 3154,
+      "publicPreDispatchValidator": "PASS",
+      "independentByteReconstruction": "PASS"
+    },
+    {
+      "stage": "Sol",
+      "batchOrdinal": 1,
+      "batchCount": 3,
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high",
+      "itemIds": [
+        "synthetic-correct-category-1-01",
+        "synthetic-correct-category-1-02",
+        "synthetic-correct-category-2-01",
+        "synthetic-correct-category-2-02",
+        "synthetic-correct-category-3-01",
+        "synthetic-correct-category-3-02",
+        "synthetic-correct-category-4-01",
+        "synthetic-correct-category-4-02"
+      ],
+      "instructionSha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+      "blindedItemsSha256": "sha256:11e7eefd066285586552a5b559bbb2788112125440004a8ab0efcb64c900ed7f",
+      "dispatchSha256": "sha256:c0310217d7ac6c8a36face136d4126c0bfcb9388bd0e1dfe444a6b8bbf6dcfc0",
+      "byteLength": 3044,
+      "publicPreDispatchValidator": "PASS",
+      "independentByteReconstruction": "PASS"
+    },
+    {
+      "stage": "Sol",
+      "batchOrdinal": 2,
+      "batchCount": 3,
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high",
+      "itemIds": [
+        "synthetic-specific-wrong-category-1-01",
+        "synthetic-specific-wrong-category-1-02",
+        "synthetic-specific-wrong-category-2-01",
+        "synthetic-specific-wrong-category-2-02",
+        "synthetic-specific-wrong-category-3-01",
+        "synthetic-specific-wrong-category-3-02",
+        "synthetic-specific-wrong-category-4-01",
+        "synthetic-specific-wrong-category-4-02"
+      ],
+      "instructionSha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+      "blindedItemsSha256": "sha256:936db8278e44b5c5564ca154dd6d14b98549de00514566910f2d94315f247d12",
+      "dispatchSha256": "sha256:4d0cdc817baff28a24dda0a480abafdc3d865567e152cfe2c073dbcb4a69b458",
+      "byteLength": 3086,
+      "publicPreDispatchValidator": "PASS",
+      "independentByteReconstruction": "PASS"
+    },
+    {
+      "stage": "Sol",
+      "batchOrdinal": 3,
+      "batchCount": 3,
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high",
+      "itemIds": [
+        "synthetic-vague-topical-wrong-category-1-01",
+        "synthetic-vague-topical-wrong-category-1-02",
+        "synthetic-vague-topical-wrong-category-2-01",
+        "synthetic-vague-topical-wrong-category-2-02",
+        "synthetic-vague-topical-wrong-category-3-01",
+        "synthetic-vague-topical-wrong-category-3-02",
+        "synthetic-vague-topical-wrong-category-4-01",
+        "synthetic-vague-topical-wrong-category-4-02"
+      ],
+      "instructionSha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+      "blindedItemsSha256": "sha256:c8aa8c9e67a2376f9bea3a850123a29053e9121886f3747a9b03e704f0a3c9a9",
+      "dispatchSha256": "sha256:2bfb3823e6f55b1fde6d27e8ae85b73e9a656d797a24dbfdc4ff94a35ff7623b",
+      "byteLength": 3154,
+      "publicPreDispatchValidator": "PASS",
+      "independentByteReconstruction": "PASS"
+    }
+  ],
+  "intendedLabelDerivation": {
+    "performedAfterAllBlindedOutputs": true,
+    "rule": "candidateClass correct -> CORRECT; specific-wrong and vague-topical-wrong -> WRONG"
+  },
+  "summary": {
+    "itemCount": 24,
+    "judgmentCount": 72,
+    "judgmentDispatchCount": 6,
+    "processAuditDispatchCount": 1,
+    "lunaScreeningVerdictCounts": {
+      "CORRECT": 8,
+      "WRONG": 16,
+      "UNSURE": 0
+    },
+    "threeModelAgreementCount": 24,
+    "modelDisagreementCount": 0,
+    "lunaIntendedLabelMismatchCount": 0,
+    "incorrectFinalDeterminateLunaDecisionCount": 0,
+    "unsureItemCount": 0,
+    "invalidOutputItemCount": 0,
+    "missingOutputCount": 0,
+    "extraOutputCount": 0,
+    "duplicateOutputCount": 0,
+    "infrastructureFailureCount": 0,
+    "retryCount": 0,
+    "judgmentAgentToolCallCount": 0,
+    "requiredReviewStagesExercised": true,
+    "ritsuReviewRequiredCount": 24,
+    "ritsuDecisionCount": 0
+  },
+  "processConformance": {
+    "preflight": "PASS",
+    "exactDispatchByteValidation": "PASS_6_OF_6",
+    "processAudit": "DEFECT",
+    "outcome": "DEFECT",
+    "materialIssue": "Every dispatched itemId embeds fixture candidateClass and stratum literals; the independent process auditor classified this as a material blinding failure affecting all 24 items across all three stages.",
+    "disposition": "Preserved without rerun or repair; not an acceptance candidate; final pilot approval prohibited pending explicit Ritsu review."
+  },
+  "items": [
+    {
+      "itemId": "synthetic-correct-category-1-01",
+      "candidateClass": "correct",
+      "stratum": "category-1",
+      "permanentlyExcluded": true,
+      "intendedLabel": "CORRECT",
+      "lunaRawVerdict": "CORRECT",
+      "screeningVerdict": "CORRECT",
+      "terraRawVerdict": "CORRECT",
+      "solRawVerdict": "CORRECT",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-correct-category-1-02",
+      "candidateClass": "correct",
+      "stratum": "category-1",
+      "permanentlyExcluded": true,
+      "intendedLabel": "CORRECT",
+      "lunaRawVerdict": "CORRECT",
+      "screeningVerdict": "CORRECT",
+      "terraRawVerdict": "CORRECT",
+      "solRawVerdict": "CORRECT",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-correct-category-2-01",
+      "candidateClass": "correct",
+      "stratum": "category-2",
+      "permanentlyExcluded": true,
+      "intendedLabel": "CORRECT",
+      "lunaRawVerdict": "CORRECT",
+      "screeningVerdict": "CORRECT",
+      "terraRawVerdict": "CORRECT",
+      "solRawVerdict": "CORRECT",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-correct-category-2-02",
+      "candidateClass": "correct",
+      "stratum": "category-2",
+      "permanentlyExcluded": true,
+      "intendedLabel": "CORRECT",
+      "lunaRawVerdict": "CORRECT",
+      "screeningVerdict": "CORRECT",
+      "terraRawVerdict": "CORRECT",
+      "solRawVerdict": "CORRECT",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-correct-category-3-01",
+      "candidateClass": "correct",
+      "stratum": "category-3",
+      "permanentlyExcluded": true,
+      "intendedLabel": "CORRECT",
+      "lunaRawVerdict": "CORRECT",
+      "screeningVerdict": "CORRECT",
+      "terraRawVerdict": "CORRECT",
+      "solRawVerdict": "CORRECT",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-correct-category-3-02",
+      "candidateClass": "correct",
+      "stratum": "category-3",
+      "permanentlyExcluded": true,
+      "intendedLabel": "CORRECT",
+      "lunaRawVerdict": "CORRECT",
+      "screeningVerdict": "CORRECT",
+      "terraRawVerdict": "CORRECT",
+      "solRawVerdict": "CORRECT",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-correct-category-4-01",
+      "candidateClass": "correct",
+      "stratum": "category-4",
+      "permanentlyExcluded": true,
+      "intendedLabel": "CORRECT",
+      "lunaRawVerdict": "CORRECT",
+      "screeningVerdict": "CORRECT",
+      "terraRawVerdict": "CORRECT",
+      "solRawVerdict": "CORRECT",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-correct-category-4-02",
+      "candidateClass": "correct",
+      "stratum": "category-4",
+      "permanentlyExcluded": true,
+      "intendedLabel": "CORRECT",
+      "lunaRawVerdict": "CORRECT",
+      "screeningVerdict": "CORRECT",
+      "terraRawVerdict": "CORRECT",
+      "solRawVerdict": "CORRECT",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-specific-wrong-category-1-01",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-1",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-specific-wrong-category-1-02",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-1",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-specific-wrong-category-2-01",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-2",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-specific-wrong-category-2-02",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-2",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-specific-wrong-category-3-01",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-3",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-specific-wrong-category-3-02",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-3",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-specific-wrong-category-4-01",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-4",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-specific-wrong-category-4-02",
+      "candidateClass": "specific-wrong",
+      "stratum": "category-4",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-vague-topical-wrong-category-1-01",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-1",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-vague-topical-wrong-category-1-02",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-1",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-vague-topical-wrong-category-2-01",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-2",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-vague-topical-wrong-category-2-02",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-2",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-vague-topical-wrong-category-3-01",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-3",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-vague-topical-wrong-category-3-02",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-3",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-vague-topical-wrong-category-4-01",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-4",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    },
+    {
+      "itemId": "synthetic-vague-topical-wrong-category-4-02",
+      "candidateClass": "vague-topical-wrong",
+      "stratum": "category-4",
+      "permanentlyExcluded": true,
+      "intendedLabel": "WRONG",
+      "lunaRawVerdict": "WRONG",
+      "screeningVerdict": "WRONG",
+      "terraRawVerdict": "WRONG",
+      "solRawVerdict": "WRONG",
+      "threeModelAgreement": true,
+      "modelDisagreement": false,
+      "lunaIntendedLabelMismatch": false,
+      "hasUnsure": false,
+      "invalid": {
+        "luna": false,
+        "terra": false,
+        "sol": false
+      },
+      "proposedOperatorDecision": "PENDING",
+      "ritsuDecision": null
+    }
+  ]
+}
