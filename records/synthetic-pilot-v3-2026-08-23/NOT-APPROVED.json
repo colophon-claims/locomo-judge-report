@@ -1,0 +1,182 @@
+{
+  "schema": "https://colophon-claims.github.io/locomo-judge-report/synthetic-pilot-run-record/v3",
+  "runId": "prompted-screening-synthetic-pilot-v3-2026-08-23",
+  "status": "NOT-APPROVED",
+  "processConformance": "PASS",
+  "acceptanceCandidate": true,
+  "approved": false,
+  "accepted": false,
+  "reusable": false,
+  "syntheticOnly": true,
+  "permanentlyExcluded": true,
+  "admissionEligible": false,
+  "realCandidateScreening": false,
+  "ritsuApprovalRequired": true,
+  "ritsuApproval": null,
+  "sourcePublicHead": "525664b724fe23c001199ba45910fd75ebb524f6",
+  "procedureVersion": "v3",
+  "supersededByProcedureVersion": "v4",
+  "approvalDisposition": {
+    "auditShapeStatus": "REJECTED-EXCESSIVE-USAGE",
+    "pilotStatus": "PENDING-RITSU",
+    "reason": "The judgment process is conformant and an acceptance candidate, but the raw-material Sol audit consumed 464147 observable tokens and is rejected as the future audit shape. Ritsu has recorded no approval or item decision.",
+    "noRerun": true
+  },
+  "judgmentStages": [
+    {
+      "stage": "Luna",
+      "modelAlias": "gpt-5.6-luna",
+      "reasoning": "medium",
+      "batchSizes": [
+        24
+      ],
+      "judgmentCount": 24
+    },
+    {
+      "stage": "Terra",
+      "modelAlias": "gpt-5.6-terra",
+      "reasoning": "high",
+      "batchSizes": [
+        16,
+        8
+      ],
+      "judgmentCount": 24
+    },
+    {
+      "stage": "Sol",
+      "modelAlias": "gpt-5.6-sol",
+      "reasoning": "high",
+      "batchSizes": [
+        8,
+        8,
+        8
+      ],
+      "judgmentCount": 24
+    }
+  ],
+  "processAuditStage": {
+    "modelAlias": "gpt-5.6-sol",
+    "reasoning": "high",
+    "outcome": "PASS",
+    "materialIssueCount": 0,
+    "itemJudgmentCount": 0,
+    "intendedLabelComparisonCount": 0,
+    "verdictReplacementCount": 0,
+    "ritsuDecisionCount": 0,
+    "toolCallCount": 11,
+    "afterAllJudgmentOutputs": true
+  },
+  "summary": {
+    "itemCount": 24,
+    "judgmentCount": 72,
+    "judgmentDispatchCount": 6,
+    "processAuditDispatchCount": 1,
+    "threeModelAgreementCount": 24,
+    "modelDisagreementCount": 0,
+    "lunaIntendedLabelMatchCount": 24,
+    "errorCount": 0,
+    "unsureCount": 0,
+    "invalidOutputItemCount": 0,
+    "missingOutputCount": 0,
+    "extraOutputCount": 0,
+    "duplicateOutputCount": 0,
+    "infrastructureFailureCount": 0,
+    "retryCount": 0,
+    "judgmentAgentToolCallCount": 0,
+    "processAuditToolCallCount": 11,
+    "ritsuDecisionCount": 0
+  },
+  "observableUsage": {
+    "status": "OBSERVABLE-NOT-BILLING",
+    "judgmentTasks": {
+      "inputTokens": 119831,
+      "cachedInputTokens": 86528,
+      "cacheWriteInputTokens": 0,
+      "outputTokens": 2869,
+      "reasoningOutputTokens": 742,
+      "totalTokens": 122700
+    },
+    "processAudit": {
+      "inputTokens": 450974,
+      "cachedInputTokens": 401408,
+      "cacheWriteInputTokens": 0,
+      "outputTokens": 13173,
+      "reasoningOutputTokens": 3970,
+      "totalTokens": 464147
+    },
+    "total": {
+      "inputTokens": 570805,
+      "cachedInputTokens": 487936,
+      "cacheWriteInputTokens": 0,
+      "outputTokens": 16042,
+      "reasoningOutputTokens": 4712,
+      "totalTokens": 586847
+    }
+  },
+  "artifacts": {
+    "coordinatorPromptV3Sha256": "sha256:4d409331adf7b98877dd0e377d99291ccd59b4fa78e01e97b574009de27f427b",
+    "judgmentInstructionV1Sha256": "sha256:339c4f8286a476036ea3fce40fa5f517376908ee503ed2e21aeb03e47f920837",
+    "fixtureV2Sha256": "sha256:09411e91bb467ecf9881998118c898766d77242556b45f49ae7238aa28d1283b",
+    "rendererV3Sha256": "sha256:31f21fd042a211939e2c40b3fe38c1fb60fc8016289409bba669702648afe5cd",
+    "judgmentTranscriptPrefixSha256": "sha256:9c49c0aa7c69b42243a1bb5f411b19b4b8d70a02abf42022c779272888e80bbd",
+    "rawProcessAuditOutputSha256": "sha256:b37c1f73556e7edf5c786e10ccf0a1f117aee456a84ce32210e8d3970dbf05cf",
+    "processAuditEventSha256": "sha256:61246be9c37164c4bd774963d89b0cdec06d1856f8d8a3882a890844013edbb2",
+    "intendedLabelComparisonEventSha256": "sha256:d3d86f6265a223780d602f80b9b23d3614bc632e9c81e965b3b8659fc869a604",
+    "finalTranscriptSha256": "sha256:ab9ada61e1311127ffe6b607e23740fc807f14830b5cd7eaa17db8914dd81ad3",
+    "resultsSha256": "sha256:52dabe5692b951911bde3da354a0e5859bdbbddcecaac1ab7cebeb5fc10ceb10",
+    "usageSha256": "sha256:716cf15c52b1a598345e33be957c1096d0af2d9c84097c60d51232f66eb7bad1",
+    "processAuditDerivativeSha256": "sha256:60d54d86a36f009e24d59aa19271cc610fb1e20cb28d9626dac28d14ef8a9533",
+    "ritsuReviewSha256": "sha256:cd3afdaaf78be96ed0323672386a68621baee0d9d21866a3ade716b2b178fefe",
+    "derivativeCorrectionsSha256": "sha256:941db6728f0676e7f54cda4cb563a345d2db9ec65df7dac0d4484fcf9aff6eb4"
+  },
+  "transcriptStages": {
+    "judgmentRecordCount": 14,
+    "judgmentTranscriptPrefixSha256": "sha256:9c49c0aa7c69b42243a1bb5f411b19b4b8d70a02abf42022c779272888e80bbd",
+    "auditInputScope": "records 1-14 inclusive",
+    "postJudgmentEvents": [
+      {
+        "recordNumber": 15,
+        "recordType": "process-audit-output",
+        "eventSha256": "sha256:61246be9c37164c4bd774963d89b0cdec06d1856f8d8a3882a890844013edbb2"
+      },
+      {
+        "recordNumber": 16,
+        "recordType": "intended-label-comparison",
+        "eventSha256": "sha256:d3d86f6265a223780d602f80b9b23d3614bc632e9c81e965b3b8659fc869a604"
+      }
+    ],
+    "finalRecordCount": 16,
+    "finalTranscriptSha256": "sha256:ab9ada61e1311127ffe6b607e23740fc807f14830b5cd7eaa17db8914dd81ad3"
+  },
+  "derivativeHistory": {
+    "correctionTimestamp": "2026-08-23T10:35:10+02:00",
+    "scope": "formatting-only",
+    "originalUsageSha256": "sha256:0c19cf14977b791d5c543657fdce3bd1204807e4d4faa6cb43efc56234c70c9c",
+    "correctedUsageSha256": "sha256:716cf15c52b1a598345e33be957c1096d0af2d9c84097c60d51232f66eb7bad1",
+    "originalProcessAuditSha256": "sha256:05c7b060ac1b6f5c16752e263a2ba53f3412113e656334d81b39641830f00c96",
+    "correctedProcessAuditSha256": "sha256:60d54d86a36f009e24d59aa19271cc610fb1e20cb28d9626dac28d14ef8a9533",
+    "originalRitsuReviewSha256": "sha256:3235a4d3fea6c06489d6611c6914db5a870831ea7db3087dc4f00c444a64e6a6",
+    "correctedRitsuReviewSha256": "sha256:cd3afdaaf78be96ed0323672386a68621baee0d9d21866a3ade716b2b178fefe",
+    "sealedTranscriptUnchanged": true,
+    "sealedResultsUnchanged": true
+  },
+  "costAmendmentArtifacts": {
+    "coordinatorPromptV4Sha256": "sha256:cee375eb08d48f7bda3ec8803c434591be8306d95c2a8a96ba2da38e7992b126",
+    "compactAuditSchemaV1Sha256": "sha256:e103d03c009713edb50651df1317acf13aae6d8475721679c8547ed5e26f0bd7",
+    "compactAuditRendererV1Sha256": "sha256:446f335edd8ea09d2f13a62d94575b8d1e067b58e7ecb24e9e3b9ac848a98311",
+    "compactAuditPilotV4FixtureSha256": "sha256:8638e0e3d403247f614e642a58eb8ade81e763eae81ba3837cdc1bd3bb1f4b38",
+    "compactAuditPilotRenderedInputSha256": "sha256:db144bcbeb9a6e1fa2b60a07d5b3c6339f349648706e8208519bb71d9e222a4d",
+    "compactAuditPilotRenderedInputByteLength": 8235,
+    "compactAuditMaximumByteLength": 65536,
+    "compactAuditSynthetic664CapacityByteLength": 47830,
+    "modelRunOccurred": false
+  },
+  "publishedEvidence": {
+    "transcriptPath": "records/synthetic-pilot-v3-2026-08-23/transcript.jsonl",
+    "resultsPath": "records/synthetic-pilot-v3-2026-08-23/pilot-results.pending-ritsu.json",
+    "usagePath": "records/synthetic-pilot-v3-2026-08-23/usage.md",
+    "processAuditPath": "records/synthetic-pilot-v3-2026-08-23/process-audit.md",
+    "ritsuReviewPath": "records/synthetic-pilot-v3-2026-08-23/ritsu-review.md",
+    "derivativeCorrectionsPath": "records/synthetic-pilot-v3-2026-08-23/derivative-corrections.md"
+  }
+}

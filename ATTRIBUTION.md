@@ -16,6 +16,12 @@ execution logs. They include no third-party dataset or real candidate bytes.
 The repository license applies only to rights Colophon holds; no additional
 rights are asserted.
 
+The version 4 compact-audit fixture and capacity probe are deterministic
+Colophon-authored validation artifacts. Their unmeasured usage fields and
+`modelRunOccurred: false` declaration mean they are not model execution
+evidence. The preserved version 3 record separately identifies returned text,
+observable counters, non-approval, and derivative correction history.
+
 ## LoCoMo-derived material
 
 No LoCoMo-derived material is copied into this repository. Any future,

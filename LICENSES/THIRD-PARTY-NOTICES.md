@@ -15,3 +15,8 @@ declared mutable model aliases. It copies no provider source code, prompt, or
 dataset and makes no provider authorship, endorsement, or immutable-model claim.
 The repository license applies only to rights Colophon holds; no additional
 rights are asserted for that evidence.
+
+The compact-audit schema, renderer, prompt amendment, and no-run fixture are
+Colophon-authored. The no-run fixture contains only synthetic aggregate evidence
+and does not add provider output, third-party source material, or real candidate
+bytes.

@@ -42,6 +42,31 @@ input digest, append every declared audit or comparison event, and then seal a
 distinct final transcript. The terminal record binds both scopes and every
 suffix event. A single transcript digest does not satisfy this policy.
 
+## Compact process-audit amendment
+
+Coordinator prompt v4 keeps the v3 judgment procedure but replaces raw-material
+Sol audit input with the exact canonical
+`compact-process-audit-input/v1` summary. The renderer must validate its own
+approved prompt, schema, and source bytes before dispatch. It must then enforce
+closed shapes, fixed declaration and aggregate order, all batch and cell counts,
+true machine-validation flags, exact digests, and a 65,536-byte maximum.
+
+The compact process audit receives public references and digests, per-batch
+digests and counts, aggregate verdict and agreement metrics, twelve ordered
+class/stratum cells, and the staged judgment-transcript prefix digest. It must
+not receive instruction, prompt, dispatch, output, or transcript bytes; item
+arrays or identities; questions, references, candidates, per-item intended
+labels or judgments; operator-local paths; or other raw material. The Sol audit
+may inspect process drift, coverage, suspicious agreement, asymmetry, and
+defects. It cannot reperform or replace judgments. Public verification later
+resolves and hashes the sealed artifacts.
+
+The process-green third synthetic pilot remains append-only and not approved.
+Its recorded agreement is not acceptance. Its measured raw-material audit usage
+is the reason for this process amendment, not permission to rerun it. Any real
+664-row execution still requires a separately sealed opaque identity mapping and
+non-grouped dispatch order before commitment or screening.
+
 ## After a commitment
 
 Once a sampling commitment is published, amendments are append-only. Do not

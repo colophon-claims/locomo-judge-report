@@ -8,9 +8,11 @@ release, or authorization to run one. No real or operator commitment instance,
 seed, LoCoMo conversation, audit dataset, real screening output, candidate pool,
 or benchmark result is present now. Versioned Colophon-authored prompt and
 instruction bytes define a future procedure. Clearly named synthetic fixtures
-and the two preserved non-conformant synthetic pilots are permanently
-ineligible for admission. None is a commitment or freeze, and neither pilot is
-accepted.
+and the preserved synthetic pilots are permanently ineligible for admission.
+The first two pilots are non-conformant. The process-green third pilot is an
+acceptance candidate but remains `NOT-APPROVED` because its raw-material audit
+shape was rejected for excessive usage pending Ritsu. None is accepted,
+reusable, a commitment, or a freeze.
 
 The sole repository operator is `ritsukai`. A future commitment may be added
 only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -29,11 +31,16 @@ synthetic execution evidence below.
   immutable procedure source used by the non-conformant 2026-08-23 synthetic
   pilot. Version 2 is superseded for future dispatches, not rewritten.
 - [CODEX-SCREENING-PROMPT.v3.md](CODEX-SCREENING-PROMPT.v3.md) records the
-  normative future coordinator procedure with opaque judgment identities,
-  non-grouped order, and mandatory byte-exact rendering.
+  immutable procedure used by the process-green but not-approved third
+  synthetic pilot. It introduced opaque judgment identities, non-grouped
+  order, and mandatory byte-exact rendering.
+- [CODEX-SCREENING-PROMPT.v4.md](CODEX-SCREENING-PROMPT.v4.md) records the
+  normative future coordinator procedure. It retains the v3 judgment path and
+  limits Sol process-audit input to a closed canonical summary no larger than
+  65,536 bytes. The audit cannot reperform item judgments.
 - [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt)
   is the independent exact judgment-agent instruction used by coordinator
-  prompt versions 2 and 3.
+  prompt versions 2, 3, and 4.
 - [fixtures/prompted-screening-pilot-v1.json](fixtures/prompted-screening-pilot-v1.json)
   contains only 24 synthetic, permanently excluded validation cases and no
   model output or operator decision.
@@ -41,6 +48,10 @@ synthetic execution evidence below.
   preserves the same 24 synthetic cases while assigning fixed opaque judgment
   identities and a sealed non-grouped dispatch order. Outer metadata remains
   outside blinded dispatch bytes.
+- [fixtures/prompted-screening-pilot-v4-compact-audit.json](fixtures/prompted-screening-pilot-v4-compact-audit.json)
+  deterministically renders an 8,235-byte compact process-audit input from
+  synthetic aggregate evidence. Its usage fields are explicitly unmeasured and
+  no model was run. A synthetic 664-item capacity probe renders to 47,830 bytes.
 - [records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json](records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json)
   preserves the failed synthetic pilot, its privacy-safe raw evidence, exact
   artifact identities, zero Ritsu decisions, and non-acceptance.
@@ -49,6 +60,17 @@ synthetic execution evidence below.
   audit, and transcript. The record is `NON-CONFORMANT` with
   `PROCESS_DEFECT`, records zero Ritsu decisions, and separates the pre-audit
   judgment transcript identity from the final append-only transcript identity.
+- [records/synthetic-pilot-v3-2026-08-23/NOT-APPROVED.json](records/synthetic-pilot-v3-2026-08-23/NOT-APPROVED.json)
+  preserves the exact corrected third-pilot evidence and derivative history.
+  It records 72 valid judgments, 24 of 24 three-model agreement, zero judgment
+  errors, retries, tools, or Ritsu decisions, and the exact 586,847 observable
+  token total. The separate Sol process audit made 11 tool calls and consumed
+  464,147 observable tokens, so that audit shape is rejected. The record is not
+  accepted or reusable.
+- [schemas/compact-process-audit-input.v1.schema.json](schemas/compact-process-audit-input.v1.schema.json)
+  and its renderer define the closed process-only summary used by prompt v4.
+  Sol relies on machine validation flags and digests for raw-byte integrity;
+  the later public artifact verifier must resolve and hash published artifacts.
 - [schemas/sampling-commitment.schema.json](schemas/sampling-commitment.schema.json)
   defines a validation interface, not a commitment instance.
 - [docs/software-heritage.md](docs/software-heritage.md) describes a future
@@ -62,10 +84,17 @@ node scripts/validate.mjs
 node scripts/validate-prompted-screening-pilot.mjs
 node scripts/render-prompted-screening-dispatch-v2.mjs
 node scripts/render-prompted-screening-dispatch-v3.mjs
+node scripts/render-compact-process-audit-input-v1.mjs
 node scripts/validate-synthetic-pilot-run-record.mjs
 node scripts/validate-synthetic-pilot-v2-run-record.mjs
+node scripts/validate-synthetic-pilot-v3-run-record.mjs
 node --test test/*.test.mjs
 ```
+
+Before any real 664-row commitment or screening, the operator must create and
+seal a distinct opaque screening identity mapping and a non-grouped dispatch
+order. Current private slot and source identifiers leak hidden metadata and are
+not valid judgment identities.
 
 ## License boundary
 
