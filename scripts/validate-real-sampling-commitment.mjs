@@ -85,10 +85,15 @@ export function validateRealSamplingCommitment() {
 
   const ledgerRaw = readFileSync(`${root}commitments/LEDGER.jsonl`, 'utf8');
   const ledgerLines = ledgerRaw.trimEnd().split('\n');
-  assert(ledgerRaw.endsWith('\n') && ledgerLines.length === 1, 'commitment ledger must be one LF-terminated append-only event');
-  const ledger = JSON.parse(ledgerLines[0]);
-  assert(ledgerLines[0] === canonical(ledger), 'commitment ledger event is not canonical');
-  assert(ledger.ordinal === 1 && ledger.commitmentEventSha256 === sha256(event.raw) && ledger.pilotDecisionSha256 === sha256(decision.raw), 'ledger bindings drifted');
+  assert(ledgerRaw.endsWith('\n') && ledgerLines.length === 2, 'commitment ledger must contain two LF-terminated append-only events');
+  const ledger = ledgerLines.map((line) => JSON.parse(line));
+  assert(ledgerLines.every((line, index) => line === canonical(ledger[index])), 'commitment ledger event is not canonical');
+  assert(ledger[0].ordinal === 1 && ledger[0].commitmentEventSha256 === sha256(event.raw) && ledger[0].pilotDecisionSha256 === sha256(decision.raw), 'prepared ledger bindings drifted');
+  assert(ledger[1].ordinal === 2 && ledger[1].event === 'software-heritage-archive-resolved' && ledger[1].status === 'ARCHIVED_AND_RESOLVED', 'archive ledger status drifted');
+  assert(ledger[1].previousLedgerSha256 === 'sha256:3a545a40cb4444cb600ad8604071f835879bb28c8b6f39f9e0b6e67b10be1deb', 'archive event does not bind the published one-event ledger');
+  assert(ledger[1].archivedRevision === '0c7c2415621bde7854229d7548982daff9aa0af5' && ledger[1].commitmentEventSha256 === sha256(event.raw), 'archived revision or commitment binding drifted');
+  assert(ledger[1].snapshotSwhid === 'swh:1:snp:f8e4759c7f3ad04400cab799378ea05413ea0cee' && ledger[1].revisionSwhid === 'swh:1:rev:0c7c2415621bde7854229d7548982daff9aa0af5', 'Software Heritage identifiers drifted');
+  assert(ledger[1].requestId === 2451193 && ledger[1].visitStatus === 'full' && ledger[1].visitDate === '2026-08-24T08:55:32.934000+00:00', 'Software Heritage visit record drifted');
   return { candidateIdentityCount: 664, sampleSize: 72, poolDigest: commitment.value.poolDigest, commitmentSha256: sha256(commitment.raw), sampleSha256: sha256(canonical(output.value.sample)) };
 }
 
