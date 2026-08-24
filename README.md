@@ -1,15 +1,19 @@
 # LoCoMo judge report registration
 
-## SAMPLING COMMITMENT PREPARED / NOT FROZEN
+## SCREENING COMPLETE / NOT FROZEN
 
-This public repository is an operator-owned registration scaffold for a future
-LoCoMo judge report. It is not a freeze, benchmark result, real-screening audit
-release, or authorization to run one. The authorized 664-identity sampling
-commitment and deterministic 72-identity sample are prepared under
-[`commitments/`](commitments/), before any real screening outcome. No LoCoMo
-conversation, audit dataset, real screening output, raw opaque identity, source
-item digest, product item digest, or benchmark result is published. Versioned Colophon-authored prompt and
-instruction bytes define a future procedure. Clearly named synthetic fixtures
+This public repository is the operator-owned registration record for a future
+LoCoMo judge report. The 664-item prompted screen and the 220 required Ritsu
+checks are complete, and Colophon has admitted the balanced 240-item bank. It
+is not a benchmark freeze or benchmark result, and it authorizes no judge run.
+The pre-outcome 664-identity commitment and deterministic 72-identity sample
+remain under [`commitments/`](commitments/). The exact outcome evidence,
+candidate item bytes, source rows, replacement lineage, final bank, and signed
+Colophon admission records are under
+[`records/real-run-v8-2026-08-24/`](records/real-run-v8-2026-08-24/).
+No full conversation, credential, private note, or unrelated dataset byte is
+published. Versioned Colophon-authored prompt and instruction bytes define the
+procedure. Clearly named synthetic fixtures
 and the preserved synthetic pilots are permanently ineligible for admission.
 The first two pilots are non-conformant. The process-green third pilot is an
 acceptance candidate but remains `NOT-APPROVED` because its raw-material audit
@@ -25,10 +29,9 @@ version 7 pilot is separately confirmed by Ritsu, but its synthetic cases are
 permanently excluded and remain ineligible for admission. None of the synthetic
 runs is a real-screening result or a freeze.
 
-The sole repository operator is `ritsukai`. The prepared commitment becomes an
-external public commitment only when this exact commit is published. From that
-point it follows the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
-It is still not the benchmark freeze.
+The sole repository operator is `ritsukai`. Published records follow the
+append-only process in [CONTRIBUTING.md](CONTRIBUTING.md). The screening record
+is complete and public; it is still not the benchmark freeze.
 
 ## Scope
 
@@ -143,9 +146,13 @@ It is still not the benchmark freeze.
   in-band.
 - [schemas/sampling-commitment.schema.json](schemas/sampling-commitment.schema.json)
   defines a validation interface, not a commitment instance.
-- [docs/software-heritage.md](docs/software-heritage.md) describes a future
-  archival procedure. Nothing has been archived through Software Heritage by
-  this repository.
+- [docs/software-heritage.md](docs/software-heritage.md) records the successful
+  Software Heritage archive of the pre-outcome sampling commitment.
+- [records/real-run-v8-2026-08-24/](records/real-run-v8-2026-08-24/) preserves
+  the exact completed screening evidence and Colophon admission receipt. The
+  verifier checks artifact integrity and admission closure; it does not prove
+  provider execution, prompt compliance, or immutable weights behind the
+  declared model names.
 
 Run the local checks with:
 
@@ -213,7 +220,9 @@ not valid judgment identities.
 ## License boundary
 
 Colophon-authored material in this repository is licensed under CC BY-NC 4.0.
-Any future LoCoMo-derived material is outside this repository until it is
-authorized for inclusion and is then subject to the same stated boundary.
+The authorized LoCoMo-derived screening material is recorded under
+`records/real-run-v8-2026-08-24` and retains the upstream CC BY-NC 4.0 terms.
+Colophon-authored additions are also licensed under CC BY-NC 4.0. Third-party
+material retains its recorded terms.
 Third-party material retains its own terms; see [LICENSES](LICENSES) and
 [ATTRIBUTION.md](ATTRIBUTION.md).

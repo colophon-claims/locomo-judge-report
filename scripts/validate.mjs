@@ -130,6 +130,18 @@ const allowedFiles = new Map([
   ['records/synthetic-pilot-v6-2026-08-23/usage.md', ['text/markdown', 8192]],
   ['records/synthetic-pilot-v7-clean-2026-08-24/accepted-pilot-summary.json', ['application/json', 4096]],
   ['records/synthetic-pilot-v7-clean-2026-08-24/ritsu-decision.json', ['application/json', 8192]],
+  ['records/real-run-v8-2026-08-24/README.md', ['text/markdown', 8192]],
+  ['records/real-run-v8-2026-08-24/summary.json', ['application/json', 8192]],
+  ['records/real-run-v8-2026-08-24/screening-procedure.json', ['application/json', 8192]],
+  ['records/real-run-v8-2026-08-24/screening-pool.json', ['application/json', 524288]],
+  ['records/real-run-v8-2026-08-24/transcript.jsonl', ['application/x-ndjson', 262144]],
+  ['records/real-run-v8-2026-08-24/operator-screening-table.json', ['application/json', 524288]],
+  ['records/real-run-v8-2026-08-24/operator-decisions.json', ['application/json', 65536]],
+  ['records/real-run-v8-2026-08-24/operator-replacement-ledger.json', ['application/json', 32768]],
+  ['records/real-run-v8-2026-08-24/final-bank.json', ['application/json', 262144]],
+  ['records/real-run-v8-2026-08-24/colophon-screening-table.json', ['application/json', 262144]],
+  ['records/real-run-v8-2026-08-24/colophon-admission-manifest.json', ['application/json', 65536]],
+  ['records/real-run-v8-2026-08-24/colophon-replacement-ledger.json', ['application/json', 32768]],
   ['schemas/compact-process-audit-input.v1.schema.json', ['application/json', 16384]],
   ['schemas/compact-process-audit-input.v2.schema.json', ['application/json', 32768]],
   ['schemas/compact-process-audit-input.v3.schema.json', ['application/json', 32768]],
@@ -248,7 +260,10 @@ function files(path, out = []) {
 const tracked = files(root);
 for (const path of tracked) {
   if (path === 'MANIFEST.sha256') continue;
-  const expected = allowedFiles.get(path);
+  const realRunRecord = /^records\/real-run-v8-2026-08-24\/(?:items|source-records)\/[0-9a-f]{64}\.json$/u.test(path)
+    ? ['application/json', 4096]
+    : undefined;
+  const expected = allowedFiles.get(path) ?? realRunRecord;
   if (!expected) throw new Error(`unrecognized preparation-phase path: ${path}`);
   if (expected[0] !== expectedContentType(path)) throw new Error(`unexpected content type declaration: ${path}`);
   const bytes = readFileSync(join(root, path));

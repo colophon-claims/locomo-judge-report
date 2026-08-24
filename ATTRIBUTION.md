@@ -24,9 +24,12 @@ observable counters, non-approval, and derivative correction history.
 
 ## LoCoMo-derived material
 
-No LoCoMo-derived material is copied into this repository. Any future,
-authorized inclusion must state its source, rights basis, and attribution in
-the append-only source register and notices before publication.
+The completed real-screening record contains authorized question, reference
+answer, candidate answer, and evaluation-row derivatives from `dial481/locomo-audit`,
+whose recorded license is CC BY-NC 4.0. That repository derives from the
+LoCoMo work published by SNAP Research, also under CC BY-NC 4.0. The public
+record identifies exact source commits and preserves per-row source digests.
+It contains no full LoCoMo conversations or unrelated dataset bytes.
 
 ## Third-party material
 
