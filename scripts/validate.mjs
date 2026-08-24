@@ -27,6 +27,7 @@ import './validate-synthetic-pilot-v6-stop.mjs';
 import './validate-prompted-screening-pilot.mjs';
 import './validate-prompted-screening-v5-fixture.mjs';
 import { validateRealSamplingCommitment } from './validate-real-sampling-commitment.mjs';
+import { validateEvidenceRescreenV9Commitment } from './validate-evidence-rescreen-v9-commitment.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const manifestPath = join(root, 'MANIFEST.sha256');
@@ -151,6 +152,7 @@ const allowedFiles = new Map([
   ['schemas/compact-process-audit-input.v2.schema.json', ['application/json', 32768]],
   ['schemas/compact-process-audit-input.v3.schema.json', ['application/json', 32768]],
   ['schemas/compact-process-audit-output.v1.schema.json', ['application/json', 16384]],
+  ['schemas/evidence-rescreen-v9-compact-audit-input.v1.schema.json', ['application/json', 16384]],
   ['schemas/prompted-screening-judgment-prefix.v1.schema.json', ['application/json', 16384]],
   ['schemas/prompted-screening-pre-dispatch-plan.v1.schema.json', ['application/json', 16384]],
   ['schemas/prompted-screening-runtime-compact-input.v1.schema.json', ['application/json', 16384]],
@@ -181,6 +183,7 @@ const allowedFiles = new Map([
   ['scripts/simulate-prompted-screening-runtime-v7.mjs', ['application/javascript', 16384]],
   ['scripts/render-compact-process-audit-input-v1.mjs', ['application/javascript', 40960]],
   ['scripts/render-compact-process-audit-input-v2.mjs', ['application/javascript', 40960]],
+  ['scripts/render-evidence-rescreen-v9-compact-audit-input.mjs', ['application/javascript', 32768]],
   ['scripts/generate-prompted-screening-v5-fixture.mjs', ['application/javascript', 8192]],
   ['scripts/render-prompted-screening-dispatch-v2.mjs', ['application/javascript', 16384]],
   ['scripts/render-prompted-screening-dispatch-v3.mjs', ['application/javascript', 32768]],
@@ -193,16 +196,18 @@ const allowedFiles = new Map([
   ['scripts/project-screening-identities-v1.mjs', ['application/javascript', 8192]],
   ['scripts/screening-sample-v1.py', ['text/plain', 8192]],
   ['scripts/validate-real-sampling-commitment.mjs', ['application/javascript', 16384]],
+  ['scripts/validate-evidence-rescreen-v9-commitment.mjs', ['application/javascript', 16384]],
   ['scripts/validate-synthetic-pilot-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate-synthetic-pilot-v2-run-record.mjs', ['application/javascript', 32768]],
   ['scripts/validate-synthetic-pilot-v3-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate-synthetic-pilot-v4-run-record.mjs', ['application/javascript', 32768]],
   ['scripts/validate-synthetic-pilot-v5-stop.mjs', ['application/javascript', 16384]],
   ['scripts/validate-synthetic-pilot-v6-stop.mjs', ['application/javascript', 8192]],
-  ['scripts/validate.mjs', ['application/javascript', 24576]],
+  ['scripts/validate.mjs', ['application/javascript', 32768]],
   ['source-register.json', ['application/json', 8192]],
   ['test/validate.test.mjs', ['application/javascript', 16384]],
   ['test/real-sampling-commitment.test.mjs', ['application/javascript', 8192]],
+  ['test/evidence-rescreen-v9-commitment.test.mjs', ['application/javascript', 8192]],
   ['test/prompted-screening-pilot.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-dispatch-v2.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-dispatch-v3.test.mjs', ['application/javascript', 24576]],
@@ -315,6 +320,7 @@ if (!backboard || backboard.public !== true || backboard.license !== 'NOASSERTIO
 
 validateSourceRegister(register, registerRaw);
 validateRealSamplingCommitment();
+validateEvidenceRescreenV9Commitment();
 
 const expectedManifest = tracked.filter((path) => path !== 'MANIFEST.sha256').map((path) => {
   const digest = createHash('sha256').update(readFileSync(join(root, path))).digest('hex');

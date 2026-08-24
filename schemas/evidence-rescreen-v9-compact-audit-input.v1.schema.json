@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://colophon-claims.github.io/locomo-judge-report/evidence-rescreen-v9-compact-audit-input/v1",
+  "title": "LoCoMo evidence re-screen version 9 compact process-audit input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["batches", "capabilityBoundary", "cells", "coverage", "declarations", "execution", "routing", "run"],
+  "properties": {
+    "batches": { "type": "array", "minItems": 21, "maxItems": 160, "items": { "$ref": "#/$defs/batch" } },
+    "capabilityBoundary": { "$ref": "#/$defs/capabilityBoundary" },
+    "cells": { "type": "array", "minItems": 12, "maxItems": 12, "items": { "$ref": "#/$defs/cell" } },
+    "coverage": { "$ref": "#/$defs/coverage" },
+    "declarations": { "$ref": "#/$defs/declarations" },
+    "execution": { "$ref": "#/$defs/execution" },
+    "routing": { "$ref": "#/$defs/routing" },
+    "run": { "$ref": "#/$defs/run" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "count": { "type": "integer", "minimum": 0, "maximum": 664 },
+    "verdicts": { "type": "object", "additionalProperties": false, "required": ["CORRECT", "UNSURE", "WRONG"], "properties": { "CORRECT": { "$ref": "#/$defs/count" }, "UNSURE": { "$ref": "#/$defs/count" }, "WRONG": { "$ref": "#/$defs/count" } } },
+    "batch": { "type": "object", "additionalProperties": false, "required": ["batchOrdinal", "invalidOutputCount", "itemCount", "stage", "verdicts"], "properties": { "batchOrdinal": { "type": "integer", "minimum": 1, "maximum": 100 }, "invalidOutputCount": { "$ref": "#/$defs/count" }, "itemCount": { "type": "integer", "minimum": 1, "maximum": 32 }, "stage": { "enum": ["Luna", "Terra", "Sol"] }, "verdicts": { "$ref": "#/$defs/verdicts" } } },
+    "capabilityBoundary": { "type": "object", "additionalProperties": false, "required": ["invariantWeightsVerified", "promptComplianceVerified", "providerExecutionVerified", "providerFreshnessVerified"], "properties": { "invariantWeightsVerified": { "const": false }, "promptComplianceVerified": { "const": false }, "providerExecutionVerified": { "const": false }, "providerFreshnessVerified": { "const": false } } },
+    "profile": { "type": "object", "additionalProperties": false, "required": ["alias", "maxBatchSize", "model", "reasoningEffort"], "properties": { "alias": { "enum": ["Luna", "Terra", "Sol"] }, "maxBatchSize": { "enum": [8, 16, 32] }, "model": { "enum": ["gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol"] }, "reasoningEffort": { "enum": ["medium", "high"] } } },
+    "declarations": { "type": "object", "additionalProperties": false, "required": ["evidencePayloadSha256", "judgmentInstructionSha256", "poolDigest", "profiles", "promptSha256", "toolPolicy"], "properties": { "evidencePayloadSha256": { "$ref": "#/$defs/digest" }, "judgmentInstructionSha256": { "$ref": "#/$defs/digest" }, "poolDigest": { "$ref": "#/$defs/digest" }, "profiles": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/profile" } }, "promptSha256": { "$ref": "#/$defs/digest" }, "toolPolicy": { "const": "judgment-agents-none" } } },
+    "stageCoverage": { "type": "object", "additionalProperties": false, "required": ["batchCount", "duplicateItemCount", "invalidOutputCount", "itemCount", "missingItemCount", "verdicts"], "properties": { "batchCount": { "$ref": "#/$defs/count" }, "duplicateItemCount": { "$ref": "#/$defs/count" }, "invalidOutputCount": { "$ref": "#/$defs/count" }, "itemCount": { "$ref": "#/$defs/count" }, "missingItemCount": { "$ref": "#/$defs/count" }, "verdicts": { "$ref": "#/$defs/verdicts" } } },
+    "coverage": { "type": "object", "additionalProperties": false, "required": ["Luna", "Sol", "Terra"], "properties": { "Luna": { "$ref": "#/$defs/stageCoverage" }, "Sol": { "$ref": "#/$defs/stageCoverage" }, "Terra": { "$ref": "#/$defs/stageCoverage" } } },
+    "cell": { "type": "object", "additionalProperties": false, "required": ["advisoryDispositionDeltaCount", "advisoryVerdicts", "candidateClass", "lunaTerraDisagreements", "lunaVerdicts", "lunaVsIntendedDisagreements", "lunaVsV8Disagreements", "poolCount", "solRouted", "solVerdicts", "stratum", "terraRouted", "terraVerdicts"], "properties": { "advisoryDispositionDeltaCount": { "$ref": "#/$defs/count" }, "advisoryVerdicts": { "$ref": "#/$defs/verdicts" }, "candidateClass": { "enum": ["correct", "specific-wrong", "vague-topical-wrong"] }, "lunaTerraDisagreements": { "$ref": "#/$defs/count" }, "lunaVerdicts": { "$ref": "#/$defs/verdicts" }, "lunaVsIntendedDisagreements": { "$ref": "#/$defs/count" }, "lunaVsV8Disagreements": { "$ref": "#/$defs/count" }, "poolCount": { "$ref": "#/$defs/count" }, "solRouted": { "$ref": "#/$defs/count" }, "solVerdicts": { "$ref": "#/$defs/verdicts" }, "stratum": { "enum": ["category-1", "category-2", "category-3", "category-4"] }, "terraRouted": { "$ref": "#/$defs/count" }, "terraVerdicts": { "$ref": "#/$defs/verdicts" } } },
+    "execution": { "type": "object", "additionalProperties": false, "required": ["infrastructureFailureCount", "judgmentOutputEventCount", "retryCount", "terminalStopCount", "toolCallCount", "transcriptPrefixSha256"], "properties": { "infrastructureFailureCount": { "$ref": "#/$defs/count" }, "judgmentOutputEventCount": { "$ref": "#/$defs/count" }, "retryCount": { "$ref": "#/$defs/count" }, "terminalStopCount": { "$ref": "#/$defs/count" }, "toolCallCount": { "$ref": "#/$defs/count" }, "transcriptPrefixSha256": { "$ref": "#/$defs/digest" } } },
+    "routing": { "type": "object", "additionalProperties": false, "required": ["advisoryDeltaCount", "solExpectedUnionCount", "solPlanCount", "solPlanMatchesRule", "terraExpectedUnionCount", "terraPlanCount", "terraPlanMatchesRule", "terraUnsureOrInvalidCount", "terraVsLunaDisagreementCount"], "properties": { "advisoryDeltaCount": { "$ref": "#/$defs/count" }, "solExpectedUnionCount": { "$ref": "#/$defs/count" }, "solPlanCount": { "$ref": "#/$defs/count" }, "solPlanMatchesRule": { "type": "boolean" }, "terraExpectedUnionCount": { "$ref": "#/$defs/count" }, "terraPlanCount": { "$ref": "#/$defs/count" }, "terraPlanMatchesRule": { "type": "boolean" }, "terraUnsureOrInvalidCount": { "$ref": "#/$defs/count" }, "terraVsLunaDisagreementCount": { "$ref": "#/$defs/count" } } },
+    "run": { "type": "object", "additionalProperties": false, "required": ["itemCount", "runId", "status"], "properties": { "itemCount": { "const": 664 }, "runId": { "const": "locomo-evidence-rescreen-v9-2026-08-24" }, "status": { "const": "JUDGMENTS_COMPLETE_PENDING_PROCESS_AUDIT" } } }
+  }
+}

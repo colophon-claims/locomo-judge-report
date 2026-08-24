@@ -46,18 +46,38 @@ shell, repository, search, retrieval, or other tools.
 Run these stages in order:
 
 1. Luna, `gpt-5.6-luna`, medium reasoning, screens all 664 rows in 21
-   deterministic batches of at most 32.
+   deterministic batches. Consecutively chunk the ascending item list into
+   full 32-item batches followed by the one final 24-item batch.
 2. Mechanically route to Terra every Luna `UNSURE` or invalid result and every
    Luna result that differs from either the version 8 Luna verdict or the hidden
-   intended label. Terra uses `gpt-5.6-terra`, high reasoning, in deterministic
-   batches of at most 16.
+   intended label. Sort the routed identities ascending, then consecutively
+   chunk them into full 16-item batches followed by at most one smaller final
+   batch. Terra uses `gpt-5.6-terra`, high reasoning.
 3. Mechanically route to Sol every Luna-Terra disagreement and every Terra
-   `UNSURE` or invalid result. Sol uses `gpt-5.6-sol`, high reasoning, in
-   deterministic batches of at most 8.
+   `UNSURE` or invalid result. Sort the routed identities ascending, then
+   consecutively chunk them into full 8-item batches followed by at most one
+   smaller final batch. Sol uses `gpt-5.6-sol`, high reasoning.
 4. Run one separate Sol high compact whole-run process audit for missing or
    duplicate coverage, shard drift, class or category asymmetry, suspicious
    agreement, and other process defects. A material process finding stops
    corrective admission.
+
+The process audit uses the exact version 3 audit instruction, version 1 audit
+findings schema and parser, and the version 9 compact-input schema and renderer
+whose paths and SHA-256 digests are closed in `prompt-binding.json`. The
+recorder constructs the canonical compact input after all judgment outputs,
+then constructs this canonical invocation object:
+
+```json
+{"auditInputSha256":"sha256:<compact-input digest>","auditInstructionSha256":"sha256:<instruction digest>","modelAlias":"gpt-5.6-sol","reasoning":"high","runId":"locomo-evidence-rescreen-v9-2026-08-24","taskId":"codexcli/v9-process-audit","toolPolicy":"none"}
+```
+
+`auditInvocationSha256` is the SHA-256 of that canonical compact JSON object
+with no terminal newline. The audit dispatch is the exact instruction bytes,
+then `AUDIT INVOCATION SHA-256: `, the invocation digest, one LF, and the exact
+canonical compact-input bytes. Only a validated `PASS` with zero material
+findings passes the process gate. `FAIL`, `REFUSE`, malformed bytes, a stale
+invocation digest, or any material finding stops corrective admission.
 
 Luna's version 9 result is corrective evidence, not a silent replacement for
 the version 8 `screeningVerdict`. Terra and Sol are independent review evidence.
@@ -74,16 +94,26 @@ append-only.
 
 ## Operator delta
 
-Mechanically compare the complete version 9 evidence with version 8 admission.
-Ritsu reviews only cases whose evidence-aware result could change a version 8
-screening disposition or the final admitted bank. The coordinator may prepare
-a concise recommendation and evidence view, but only Ritsu may confirm or
-exclude such a case.
+Mechanically derive one advisory verdict per item. If Terra was not routed, use
+Luna. If Terra was routed but Sol was not, Luna and Terra necessarily agree, so
+use that shared verdict. If Sol was routed, use a strict two-of-three majority
+over the three exact verdicts; if no verdict has two votes, use `UNSURE`.
 
-If no case could change disposition or final-bank membership, record an empty
-operator delta and preserve the existing admission unchanged. Otherwise stop
-for Ritsu's decisions, then apply only deterministic same-class,
-same-category-stratum reserve replacement order.
+Convert the advisory verdict into an advisory disposition: `admitted` exactly
+when it equals the hidden intended label, otherwise `excluded`. Ritsu's delta
+queue is exactly the ascending identities whose advisory disposition differs
+from the published version 8 `screeningDisposition`. The coordinator may
+prepare a concise recommendation and evidence view, but only Ritsu may confirm
+or exclude a queued case. No other case is reopened.
+
+If the delta is empty, record an empty operator delta and preserve the existing
+admission unchanged. Otherwise stop for one Ritsu decision on every delta row.
+Replay admission from the original 240 mains and all 424 reserves using the
+amended current Ritsu decisions. Each excluded main is replaced by the first
+non-excluded, not-already-selected reserve in the frozen same-class,
+same-category-stratum reserve order. Recompute all replacements from the start;
+never choose or preserve a reserve discretionarily. The resulting bank must
+again contain exactly 240 items, 80 per class, and 20 in each of the 12 cells.
 
 ## Verification boundary
 
