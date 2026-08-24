@@ -36,6 +36,7 @@ const skipped = new Set(['.git', 'node_modules', '.DS_Store']);
 const allowedFiles = new Map([
   ['.github/workflows/ci.yml', ['text/yaml', 4096]],
   ['.gitignore', ['text/plain', 4096]],
+  ['AMENDMENTS/2026-08-24-evidence-rescreen-v9.md', ['text/markdown', 8192]],
   ['ATTRIBUTION.md', ['text/markdown', 8192]],
   ['CITATION.cff', ['text/yaml', 4096]],
   ['CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
@@ -58,6 +59,7 @@ const allowedFiles = new Map([
   ['docs/sampling-commitment.md', ['text/markdown', 8192]],
   ['docs/software-heritage.md', ['text/markdown', 8192]],
   ['commitments/LEDGER.jsonl', ['application/x-ndjson', 4096]],
+  ['commitments/locomo-evidence-rescreen-2026-08-24/commitment.json', ['application/json', 8192]],
   ['commitments/locomo-screening-2026-08-24/README.md', ['text/markdown', 8192]],
   ['commitments/locomo-screening-2026-08-24/candidate-identity-digests.json', ['application/json', 65536]],
   ['commitments/locomo-screening-2026-08-24/commitment-event.json', ['application/json', 8192]],
