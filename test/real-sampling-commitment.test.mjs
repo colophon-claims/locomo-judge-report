@@ -35,3 +35,14 @@ test('public commitment artifacts contain no raw IDs or private join metadata', 
   assert.doesNotMatch(text, /"[0-9a-f]{32}"/u);
   assert.doesNotMatch(text, /(?:sourceItemSha256|productItemSha256|sourceQuestion|candidateClass|stratum|poolKind)/u);
 });
+
+test('v8 transport amendment removes only the terminal-LF response requirement', () => {
+  const v1 = readFileSync('CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', 'utf8');
+  const v2 = readFileSync('CODEX-SCREENING-JUDGMENT-INSTRUCTION.v2.txt', 'utf8');
+  const amendment = readFileSync('CODEX-SCREENING-PROMPT.v8.md', 'utf8');
+  assert.match(v1, /followed by one LF byte/u);
+  assert.match(v2, /no leading whitespace, trailing whitespace, or terminal newline/u);
+  assert.doesNotMatch(v2, /followed by one LF byte/u);
+  assert.match(amendment, /same already-public 664-item identity pool, seed, deterministic 72-item sample/u);
+  assert.match(amendment, /No observed version 7 judgment is reused in version 8/u);
+});

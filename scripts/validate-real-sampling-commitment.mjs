@@ -85,7 +85,7 @@ export function validateRealSamplingCommitment() {
 
   const ledgerRaw = readFileSync(`${root}commitments/LEDGER.jsonl`, 'utf8');
   const ledgerLines = ledgerRaw.trimEnd().split('\n');
-  assert(ledgerRaw.endsWith('\n') && ledgerLines.length === 2, 'commitment ledger must contain two LF-terminated append-only events');
+  assert(ledgerRaw.endsWith('\n') && ledgerLines.length === 3, 'commitment ledger must contain three LF-terminated append-only events');
   const ledger = ledgerLines.map((line) => JSON.parse(line));
   assert(ledgerLines.every((line, index) => line === canonical(ledger[index])), 'commitment ledger event is not canonical');
   assert(ledger[0].ordinal === 1 && ledger[0].commitmentEventSha256 === sha256(event.raw) && ledger[0].pilotDecisionSha256 === sha256(decision.raw), 'prepared ledger bindings drifted');
@@ -94,6 +94,10 @@ export function validateRealSamplingCommitment() {
   assert(ledger[1].archivedRevision === '0c7c2415621bde7854229d7548982daff9aa0af5' && ledger[1].commitmentEventSha256 === sha256(event.raw), 'archived revision or commitment binding drifted');
   assert(ledger[1].snapshotSwhid === 'swh:1:snp:f8e4759c7f3ad04400cab799378ea05413ea0cee' && ledger[1].revisionSwhid === 'swh:1:rev:0c7c2415621bde7854229d7548982daff9aa0af5', 'Software Heritage identifiers drifted');
   assert(ledger[1].requestId === 2451193 && ledger[1].visitStatus === 'full' && ledger[1].visitDate === '2026-08-24T08:55:32.934000+00:00', 'Software Heritage visit record drifted');
+  assert(ledger[2].ordinal === 3 && ledger[2].event === 'screening-transport-framing-amended' && ledger[2].status === 'V8_PREPARED_SAME_POOL_SEED_AND_SAMPLE', 'transport amendment status drifted');
+  assert(ledger[2].previousLedgerSha256 === 'sha256:7a6598ecb00681433ae0cf4defb64f4b7ee9c66e693646854c0421ac9fc1793f' && ledger[2].rerollCount === 0, 'transport amendment does not bind the archived ledger or preserve the seed');
+  assert(ledger[2].abandonedRunTranscriptSha256 === 'sha256:5b67309f6662064446d5b1394052ffffef3d7bc9f1c78e954b1435a41094622a', 'abandoned run transcript binding drifted');
+  assert(ledger[2].coordinatorPromptV8Sha256 === sha256(readFileSync(`${root}CODEX-SCREENING-PROMPT.v8.md`)) && ledger[2].judgmentInstructionV2Sha256 === sha256(readFileSync(`${root}CODEX-SCREENING-JUDGMENT-INSTRUCTION.v2.txt`)), 'version 8 source binding drifted');
   return { candidateIdentityCount: 664, sampleSize: 72, poolDigest: commitment.value.poolDigest, commitmentSha256: sha256(commitment.raw), sampleSha256: sha256(canonical(output.value.sample)) };
 }
 
