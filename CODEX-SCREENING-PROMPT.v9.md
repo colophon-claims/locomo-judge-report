@@ -109,11 +109,15 @@ or exclude a queued case. No other case is reopened.
 If the delta is empty, record an empty operator delta and preserve the existing
 admission unchanged. Otherwise stop for one Ritsu decision on every delta row.
 Replay admission from the original 240 mains and all 424 reserves using the
-amended current Ritsu decisions. Each excluded main is replaced by the first
-non-excluded, not-already-selected reserve in the frozen same-class,
-same-category-stratum reserve order. Recompute all replacements from the start;
-never choose or preserve a reserve discretionarily. The resulting bank must
-again contain exactly 240 items, 80 per class, and 20 in each of the 12 cells.
+amended current Ritsu decisions. Retain the non-excluded mains and mark every
+retained main `sourceQuestionLineageId` as used. Process excluded receiving
+slots in canonical ascending `receivingSlotId` order. Each excluded main is
+replaced by the first non-excluded reserve in the frozen same-class,
+same-category-stratum reserve order whose `sourceQuestionLineageId` is unused
+by any retained main or earlier replacement. Mark that lineage used before the
+next receiving slot. Recompute all replacements from the start; never choose or
+preserve a reserve discretionarily. The resulting bank must again contain
+exactly 240 items, 80 per class, and 20 in each of the 12 cells.
 
 ## Verification boundary
 

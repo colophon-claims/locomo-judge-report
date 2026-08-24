@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { canonical } from '../scripts/render-evidence-rescreen-v9-compact-audit-input.mjs';
@@ -27,4 +28,12 @@ for (const [name, mutate] of [
 
 test('refuses changed prompt bytes even with the old binding', () => {
   assert.throws(() => validateEvidenceRescreenV9Commitment({ root, artifactBytes: { [binding.promptPath]: Buffer.from('changed\n') } }));
+});
+
+test('refuses a coordinated replay rule that permits reused source lineage', () => {
+  const prompt = readFileSync(new URL(`../${binding.promptPath}`, import.meta.url));
+  const weakened = Buffer.from(prompt.toString('utf8').replace('whose `sourceQuestionLineageId` is unused', 'whose item identity is not already selected'));
+  const changed = structuredClone(binding);
+  changed.promptSha256 = `sha256:${createHash('sha256').update(weakened).digest('hex')}`;
+  assert.throws(() => validateEvidenceRescreenV9Commitment({ root, bindingBytes: bytes(changed), artifactBytes: { [binding.promptPath]: weakened } }));
 });
