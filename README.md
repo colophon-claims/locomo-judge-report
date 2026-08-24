@@ -30,8 +30,10 @@ permanently excluded and remain ineligible for admission. None of the synthetic
 runs is a real-screening result or a freeze.
 
 The sole repository operator is `ritsukai`. Published records follow the
-append-only process in [CONTRIBUTING.md](CONTRIBUTING.md). The screening record
-is complete and public; it is still not the benchmark freeze.
+append-only process in [CONTRIBUTING.md](CONTRIBUTING.md). The version 8
+screening record is complete and public. A corrective evidence-aware re-screen
+is committed before freeze because the version 8 agent payload omitted the
+registered evidence excerpt. It is still not the benchmark freeze.
 
 ## Scope
 
@@ -153,6 +155,11 @@ is complete and public; it is still not the benchmark freeze.
   verifier checks artifact integrity and admission closure; it does not prove
   provider execution, prompt compliance, or immutable weights behind the
   declared model names.
+- [CODEX-SCREENING-PROMPT.v9.md](CODEX-SCREENING-PROMPT.v9.md) and
+  [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v3.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v3.txt)
+  bind the exact evidence-aware corrective workflow before any version 9 model
+  output. The correction reuses the original pool, seed, and sample and can
+  amend admission only through a new append-only public record.
 
 Run the local checks with:
 
