@@ -50,7 +50,7 @@ export function validateEvidenceRescreenV9Commitment({ root = defaultRoot, bindi
   }
 
   const prompt = (artifactBytes[binding.promptPath] ?? readFileSync(join(root, binding.promptPath))).toString('utf8').replace(/\s+/gu, ' ');
-  for (const required of ['full 32-item batches followed by the one final 24-item batch', 'full 16-item batches followed by at most one smaller final', 'full 8-item batches followed by at most one', 'strict two-of-three majority', 'advisory disposition differs', 'canonical ascending `receivingSlotId` order', 'whose `sourceQuestionLineageId` is unused', 'Mark that lineage used before the next receiving slot']) if (!prompt.includes(required)) fail(binding.promptPath, `is missing the bound deterministic rule: ${required}`);
+  for (const required of ['full 32-item batches followed by the one final 24-item batch', 'full 16-item batches followed by at most one smaller final', 'full 8-item batches followed by at most one', 'strict two-of-three majority', 'advisory disposition differs', 'Retain the non-excluded mains and mark every retained main `sourceQuestionLineageId` as used.', 'canonical ascending `receivingSlotId` order', 'whose `sourceQuestionLineageId` is unused by any retained main or earlier replacement.', 'Mark that lineage used before the next receiving slot']) if (!prompt.includes(required)) fail(binding.promptPath, `is missing the bound deterministic rule: ${required}`);
   return true;
 }
 

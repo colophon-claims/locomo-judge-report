@@ -37,3 +37,15 @@ test('refuses a coordinated replay rule that permits reused source lineage', () 
   changed.promptSha256 = `sha256:${createHash('sha256').update(weakened).digest('hex')}`;
   assert.throws(() => validateEvidenceRescreenV9Commitment({ root, bindingBytes: bytes(changed), artifactBytes: { [binding.promptPath]: weakened } }));
 });
+
+for (const [name, source, replacement] of [
+  ['removed retained-main lineage seeding', 'Retain the non-excluded mains and mark every\nretained main `sourceQuestionLineageId` as used.', 'Retain the non-excluded mains.'],
+  ['same-class-only lineage uniqueness', 'by any retained main or earlier replacement.', 'by any earlier replacement in the same class.'],
+]) test(`refuses coordinated ${name}`, () => {
+  const prompt = readFileSync(new URL(`../${binding.promptPath}`, import.meta.url));
+  const weakened = Buffer.from(prompt.toString('utf8').replace(source, replacement));
+  assert.notDeepEqual(weakened, prompt);
+  const changed = structuredClone(binding);
+  changed.promptSha256 = `sha256:${createHash('sha256').update(weakened).digest('hex')}`;
+  assert.throws(() => validateEvidenceRescreenV9Commitment({ root, bindingBytes: bytes(changed), artifactBytes: { [binding.promptPath]: weakened } }));
+});
