@@ -26,6 +26,7 @@ import './validate-synthetic-pilot-v5-stop.mjs';
 import './validate-synthetic-pilot-v6-stop.mjs';
 import './validate-prompted-screening-pilot.mjs';
 import './validate-prompted-screening-v5-fixture.mjs';
+import { validateRealSamplingCommitment } from './validate-real-sampling-commitment.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const manifestPath = join(root, 'MANIFEST.sha256');
@@ -54,6 +55,12 @@ const allowedFiles = new Map([
   ['README.md', ['text/markdown', 16384]],
   ['docs/sampling-commitment.md', ['text/markdown', 8192]],
   ['docs/software-heritage.md', ['text/markdown', 8192]],
+  ['commitments/LEDGER.jsonl', ['application/x-ndjson', 4096]],
+  ['commitments/locomo-screening-2026-08-24/README.md', ['text/markdown', 8192]],
+  ['commitments/locomo-screening-2026-08-24/candidate-identity-digests.json', ['application/json', 65536]],
+  ['commitments/locomo-screening-2026-08-24/commitment-event.json', ['application/json', 8192]],
+  ['commitments/locomo-screening-2026-08-24/sampling-commitment.json', ['application/json', 65536]],
+  ['commitments/locomo-screening-2026-08-24/sampling-output.json', ['application/json', 131072]],
   ['fixtures/prompted-screening-pilot-v1.json', ['application/json', 32768]],
   ['fixtures/prompted-screening-pilot-v2.json', ['application/json', 32768]],
   ['fixtures/prompted-screening-pilot-v4-compact-audit.json', ['application/json', 32768]],
@@ -119,6 +126,8 @@ const allowedFiles = new Map([
   ['records/synthetic-pilot-v6-2026-08-23/state-export.json', ['application/json', 32768]],
   ['records/synthetic-pilot-v6-2026-08-23/transcript.jsonl', ['application/x-ndjson', 65536]],
   ['records/synthetic-pilot-v6-2026-08-23/usage.md', ['text/markdown', 8192]],
+  ['records/synthetic-pilot-v7-clean-2026-08-24/accepted-pilot-summary.json', ['application/json', 4096]],
+  ['records/synthetic-pilot-v7-clean-2026-08-24/ritsu-decision.json', ['application/json', 8192]],
   ['schemas/compact-process-audit-input.v1.schema.json', ['application/json', 16384]],
   ['schemas/compact-process-audit-input.v2.schema.json', ['application/json', 32768]],
   ['schemas/compact-process-audit-input.v3.schema.json', ['application/json', 32768]],
@@ -162,6 +171,9 @@ const allowedFiles = new Map([
   ['scripts/validate-prompted-screening-audit-output-v2.mjs', ['application/javascript', 8192]],
   ['scripts/validate-prompted-screening-audit-findings-v1.mjs', ['application/javascript', 8192]],
   ['scripts/validate-sampling-commitment.mjs', ['application/javascript', 8192]],
+  ['scripts/project-screening-identities-v1.mjs', ['application/javascript', 8192]],
+  ['scripts/screening-sample-v1.py', ['text/plain', 8192]],
+  ['scripts/validate-real-sampling-commitment.mjs', ['application/javascript', 16384]],
   ['scripts/validate-synthetic-pilot-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate-synthetic-pilot-v2-run-record.mjs', ['application/javascript', 32768]],
   ['scripts/validate-synthetic-pilot-v3-run-record.mjs', ['application/javascript', 24576]],
@@ -171,6 +183,7 @@ const allowedFiles = new Map([
   ['scripts/validate.mjs', ['application/javascript', 24576]],
   ['source-register.json', ['application/json', 8192]],
   ['test/validate.test.mjs', ['application/javascript', 16384]],
+  ['test/real-sampling-commitment.test.mjs', ['application/javascript', 8192]],
   ['test/prompted-screening-pilot.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-dispatch-v2.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-dispatch-v3.test.mjs', ['application/javascript', 24576]],
@@ -279,10 +292,11 @@ if (!backboard || backboard.public !== true || backboard.license !== 'NOASSERTIO
 }
 
 validateSourceRegister(register, registerRaw);
+validateRealSamplingCommitment();
 
 const expectedManifest = tracked.filter((path) => path !== 'MANIFEST.sha256').map((path) => {
   const digest = createHash('sha256').update(readFileSync(join(root, path))).digest('hex');
   return `${digest}  ${path}`;
 }).join('\n') + '\n';
 if (readFileSync(manifestPath, 'utf8') !== expectedManifest) throw new Error('MANIFEST.sha256 is not sorted or does not match tracked files');
-console.log(`validated ${tracked.length - 1} manifest files and preparation-only boundaries`);
+console.log(`validated ${tracked.length - 1} manifest files and registration boundaries`);

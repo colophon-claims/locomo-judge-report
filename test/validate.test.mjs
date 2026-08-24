@@ -33,7 +33,7 @@ function commitment(overrides = {}) {
 
 test('preparation scaffold validates', () => {
   const output = execFileSync(process.execPath, ['scripts/validate.mjs'], { encoding: 'utf8' });
-  assert.match(output, /preparation-only boundaries/u);
+  assert.match(output, /registration boundaries/u);
 });
 
 test('sampling interface has no implicit commitment', () => {

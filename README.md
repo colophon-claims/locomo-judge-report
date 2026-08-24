@@ -1,12 +1,14 @@
 # LoCoMo judge report registration
 
-## PREPARATION / NOT FROZEN
+## SAMPLING COMMITMENT PREPARED / NOT FROZEN
 
 This public repository is an operator-owned registration scaffold for a future
 LoCoMo judge report. It is not a freeze, benchmark result, real-screening audit
-release, or authorization to run one. No real or operator commitment instance,
-seed, LoCoMo conversation, audit dataset, real screening output, candidate pool,
-or benchmark result is present now. Versioned Colophon-authored prompt and
+release, or authorization to run one. The authorized 664-identity sampling
+commitment and deterministic 72-identity sample are prepared under
+[`commitments/`](commitments/), before any real screening outcome. No LoCoMo
+conversation, audit dataset, real screening output, raw opaque identity, source
+item digest, product item digest, or benchmark result is published. Versioned Colophon-authored prompt and
 instruction bytes define a future procedure. Clearly named synthetic fixtures
 and the preserved synthetic pilots are permanently ineligible for admission.
 The first two pilots are non-conformant. The process-green third pilot is an
@@ -18,15 +20,15 @@ PUBLIC_V5_EXECUTABLE_BUILDER_REJECTS_FRESH_PREFIX` and stopped before any
 dispatch. The sixth pilot is `NON_CONFORMANT / AUDIT_OUTPUT_SCHEMA_REJECTED`:
 its judgment dispatches were mechanically green, but its exact nested Sol
 response did not match the underspecified version 2 audit-output shape. The
-raw response remains rejected and no Ritsu decision was recorded. None is
-accepted, reusable, a commitment, or a freeze.
+raw response remains rejected and no Ritsu decision was recorded. The clean
+version 7 pilot is separately confirmed by Ritsu, but its synthetic cases are
+permanently excluded and remain ineligible for admission. None of the synthetic
+runs is a real-screening result or a freeze.
 
-The sole repository operator is `ritsukai`. A future commitment may be added
-only through the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
-After separate authorization, a sampling commitment and selected, authorized
-snippets may be appended. Until then, this repository contains preparation
-metadata, validation interfaces, and the explicitly identified append-only
-synthetic execution evidence below.
+The sole repository operator is `ritsukai`. The prepared commitment becomes an
+external public commitment only when this exact commit is published. From that
+point it follows the append-only process in [CONTRIBUTING.md](CONTRIBUTING.md).
+It is still not the benchmark freeze.
 
 ## Scope
 
