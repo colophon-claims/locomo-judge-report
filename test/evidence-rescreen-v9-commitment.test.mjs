@@ -8,6 +8,8 @@ import { validateEvidenceRescreenV9Commitment } from '../scripts/validate-eviden
 const root = new URL('..', import.meta.url).pathname;
 const bindingPath = new URL('../commitments/locomo-evidence-rescreen-2026-08-24/prompt-binding.json', import.meta.url);
 const binding = JSON.parse(readFileSync(bindingPath, 'utf8'));
+const normalizationPath = new URL('../commitments/locomo-evidence-rescreen-2026-08-24/post-output-normalization.json', import.meta.url);
+const normalization = JSON.parse(readFileSync(normalizationPath, 'utf8'));
 const bytes = (value) => Buffer.from(`${canonical(value)}\n`);
 
 test('accepts the exact evidence re-screen v9 commitment', () => {
@@ -28,6 +30,17 @@ for (const [name, mutate] of [
 
 test('refuses changed prompt bytes even with the old binding', () => {
   assert.throws(() => validateEvidenceRescreenV9Commitment({ root, artifactBytes: { [binding.promptPath]: Buffer.from('changed\n') } }));
+});
+
+for (const [name, mutate] of [
+  ['normalization mapping drift', (value) => { value.mapping.admitted = 'admitted'; }],
+  ['preliminary delta hash drift', (value) => { value.preliminary.operatorDeltaSha256 = `sha256:${'0'.repeat(64)}`; }],
+  ['corrected delta hash drift', (value) => { value.corrected.operatorDeltaSha256 = `sha256:${'0'.repeat(64)}`; }],
+  ['hidden judgment rerun', (value) => { value.judgmentsRerun = true; }],
+]) test(`refuses ${name}`, () => {
+  const changed = structuredClone(normalization);
+  mutate(changed);
+  assert.throws(() => validateEvidenceRescreenV9Commitment({ root, normalizationBytes: bytes(changed) }));
 });
 
 test('refuses a coordinated replay rule that permits reused source lineage', () => {
