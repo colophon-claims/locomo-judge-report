@@ -1,0 +1,9 @@
+{
+  "eventSha256": "sha256:ab01f6e909fcef82c1dba3469e50578f851fc93c413fd95783a0694b3e042b63",
+  "outcome": "serving",
+  "probedAt": "2026-08-26T10:57:20.646Z",
+  "protocol": "https://spec.jinn.network/binary-judgment/snapshot-serving-probe/v1",
+  "requestedModel": "gpt-4o-mini-2024-07-18",
+  "resolvedModel": "gpt-4o-mini-2024-07-18",
+  "responseId": "resp_047685d8c3251c70016a8ec690152c87d2bcf861b98e44239e"
+}
