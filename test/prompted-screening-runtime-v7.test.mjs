@@ -40,6 +40,8 @@ function temporaryProductionCheckout() {
   execFileSync('git', ['init', '-q'], { cwd: directory });
   execFileSync('git', ['config', 'user.name', 'Synthetic Test'], { cwd: directory });
   execFileSync('git', ['config', 'user.email', 'synthetic@example.invalid'], { cwd: directory });
+  execFileSync('git', ['config', 'gc.auto', '0'], { cwd: directory });
+  execFileSync('git', ['config', 'maintenance.auto', 'false'], { cwd: directory });
   execFileSync('git', ['add', '.'], { cwd: directory });
   execFileSync('git', ['commit', '-q', '-m', 'synthetic exact source'], { cwd: directory });
   return { directory: realpathSync(directory), parent, revision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: directory, encoding: 'utf8' }).trim() };
