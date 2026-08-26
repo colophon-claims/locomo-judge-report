@@ -3,14 +3,18 @@
 ## SCREENING COMPLETE / NOT FROZEN
 
 This public repository is the operator-owned registration record for a future
-LoCoMo judge report. The 664-item prompted screen and the 220 required Ritsu
-checks are complete, and Colophon has admitted the balanced 240-item bank. It
+LoCoMo judge report. The evidence-aware 664-item prompted screen and the 255
+required Ritsu checks are complete, and Colophon has admitted the balanced
+240-item bank. It
 is not a benchmark freeze or benchmark result, and it authorizes no judge run.
 The pre-outcome 664-identity commitment and deterministic 72-identity sample
 remain under [`commitments/`](commitments/). The exact outcome evidence,
 candidate item bytes, source rows, replacement lineage, final bank, and signed
 Colophon admission records are under
-[`records/real-run-v8-2026-08-24/`](records/real-run-v8-2026-08-24/).
+[`records/real-run-v8-2026-08-24/`](records/real-run-v8-2026-08-24/). The
+append-only corrective record, including its 52 replacements and signed
+Colophon admission, is under
+[`records/real-run-v9-2026-08-25/`](records/real-run-v9-2026-08-25/).
 No full conversation, credential, private note, or unrelated dataset byte is
 published. Versioned Colophon-authored prompt and instruction bytes define the
 procedure. Clearly named synthetic fixtures
@@ -31,9 +35,11 @@ runs is a real-screening result or a freeze.
 
 The sole repository operator is `ritsukai`. Published records follow the
 append-only process in [CONTRIBUTING.md](CONTRIBUTING.md). The version 8
-screening record is complete and public. A corrective evidence-aware re-screen
-is committed before freeze because the version 8 agent payload omitted the
-registered evidence excerpt. It is still not the benchmark freeze.
+screening record remains complete and public. The corrective evidence-aware
+version 9 re-screen is also complete because the version 8 agent payload
+omitted the registered evidence excerpt. Version 9 reuses the original pool,
+seed, sample, item bytes, and source-record bytes. Neither record is the
+benchmark freeze.
 
 ## Scope
 
@@ -155,6 +161,11 @@ registered evidence excerpt. It is still not the benchmark freeze.
   verifier checks artifact integrity and admission closure; it does not prove
   provider execution, prompt compliance, or immutable weights behind the
   declared model names.
+- [records/real-run-v9-2026-08-25/](records/real-run-v9-2026-08-25/) preserves
+  the completed evidence-aware corrective screen, all 255 required Ritsu
+  decisions, deterministic 52-item replacement lineage, balanced final bank,
+  module confirmations, and signed Colophon admission records. It references
+  the byte-identical item and source-record files already retained by version 8.
 - [CODEX-SCREENING-PROMPT.v9.md](CODEX-SCREENING-PROMPT.v9.md) and
   [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v3.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v3.txt)
   bind the exact evidence-aware corrective workflow before any version 9 model

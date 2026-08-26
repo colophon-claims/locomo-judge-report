@@ -1,0 +1,60 @@
+{
+  "authorization": {
+    "authorizedBy": "ritsukai",
+    "instruction": "proceed with all 3",
+    "scope": "Confirm the 12 consistency-probe relations and the 20 proposed corrupt-key corrections.",
+    "recordedAt": "2026-08-25T18:36:07Z",
+    "reviewExecution": "Codex evidence audit under Ritsu's explicit operator authorization"
+  },
+  "consistencyProbes": {
+    "count": 12,
+    "decisions": [
+      {"decision": "CONFIRM", "probeId": "issue-23-A", "reason": "The candidate is an exact proper subset of the reference list."},
+      {"decision": "CONFIRM", "probeId": "issue-23-B", "reason": "The candidate is an exact proper subset of the reference list."},
+      {"decision": "CONFIRM", "probeId": "issue-23-C", "reason": "The candidate contains every reference item plus an extra item."},
+      {"decision": "CONFIRM", "probeId": "issue-23-D", "reason": "The candidate contains the reference item plus an extra item."},
+      {"decision": "CONFIRM", "probeId": "constructed-subset-03", "reason": "The candidate removes one listed dream and retains only reference items."},
+      {"decision": "CONFIRM", "probeId": "constructed-subset-04", "reason": "The candidate retains one of the two reference desserts."},
+      {"decision": "CONFIRM", "probeId": "constructed-subset-05", "reason": "The candidate retains the yes/no answer and omits the explanation."},
+      {"decision": "CONFIRM", "probeId": "constructed-subset-06", "reason": "The candidate removes keepsakes and retains only reference items."},
+      {"decision": "CONFIRM", "probeId": "constructed-superset-03", "reason": "The candidate contains the reference month plus an extra month."},
+      {"decision": "CONFIRM", "probeId": "constructed-superset-04", "reason": "The candidate contains the complete reference list plus extra allergens."},
+      {"decision": "CONFIRM", "probeId": "constructed-superset-05", "reason": "The candidate contains the reference feeling plus an extra feeling."},
+      {"decision": "CONFIRM", "probeId": "constructed-superset-06", "reason": "The candidate contains the reference statement plus an extra statement."}
+    ],
+    "draftSha256": "sha256:8f77d2e2bd9e0011217c2834e169cf2cdea1ce3abfa061869b2caab5475bb438",
+    "issue23BodySha256": "sha256:3db4a515d3e18cf843795bf0bc23983e73f75ee93d131b659d8001f14c603093",
+    "sourceResultsSha256": "sha256:a83882eda3ff02fd04dace6edddd0ceed533a245fedb3069ffde02a9503c4e3a",
+    "status": "confirmed-not-frozen"
+  },
+  "corruptKeyModule": {
+    "count": 20,
+    "decisions": [
+      {"decision": "CONFIRM", "errorType": "HALLUCINATION", "moduleItemId": "corrupt-key-01", "sourceQuestionId": "locomo_0_qa2"},
+      {"decision": "CONFIRM", "errorType": "TEMPORAL_ERROR", "moduleItemId": "corrupt-key-02", "sourceQuestionId": "locomo_4_qa56"},
+      {"decision": "CONFIRM", "errorType": "TEMPORAL_ERROR", "moduleItemId": "corrupt-key-03", "sourceQuestionId": "locomo_5_qa5"},
+      {"decision": "CONFIRM", "errorType": "AMBIGUOUS", "moduleItemId": "corrupt-key-04", "sourceQuestionId": "locomo_0_qa77"},
+      {"decision": "CONFIRM", "errorType": "TEMPORAL_ERROR", "moduleItemId": "corrupt-key-05", "sourceQuestionId": "locomo_3_qa24"},
+      {"decision": "CONFIRM", "errorType": "HALLUCINATION", "moduleItemId": "corrupt-key-06", "sourceQuestionId": "locomo_8_qa43"},
+      {"decision": "CONFIRM", "errorType": "TEMPORAL_ERROR", "moduleItemId": "corrupt-key-07", "sourceQuestionId": "locomo_3_qa73"},
+      {"decision": "CONFIRM", "errorType": "HALLUCINATION", "moduleItemId": "corrupt-key-08", "sourceQuestionId": "locomo_3_qa91"},
+      {"decision": "CONFIRM", "errorType": "TEMPORAL_ERROR", "moduleItemId": "corrupt-key-09", "sourceQuestionId": "locomo_4_qa6"},
+      {"decision": "CONFIRM", "errorType": "ATTRIBUTION_ERROR", "moduleItemId": "corrupt-key-10", "sourceQuestionId": "locomo_9_qa137"},
+      {"decision": "CONFIRM", "errorType": "HALLUCINATION", "moduleItemId": "corrupt-key-11", "sourceQuestionId": "locomo_3_qa66"},
+      {"decision": "CONFIRM", "errorType": "HALLUCINATION", "moduleItemId": "corrupt-key-12", "sourceQuestionId": "locomo_8_qa4"},
+      {"decision": "CONFIRM", "errorType": "TEMPORAL_ERROR", "moduleItemId": "corrupt-key-13", "sourceQuestionId": "locomo_2_qa48"},
+      {"decision": "CONFIRM", "errorType": "TEMPORAL_ERROR", "moduleItemId": "corrupt-key-14", "sourceQuestionId": "locomo_2_qa69"},
+      {"decision": "CONFIRM", "errorType": "TEMPORAL_ERROR", "moduleItemId": "corrupt-key-15", "sourceQuestionId": "locomo_6_qa31"},
+      {"decision": "CONFIRM", "errorType": "HALLUCINATION", "moduleItemId": "corrupt-key-16", "sourceQuestionId": "locomo_3_qa61"},
+      {"decision": "CONFIRM", "errorType": "ATTRIBUTION_ERROR", "moduleItemId": "corrupt-key-17", "sourceQuestionId": "locomo_4_qa135"},
+      {"decision": "CONFIRM", "errorType": "ATTRIBUTION_ERROR", "moduleItemId": "corrupt-key-18", "sourceQuestionId": "locomo_6_qa37"},
+      {"decision": "CONFIRM", "errorType": "TEMPORAL_ERROR", "moduleItemId": "corrupt-key-19", "sourceQuestionId": "locomo_8_qa74"},
+      {"decision": "CONFIRM", "errorType": "HALLUCINATION", "moduleItemId": "corrupt-key-20", "sourceQuestionId": "locomo_0_qa149"}
+    ],
+    "draftSha256": "sha256:4ac01394dc335eed16da22e21a8d137b278e652df653567cafffd34de360cbff",
+    "sourceErrorsSha256": "sha256:f298ef46263fada20688a1d672be37d4f488c6da3b19343eea55ae5c1b5fe55e",
+    "status": "confirmed-not-frozen"
+  },
+  "protocol": "locomo-prefreeze-module-confirmations/v1",
+  "status": "complete-not-frozen"
+}

@@ -28,6 +28,7 @@ import './validate-prompted-screening-pilot.mjs';
 import './validate-prompted-screening-v5-fixture.mjs';
 import { validateRealSamplingCommitment } from './validate-real-sampling-commitment.mjs';
 import { validateEvidenceRescreenV9Commitment } from './validate-evidence-rescreen-v9-commitment.mjs';
+import './validate-real-screening-v9.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const manifestPath = join(root, 'MANIFEST.sha256');
@@ -39,6 +40,7 @@ const allowedFiles = new Map([
   ['.gitignore', ['text/plain', 4096]],
   ['AMENDMENTS/2026-08-24-evidence-rescreen-v9-disposition-normalization.md', ['text/markdown', 8192]],
   ['AMENDMENTS/2026-08-24-evidence-rescreen-v9.md', ['text/markdown', 8192]],
+  ['AMENDMENTS/2026-08-26-v8-swhid-correction.json', ['application/json', 4096]],
   ['ATTRIBUTION.md', ['text/markdown', 8192]],
   ['CITATION.cff', ['text/yaml', 4096]],
   ['CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
@@ -59,7 +61,7 @@ const allowedFiles = new Map([
   ['CONTRIBUTING.md', ['text/markdown', 8192]],
   ['LICENSE', ['text/plain', 32768]],
   ['LICENSES/THIRD-PARTY-NOTICES.md', ['text/markdown', 8192]],
-  ['README.md', ['text/markdown', 16384]],
+  ['README.md', ['text/markdown', 24576]],
   ['docs/sampling-commitment.md', ['text/markdown', 8192]],
   ['docs/software-heritage.md', ['text/markdown', 8192]],
   ['commitments/LEDGER.jsonl', ['application/x-ndjson', 4096]],
@@ -150,6 +152,22 @@ const allowedFiles = new Map([
   ['records/real-run-v8-2026-08-24/colophon-screening-table.json', ['application/json', 262144]],
   ['records/real-run-v8-2026-08-24/colophon-admission-manifest.json', ['application/json', 65536]],
   ['records/real-run-v8-2026-08-24/colophon-replacement-ledger.json', ['application/json', 32768]],
+  ['records/real-run-v9-2026-08-25/README.md', ['text/markdown', 8192]],
+  ['records/real-run-v9-2026-08-25/summary.json', ['application/json', 8192]],
+  ['records/real-run-v9-2026-08-25/screening-procedure.json', ['application/json', 8192]],
+  ['records/real-run-v9-2026-08-25/screening-pool.json', ['application/json', 524288]],
+  ['records/real-run-v9-2026-08-25/transcript.jsonl', ['application/x-ndjson', 65536]],
+  ['records/real-run-v9-2026-08-25/operator-screening-rows.json', ['application/json', 262144]],
+  ['records/real-run-v9-2026-08-25/operator-decisions.json', ['application/json', 131072]],
+  ['records/real-run-v9-2026-08-25/operator-replacement-ledger.json', ['application/json', 32768]],
+  ['records/real-run-v9-2026-08-25/operator-admission-summary.json', ['application/json', 8192]],
+  ['records/real-run-v9-2026-08-25/final-bank.json', ['application/json', 262144]],
+  ['records/real-run-v9-2026-08-25/registered-sampling-commitment.json', ['application/json', 65536]],
+  ['records/real-run-v9-2026-08-25/materialization-summary.json', ['application/json', 4096]],
+  ['records/real-run-v9-2026-08-25/module-confirmations.json', ['application/json', 32768]],
+  ['records/real-run-v9-2026-08-25/colophon-screening-table.json', ['application/json', 262144]],
+  ['records/real-run-v9-2026-08-25/colophon-admission-manifest.json', ['application/json', 65536]],
+  ['records/real-run-v9-2026-08-25/colophon-replacement-ledger.json', ['application/json', 32768]],
   ['schemas/compact-process-audit-input.v1.schema.json', ['application/json', 16384]],
   ['schemas/compact-process-audit-input.v2.schema.json', ['application/json', 32768]],
   ['schemas/compact-process-audit-input.v3.schema.json', ['application/json', 32768]],
@@ -199,6 +217,7 @@ const allowedFiles = new Map([
   ['scripts/screening-sample-v1.py', ['text/plain', 8192]],
   ['scripts/validate-real-sampling-commitment.mjs', ['application/javascript', 16384]],
   ['scripts/validate-evidence-rescreen-v9-commitment.mjs', ['application/javascript', 16384]],
+  ['scripts/validate-real-screening-v9.mjs', ['application/javascript', 32768]],
   ['scripts/validate-synthetic-pilot-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate-synthetic-pilot-v2-run-record.mjs', ['application/javascript', 32768]],
   ['scripts/validate-synthetic-pilot-v3-run-record.mjs', ['application/javascript', 24576]],
@@ -210,6 +229,7 @@ const allowedFiles = new Map([
   ['test/validate.test.mjs', ['application/javascript', 16384]],
   ['test/real-sampling-commitment.test.mjs', ['application/javascript', 8192]],
   ['test/evidence-rescreen-v9-commitment.test.mjs', ['application/javascript', 8192]],
+  ['test/real-screening-v9.test.mjs', ['application/javascript', 4096]],
   ['test/prompted-screening-pilot.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-dispatch-v2.test.mjs', ['application/javascript', 16384]],
   ['test/prompted-screening-dispatch-v3.test.mjs', ['application/javascript', 24576]],

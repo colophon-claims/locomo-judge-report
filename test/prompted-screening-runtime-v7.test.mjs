@@ -212,7 +212,9 @@ test('production-shaped exact Git path reaches pending Ritsu only with exact bou
     assert.equal(finalized.result.admissionEligible, false);
     rmSync(join(checkout.directory, 'CODEX-SCREENING-PROMPT.v7.md'));
     assert.throws(() => resolveProductionSourceRevisionV7({ repoRoot: checkout.directory, expectedPublicCommit: checkout.revision, sources }), /tracked-clean/u);
-  } finally { rmSync(checkout.parent, { recursive: true, force: true }); }
+  } finally {
+    rmSync(checkout.parent, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+  }
 });
 
 test('v6 evidence remains exact, nonconformant, decision-free, and rejected by v7', () => {

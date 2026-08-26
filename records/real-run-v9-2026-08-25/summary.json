@@ -1,0 +1,64 @@
+{
+  "capabilityBoundary": {
+    "immutableModelWeightsProven": false,
+    "promptComplianceMachineVerified": false,
+    "providerExecutionMachineVerified": false
+  },
+  "colophon": {
+    "admissionManifestSha256": "sha256:b48364b8f3470e872dbc0e590be0142eb2017b6a48a2b4141b844e8f5e18f1c3",
+    "admittedAt": "2026-08-25T18:34:24.243Z",
+    "productSourceCommit": "dcbab7ee36a2944057117f189c90f8fbd8e7f682",
+    "replacementLedgerSha256": "sha256:17a15805727193243b00342b5a77c49b9f4905208125fded2ce80f5000fb8cdc",
+    "screeningTableSha256": "sha256:e44c5eade5bad987a8ff6828b96c73750202883fee972c43d1aaef113c581bdd"
+  },
+  "commitment": {
+    "poolDigest": "sha256:34b8cbe099124eb6182e7e2d894381d75fba9fde1d8e54abd0c957b937c9aba6",
+    "sampleSize": 72,
+    "snapshotSwhid": "swh:1:snp:e9cdf0d5ce0da62d2d4ac87bef24e6bf632d5af7"
+  },
+  "counts": {
+    "candidateCount": 664,
+    "excludedMainCount": 52,
+    "excludedReserveCount": 85,
+    "finalBankCount": 240,
+    "handCheckedCount": 255,
+    "handConfirmedCount": 118,
+    "handExcludedCount": 137,
+    "lunaFlagCount": 201,
+    "lunaIntendedAgreementCount": 463,
+    "lunaIntendedDisagreementCount": 147,
+    "lunaUnsureCount": 54,
+    "replacementCount": 52,
+    "sampleSize": 72,
+    "solReviewedCount": 98,
+    "terraReviewedCount": 231
+  },
+  "exclusionReasons": {
+    "ambiguous-or-insufficient-evidence": 19,
+    "intended-label-not-supported": 113,
+    "reference-answer-problem": 5
+  },
+  "finalBalance": {
+    "classCounts": {
+      "correct": 80,
+      "specific-wrong": 80,
+      "vague-topical-wrong": 80
+    },
+    "itemsPerClassCategoryCell": 20
+  },
+  "finalBankSha256": "sha256:b081b8f43c33befa5290b8f37917cd3b76d9f93c32fea9b8ba2330881de66c7b",
+  "models": {
+    "coordinator": "gpt-5.6-sol",
+    "luna": "gpt-5.6-luna",
+    "sol": "gpt-5.6-sol",
+    "terra": "gpt-5.6-terra"
+  },
+  "modules": {
+    "consistencyProbesConfirmed": 12,
+    "corruptKeyRecordsConfirmed": 20
+  },
+  "protocol": "locomo-public-evidence-aware-screening-outcome/v1",
+  "runId": "locomo-evidence-rescreen-v9-completion-2026-08-25",
+  "sharedCandidateRecords": "records/real-run-v8-2026-08-24",
+  "status": "screening-complete-admitted-not-frozen"
+}

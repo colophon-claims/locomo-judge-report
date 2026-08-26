@@ -1,0 +1,15 @@
+{
+  "correctedField": "/commitment/snapshotSwhid",
+  "correctedSnapshotSwhid": "swh:1:snp:f8e4759c7f3ad04400cab799378ea05413ea0cee",
+  "correctionKind": "append-only-transcription-correction",
+  "evidence": {
+    "archivedRevision": "0c7c2415621bde7854229d7548982daff9aa0af5",
+    "ledgerOrdinal": 2,
+    "requestId": 2451193,
+    "requestUrl": "https://archive.softwareheritage.org/api/1/origin/save/2451193/"
+  },
+  "incorrectPublishedSnapshotSwhid": "swh:1:snp:f8e4759c2bab71f189306c050174a87b3f7a9a40",
+  "protocol": "locomo-append-only-public-record-correction/v1",
+  "sourceRecord": "records/real-run-v8-2026-08-24/summary.json",
+  "status": "corrected-without-rewriting-source"
+}
