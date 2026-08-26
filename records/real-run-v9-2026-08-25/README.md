@@ -33,9 +33,12 @@ false positive and that the actual tool-call count was zero.
 The registered version 9 process-audit gate was later found to have been
 omitted. Its delayed first attempt failed before model output, and the permitted
 retry returned a semantic PASS whose missing terminal LF was correctly rejected
-by the frozen parser. The raw attempts are retained here. Admission readiness is
-held pending the fresh, publicly preregistered version 10 audit-only framing
-correction; no version 9 model output is normalized or reused.
+by the frozen parser. The raw attempts are retained here. The fresh version 10
+audit-only framing correction was publicly committed at
+`91e2ad3bb1ef9694576d4bddff61bb467f538396` before model execution and returned
+`PASS` with zero material findings, no tool calls, and no retry. No version 9
+model output was normalized or reused, and no screening or human review was
+rerun.
 
 The exact 664 item and source-record bytes are unchanged from version 8 and
 remain at `../real-run-v8-2026-08-24/items/` and

@@ -35,7 +35,18 @@ if (existsSync(outputPath)) {
   invariant(messages.length === 1 && Buffer.from(messages[0].item.text).equals(output), 'fresh audit output is not bound to its exact event stream');
   invariant(events.every((event) => !['command_execution', 'mcp_tool_call', 'web_search'].includes(event.item?.type)), 'fresh audit used a tool');
   const terminal = json('process-audit-terminal.json');
-  invariant(terminal.status === 'PASS_ZERO_MATERIAL_FINDINGS' && terminal.toolCallCount === 0 && terminal.retryCount === 0, 'fresh audit terminal record drift');
+  invariant(terminal.status === 'PASS_ZERO_MATERIAL_FINDINGS'
+    && terminal.assessment === 'PASS'
+    && terminal.materialFindingCount === 0
+    && terminal.toolCallCount === 0
+    && terminal.retryCount === 0
+    && terminal.preOutputCommit === '91e2ad3bb1ef9694576d4bddff61bb467f538396'
+    && terminal.outputSha256 === sha256(output)
+    && terminal.eventsSha256 === sha256(bytes('process-audit-events.jsonl'))
+    && terminal.stderrSha256 === sha256(bytes('process-audit-stderr.log'))
+    && terminal.auditInputSha256 === sha256(bytes('compact-process-audit-input.json'))
+    && terminal.auditDispatchSha256 === sha256(bytes('process-audit-dispatch.txt'))
+    && terminal.auditInvocationSha256 === preparation.auditInvocationSha256, 'fresh audit terminal record drift');
   console.log('validated fresh version 10 process-audit PASS (not frozen)');
 } else {
   console.log('validated public version 10 process-audit preparation (not run, not frozen)');

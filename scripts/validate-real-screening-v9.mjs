@@ -45,7 +45,7 @@ const expectedDigests = {
   'transcript.jsonl': 'sha256:43e5ea6d5fa37825ba08f3ad4edef820b9b83bee9881838102af799c1156e642',
   'tool-policy-audit.json': 'sha256:1100b2adbdfef7a386655e9266e74b7cf795cf7ef1a338b65d4fe80733897158',
   'whole-run-audit-remediation.json': 'sha256:12e47164346aa068a2774b455366eb0d76c37f1094bf652c342ff890340f63d5',
-  'workflow-disposition.json': 'sha256:d092878860c41ec1492ffdba0b08b373c0648190e565bbbc4c3187a243bf159a',
+  'workflow-disposition.json': 'sha256:85eafe84ba3d390e0ccd683260d48aab4774dbe12ecdf8569e8a928b0fbac00a',
 };
 for (const [name, expected] of Object.entries(expectedDigests)) exactDigest(name, expected);
 
@@ -138,11 +138,14 @@ invariant(escalationDecisions.filter((row) => row.decision === 'CONFIRM').length
 invariant(toolPolicyAudit.status === 'PASS' && toolPolicyAudit.falsePositiveCountFromSupersededSubstringScanner === 1, 'supplemental tool-policy audit is not closed');
 invariant(toolPolicyAudit.rows.length === 17 && toolPolicyAudit.rows.every((row) => row.exactToolCallCount === 0), 'exact supplemental tool-call audit drift');
 invariant(toolPolicyAudit.rows.reduce((count, row) => count + row.historicalRecordedCount, 0) === 1, 'historical supplemental count reconciliation drift');
-invariant(workflowDisposition.status === 'JUDGMENTS_AND_HUMAN_REVIEW_COMPLETE_AUDIT_GATE_PENDING_NOT_FROZEN', 'workflow disposition does not retain the pending audit gate');
+invariant(workflowDisposition.status === 'V10_AUDIT_PASS_ADMISSION_COMPLETE_NOT_FROZEN', 'workflow disposition does not retain the completed audit gate');
 invariant(workflowDisposition.screeningVerdictAuthority === 'Luna' && workflowDisposition.supplementalEvidenceStages.nonLoadBearing === true, 'workflow disposition changes verdict authority');
 invariant(workflowDisposition.audit.remediation.operatorReviewedAllEscalations === true && workflowDisposition.audit.remediation.unresolvedMaterialFinding === false, 'workflow disposition leaves a remediated finding open');
 invariant(workflowDisposition.transcriptSha256 === expectedDigests['transcript.jsonl'] && workflowDisposition.audit.remediation.operatorDecisionsSha256 === expectedDigests['operator-decisions.json'], 'workflow disposition binding drift');
-invariant(workflowDisposition.registeredAuditGate.admissionGatePassed === false && workflowDisposition.registeredAuditGate.v9Status === 'NON_CONFORMANT_TRANSPORT_FRAMING' && workflowDisposition.registeredAuditGate.v10Status === 'PREPARED_NOT_RUN', 'registered audit gate status drift');
+invariant(workflowDisposition.registeredAuditGate.admissionGatePassed === true
+  && workflowDisposition.registeredAuditGate.v9Status === 'NON_CONFORMANT_TRANSPORT_FRAMING'
+  && workflowDisposition.registeredAuditGate.v10Status === 'PASS_ZERO_MATERIAL_FINDINGS'
+  && workflowDisposition.registeredAuditGate.v10OutputSha256 === 'sha256:1c82684b6f17f3087ac14d4eb28cbe98cf2b6a024fdda99d2b1b7a744e5c25bd', 'registered audit gate status drift');
 
 const v9AuditOutput = bytes('process-audit-output.json');
 invariant(v9AuditOutput.at(-1) !== 10, 'version 9 audit output unexpectedly carries the required terminal LF');
@@ -206,7 +209,7 @@ for (const name of sharedSources) {
 }
 
 const summary = json('summary.json');
-invariant(summary.status === 'screening-and-human-review-complete-audit-gate-pending-not-frozen', 'public status drift');
+invariant(summary.status === 'screening-complete-admitted-not-frozen', 'public status drift');
 invariant(summary.counts.handCheckedCount === 255 && summary.counts.replacementCount === 52, 'public counts drift');
 invariant(summary.finalBankSha256 === expectedDigests['final-bank.json'], 'public final-bank digest drift');
 invariant(Object.values(summary.capabilityBoundary).every((claim) => claim === false), 'capability boundary overclaims verification');
