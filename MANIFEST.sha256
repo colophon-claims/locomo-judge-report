@@ -1386,7 +1386,9 @@ ffc9429a32aae01c610cbfc684abd144eb27cbcd608b76434277fe382fe589e8  records/real-r
 fff8a4d2b80092e31f1e223e7d3142fda02a2bee3c64bd6549e0b54bc4ed31f3  records/real-run-v8-2026-08-24/source-records/fff8a4d2b80092e31f1e223e7d3142fda02a2bee3c64bd6549e0b54bc4ed31f3.json
 8b850ad76c4858d631970fd2548eb9d220e8f4f734fc21e343c97767a3100b25  records/real-run-v8-2026-08-24/summary.json
 48918720d9ee953a306925dc17c2c94747186279ab5a6679fd46985fc7403660  records/real-run-v8-2026-08-24/transcript.jsonl
-030306436c3b9bf64975e19c76ded471276fb5542aa00d0e6ff4c2e1b18ee26f  records/real-run-v9-2026-08-25/README.md
+a240d99453690df24ff66a0e11425856a2e0a34b5c975430364d7fecbc9739d3  records/real-run-v9-2026-08-25/README.md
+8c5b16ea2cab5f70b87e0a4000030ef872dfde81d36b14642c448f1a20887d98  records/real-run-v9-2026-08-25/blocking-whole-run-audit.json
+92a89b2e2a9571263f39a7d3bc02f50e75766b231e2e1a308427efc998fddcb4  records/real-run-v9-2026-08-25/blocking-whole-run-clarification-audit.json
 b48364b8f3470e872dbc0e590be0142eb2017b6a48a2b4141b844e8f5e18f1c3  records/real-run-v9-2026-08-25/colophon-admission-manifest.json
 17a15805727193243b00342b5a77c49b9f4905208125fded2ce80f5000fb8cdc  records/real-run-v9-2026-08-25/colophon-replacement-ledger.json
 e44c5eade5bad987a8ff6828b96c73750202883fee972c43d1aaef113c581bdd  records/real-run-v9-2026-08-25/colophon-screening-table.json
@@ -1401,7 +1403,10 @@ cc77aa4659497eb4df9aca0d90a44f0b511f1bfeb2b37f57077a102c166be9e4  records/real-r
 d72109cf77683231017f8d7259cafb40ad452538fd563f9155ec7d473e7ce0f7  records/real-run-v9-2026-08-25/screening-pool.json
 c9fb10e28154df44f553752fd0be40e08d845bdfd61e58a9f4cb7e460928e085  records/real-run-v9-2026-08-25/screening-procedure.json
 57a50709527d956186547c7dfa0d8ba0eca1c1b165368c4d251dc6bcefc4560a  records/real-run-v9-2026-08-25/summary.json
+1100b2adbdfef7a386655e9266e74b7cf795cf7ef1a338b65d4fe80733897158  records/real-run-v9-2026-08-25/tool-policy-audit.json
 43e5ea6d5fa37825ba08f3ad4edef820b9b83bee9881838102af799c1156e642  records/real-run-v9-2026-08-25/transcript.jsonl
+12e47164346aa068a2774b455366eb0d76c37f1094bf652c342ff890340f63d5  records/real-run-v9-2026-08-25/whole-run-audit-remediation.json
+f2915f5e9624f8357cdffb08fbdcac600948e0eac799a1092deba74434586683  records/real-run-v9-2026-08-25/workflow-disposition.json
 1b4e553b4c6bc5c0115c90f93d7a8501a67e5913cc5d540d22e0726cc138ccab  records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json
 41b505f8c1db9850e14df76fd335647caaf2f85e5cad62110411a7f1c7b74c19  records/synthetic-pilot-2026-08-22/pilot-results.pending-ritsu.json
 fed58c364afb9ce281f04aaebd072f5aacee5d870926fe2792d7766ad7c8dbf4  records/synthetic-pilot-2026-08-22/process-audit.md
@@ -1506,7 +1511,7 @@ b17d5c23afab0711bf381ebe8545c7f0c4b118a05de9eedd15af707fdc8c865a  scripts/valida
 ce85a3faaf13941310b0d7e10e42c0e5f9ca55e980f5453a9b5515f6df0ab771  scripts/validate-prompted-screening-pilot.mjs
 bdab6e0d59b5e71ec2739295d613c0a020a0f19600e1008c450ac2989c1ffad2  scripts/validate-prompted-screening-v5-fixture.mjs
 0fb20cec2215ca6c6fc84979c993e912b3d2477b7bd9dc7298f330bd877d19c0  scripts/validate-real-sampling-commitment.mjs
-a2f38d9dfb3152139485f5ac1e654e41dd51c9b00784918584c089ded199e2af  scripts/validate-real-screening-v9.mjs
+b93f89eb9b1ac45edf137f7957744a7b7c36d75d89e1f35db9d0d7088f2bd8f2  scripts/validate-real-screening-v9.mjs
 2bf29bf9c6ae1ba037ca486c14eae0e1a45e74afc1c48964bcf1f3641e47c721  scripts/validate-sampling-commitment.mjs
 dc3b23f7e7beef05c00df9c227cd0a9970d756fecd4d5317907655fd5abb07d7  scripts/validate-synthetic-pilot-run-record.mjs
 0d02b17e22d2191e8d8a98fccffc0796fc36f83ea1ddb005f68adcea72d66532  scripts/validate-synthetic-pilot-v2-run-record.mjs
@@ -1514,7 +1519,7 @@ dc3b23f7e7beef05c00df9c227cd0a9970d756fecd4d5317907655fd5abb07d7  scripts/valida
 1379c13f1b1f335dfd7176bbf32997df42b2c76bb590fcf153bed22299364a4c  scripts/validate-synthetic-pilot-v4-run-record.mjs
 2abd3660f0335ae2ba713b688fd75b9cda2089071ab846625bbd6c3bfb94b7c6  scripts/validate-synthetic-pilot-v5-stop.mjs
 464fbaed2831232090ec33d4ea80180936ab3331ea6b2ccc34d200c0841a1a5f  scripts/validate-synthetic-pilot-v6-stop.mjs
-3f9517a1bc583c1be7333e0dae0f96db49e7902d1aec39fce70e4706a3a145e3  scripts/validate.mjs
+9e68170983c390a4c59d82a41029d4dcfc2f8eb40f3da2f41396fe209c6cdef5  scripts/validate.mjs
 710ef9af0f7980390e4d64f9a6c0f7838781f3e471db5c48eb9ca33e6fae00fa  source-register.json
 bc213ba04fb20af1408e21fe19bbc1cd1eace4ec9f7c97a5ce270aa702bb1d5c  test/compact-process-audit-v4.test.mjs
 45d7e83f86e88d2429d255facbcdd9b11e744368c9e6b219c498be93424f1c05  test/compact-process-audit-v5.test.mjs

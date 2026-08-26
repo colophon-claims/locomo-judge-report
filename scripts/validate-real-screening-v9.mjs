@@ -20,6 +20,8 @@ const expectedDigests = {
   'colophon-admission-manifest.json': 'sha256:b48364b8f3470e872dbc0e590be0142eb2017b6a48a2b4141b844e8f5e18f1c3',
   'colophon-replacement-ledger.json': 'sha256:17a15805727193243b00342b5a77c49b9f4905208125fded2ce80f5000fb8cdc',
   'colophon-screening-table.json': 'sha256:e44c5eade5bad987a8ff6828b96c73750202883fee972c43d1aaef113c581bdd',
+  'blocking-whole-run-audit.json': 'sha256:8c5b16ea2cab5f70b87e0a4000030ef872dfde81d36b14642c448f1a20887d98',
+  'blocking-whole-run-clarification-audit.json': 'sha256:92a89b2e2a9571263f39a7d3bc02f50e75766b231e2e1a308427efc998fddcb4',
   'final-bank.json': 'sha256:b081b8f43c33befa5290b8f37917cd3b76d9f93c32fea9b8ba2330881de66c7b',
   'materialization-summary.json': 'sha256:1b65efd795bf5d9e6a1def5a97d6ae0e7d269f34ae0d9c5c9968a3ed4aff428a',
   'module-confirmations.json': 'sha256:78ce7417ea25973edf9bb83176f14e9a5da627e2caa9eab8d8004d8fb08a9973',
@@ -31,6 +33,9 @@ const expectedDigests = {
   'screening-pool.json': 'sha256:d72109cf77683231017f8d7259cafb40ad452538fd563f9155ec7d473e7ce0f7',
   'screening-procedure.json': 'sha256:c9fb10e28154df44f553752fd0be40e08d845bdfd61e58a9f4cb7e460928e085',
   'transcript.jsonl': 'sha256:43e5ea6d5fa37825ba08f3ad4edef820b9b83bee9881838102af799c1156e642',
+  'tool-policy-audit.json': 'sha256:1100b2adbdfef7a386655e9266e74b7cf795cf7ef1a338b65d4fe80733897158',
+  'whole-run-audit-remediation.json': 'sha256:12e47164346aa068a2774b455366eb0d76c37f1094bf652c342ff890340f63d5',
+  'workflow-disposition.json': 'sha256:f2915f5e9624f8357cdffb08fbdcac600948e0eac799a1092deba74434586683',
 };
 for (const [name, expected] of Object.entries(expectedDigests)) exactDigest(name, expected);
 
@@ -43,6 +48,34 @@ invariant(JSON.stringify(procedure.judgmentAgents.map(({ alias, model, reasoning
 ]), 'judgment profiles drift');
 invariant(procedure.transcriptSha256 === expectedDigests['transcript.jsonl'], 'procedure transcript binding drift');
 invariant(Object.values(procedure.toolPolicy.judgmentAgents).every((allowed) => allowed === false), 'judgment tools enabled');
+
+const transcript = json('transcript.jsonl');
+const decodeBoundTranscriptPart = (base64Field, digestField) => {
+  const raw = Buffer.from(transcript[base64Field], 'base64');
+  invariant(sha256(raw) === transcript[digestField], `${base64Field} binding drift`);
+  return raw.toString('utf8').trim().split('\n').filter(Boolean).map((line) => JSON.parse(line));
+};
+const executionEvents = decodeBoundTranscriptPart('executionEventsBase64', 'executionEventsSha256');
+const completionEvents = decodeBoundTranscriptPart('completionEventsBase64', 'completionEventsSha256');
+const transcriptManifest = Buffer.from(transcript.transcriptManifestBase64, 'base64');
+invariant(sha256(transcriptManifest) === transcript.transcriptManifestSha256, 'transcript manifest binding drift');
+
+const stageCounts = (events) => Object.fromEntries([...new Set(events.map((event) => event.facts.stage))]
+  .sort()
+  .map((stage) => [stage, events.filter((event) => event.facts.stage === stage).length]));
+invariant(executionEvents.every((event) => event.type === 'judgment-output-recorded'), 'registered judgment stream contains another event type');
+invariant(JSON.stringify(stageCounts(executionEvents)) === JSON.stringify({ Luna: 21, Sol: 13, Terra: 15 }), 'registered judgment batch coverage drift');
+invariant(executionEvents.every((event) => event.facts.toolCallCount === 0), 'registered judgment stream records a tool call');
+invariant(completionEvents.every((event) => event.type === 'model-output-recorded'), 'supplemental stream contains another event type');
+invariant(JSON.stringify(stageCounts(completionEvents)) === JSON.stringify({
+  LunaAdvisory: 8,
+  LunaAdvisoryAuditEscalation: 1,
+  SolDrift: 1,
+  SolDriftClarification: 1,
+  SolSupplement: 3,
+  TerraSupplement: 3,
+}), 'supplemental evidence batch coverage drift');
+invariant(completionEvents.reduce((count, event) => count + event.facts.toolCallCount, 0) === 1, 'historical supplemental tool-count marker drift');
 
 const pool = json('screening-pool.json');
 invariant(pool.items.length === 664, 'pool is not 664 items');
@@ -79,6 +112,26 @@ invariant(decisions.status === 'complete' && decisions.operator === 'ritsukai', 
 invariant(decisions.baseRequiredHumanCount === 246 && decisions.auditEscalationCount === 9, 'operator review scope drift');
 invariant(decisions.rowCount === 255 && decisions.decisionResolvedCount === 255, 'operator decisions do not close 255 rows');
 invariant(decisions.decisionCounts.CONFIRM === 118 && decisions.decisionCounts.EXCLUDE === 137, 'operator decision counts drift');
+
+const initialAudit = json('blocking-whole-run-audit.json');
+const clarificationAudit = json('blocking-whole-run-clarification-audit.json');
+const remediation = json('whole-run-audit-remediation.json');
+const toolPolicyAudit = json('tool-policy-audit.json');
+const workflowDisposition = json('workflow-disposition.json');
+invariant(initialAudit.materialFinding === true && initialAudit.findings[0]?.code === 'luna-shard-drift', 'initial whole-run Sol audit is missing');
+invariant(clarificationAudit.materialFinding === true && clarificationAudit.findings[0]?.code === 'suspicious-agreement-unreviewed', 'Sol clarification audit is missing');
+invariant(remediation.auditEscalationCount === 9 && remediation.reviewItemCount === 255, 'audit remediation scope drift');
+invariant(JSON.stringify(remediation.auditEscalationIds) === JSON.stringify(clarificationAudit.findings[0].itemIds), 'audit escalation identity drift');
+const escalationDecisions = decisions.rows.filter((row) => remediation.auditEscalationIds.includes(row.opaqueItemId));
+invariant(escalationDecisions.length === 9, 'operator decisions do not cover every audit escalation');
+invariant(escalationDecisions.filter((row) => row.decision === 'CONFIRM').length === 7 && escalationDecisions.filter((row) => row.decision === 'EXCLUDE').length === 2, 'audit escalation disposition counts drift');
+invariant(toolPolicyAudit.status === 'PASS' && toolPolicyAudit.falsePositiveCountFromSupersededSubstringScanner === 1, 'supplemental tool-policy audit is not closed');
+invariant(toolPolicyAudit.rows.length === 17 && toolPolicyAudit.rows.every((row) => row.exactToolCallCount === 0), 'exact supplemental tool-call audit drift');
+invariant(toolPolicyAudit.rows.reduce((count, row) => count + row.historicalRecordedCount, 0) === 1, 'historical supplemental count reconciliation drift');
+invariant(workflowDisposition.status === 'AUDIT_REMEDIATED_ADMISSION_COMPLETE_NOT_FROZEN', 'workflow disposition is not closed');
+invariant(workflowDisposition.screeningVerdictAuthority === 'Luna' && workflowDisposition.supplementalEvidenceStages.nonLoadBearing === true, 'workflow disposition changes verdict authority');
+invariant(workflowDisposition.audit.remediation.operatorReviewedAllEscalations === true && workflowDisposition.audit.remediation.unresolvedMaterialFinding === false, 'workflow disposition leaves a material audit finding open');
+invariant(workflowDisposition.transcriptSha256 === expectedDigests['transcript.jsonl'] && workflowDisposition.audit.remediation.operatorDecisionsSha256 === expectedDigests['operator-decisions.json'], 'workflow disposition binding drift');
 
 const finalBank = json('final-bank.json');
 invariant(finalBank.status === 'admitted-not-frozen' && finalBank.admissionClosure === 'complete', 'final bank is not admitted and closed');

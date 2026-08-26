@@ -17,6 +17,19 @@ execution.
 - Ritsu also confirmed all 12 consistency probes and all 20 corrupt-key module
   records.
 
+The required compact whole-run Sol audit did stop admission. It first identified
+the contained 32-item Luna shard failure, then identified 9 suspicious-agreement
+cases outside the original hand-review route. Those 9 cases were added to the
+operator queue; Ritsu reviewed all of them (7 confirm, 2 exclude) before
+admission closed. The original audit, clarification, remediation, exact
+tool-policy audit, and final machine-checked disposition are preserved here.
+
+The later Terra, Sol, and Luna supplemental passes are review evidence only.
+They do not replace Luna's registered `screeningVerdict` or Ritsu's decision.
+One historical transcript counter recorded a tool call in Luna advisory batch
+3; the retained exact Codex-event audit shows that this was a substring-scanner
+false positive and that the actual tool-call count was zero.
+
 The exact 664 item and source-record bytes are unchanged from version 8 and
 remain at `../real-run-v8-2026-08-24/items/` and
 `../real-run-v8-2026-08-24/source-records/`. This record adds the version 9
