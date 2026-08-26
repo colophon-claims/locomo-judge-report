@@ -16,6 +16,12 @@ function walk(path) {
 
 walk(root);
 const prohibitedCharacter = String.fromCodePoint(0x2014);
-const offenders = files.filter((path) => readFileSync(path, 'utf8').includes(prohibitedCharacter));
+// These two files are byte-exact, digest-addressed third-party judge instruments. Their quoted
+// prompt bytes cannot be normalized without changing the public instrument identities.
+const byteExactExceptions = new Set([
+  join(root, 'records/official-lock-2026-08-26/instruments/backboard.json'),
+  join(root, 'records/official-lock-2026-08-26/instruments/revised.json'),
+]);
+const offenders = files.filter((path) => !byteExactExceptions.has(path) && readFileSync(path, 'utf8').includes(prohibitedCharacter));
 if (offenders.length > 0) throw new Error(`em dash is prohibited: ${offenders.join(', ')}`);
 console.log(`no em dash in ${files.length} documentation files`);
