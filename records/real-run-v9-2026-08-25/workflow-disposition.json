@@ -38,6 +38,11 @@
     "providerExecutionMachineVerified": false
   },
   "protocol": "locomo-public-evidence-aware-screening-workflow-disposition/v1",
+  "registeredAuditGate": {
+    "admissionGatePassed": false,
+    "v10Status": "PREPARED_NOT_RUN",
+    "v9Status": "NON_CONFORMANT_TRANSPORT_FRAMING"
+  },
   "registeredJudgmentStages": {
     "eventType": "judgment-output-recorded",
     "source": "transcript.jsonl#executionEventsBase64",
@@ -60,7 +65,7 @@
     ]
   },
   "screeningVerdictAuthority": "Luna",
-  "status": "AUDIT_REMEDIATED_ADMISSION_COMPLETE_NOT_FROZEN",
+  "status": "JUDGMENTS_AND_HUMAN_REVIEW_COMPLETE_AUDIT_GATE_PENDING_NOT_FROZEN",
   "supplementalEvidenceStages": {
     "eventType": "model-output-recorded",
     "nonLoadBearing": true,

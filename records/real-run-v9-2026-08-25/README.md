@@ -30,6 +30,13 @@ One historical transcript counter recorded a tool call in Luna advisory batch
 3; the retained exact Codex-event audit shows that this was a substring-scanner
 false positive and that the actual tool-call count was zero.
 
+The registered version 9 process-audit gate was later found to have been
+omitted. Its delayed first attempt failed before model output, and the permitted
+retry returned a semantic PASS whose missing terminal LF was correctly rejected
+by the frozen parser. The raw attempts are retained here. Admission readiness is
+held pending the fresh, publicly preregistered version 10 audit-only framing
+correction; no version 9 model output is normalized or reused.
+
 The exact 664 item and source-record bytes are unchanged from version 8 and
 remain at `../real-run-v8-2026-08-24/items/` and
 `../real-run-v8-2026-08-24/source-records/`. This record adds the version 9

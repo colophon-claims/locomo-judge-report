@@ -13,6 +13,7 @@ import './gate-prompted-screening-runtime-v6.mjs';
 import './record-prompted-screening-v6.mjs';
 import './simulate-prompted-screening-runtime-v6.mjs';
 import './validate-prompted-screening-audit-findings-v1.mjs';
+import './validate-prompted-screening-audit-findings-v2.mjs';
 import './plan-prompted-screening-v7.mjs';
 import './build-prompted-screening-runtime-v7.mjs';
 import './gate-prompted-screening-runtime-v7.mjs';
@@ -29,6 +30,7 @@ import './validate-prompted-screening-v5-fixture.mjs';
 import { validateRealSamplingCommitment } from './validate-real-sampling-commitment.mjs';
 import { validateEvidenceRescreenV9Commitment } from './validate-evidence-rescreen-v9-commitment.mjs';
 import './validate-real-screening-v9.mjs';
+import './validate-real-screening-v10-audit.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const manifestPath = join(root, 'MANIFEST.sha256');
@@ -41,6 +43,7 @@ const allowedFiles = new Map([
   ['AMENDMENTS/2026-08-24-evidence-rescreen-v9-disposition-normalization.md', ['text/markdown', 8192]],
   ['AMENDMENTS/2026-08-24-evidence-rescreen-v9.md', ['text/markdown', 8192]],
   ['AMENDMENTS/2026-08-26-v8-swhid-correction.json', ['application/json', 4096]],
+  ['AMENDMENTS/2026-08-26-v9-audit-framing-v10.md', ['text/markdown', 8192]],
   ['ATTRIBUTION.md', ['text/markdown', 8192]],
   ['CITATION.cff', ['text/yaml', 4096]],
   ['CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
@@ -49,6 +52,7 @@ const allowedFiles = new Map([
   ['CODEX-SCREENING-AUDIT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
   ['CODEX-SCREENING-AUDIT-INSTRUCTION.v2.txt', ['text/plain', 8192]],
   ['CODEX-SCREENING-AUDIT-INSTRUCTION.v3.txt', ['text/plain', 8192]],
+  ['CODEX-SCREENING-AUDIT-INSTRUCTION.v4.txt', ['text/plain', 8192]],
   ['CODEX-SCREENING-PROMPT.v1.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v2.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v3.md', ['text/markdown', 16384]],
@@ -58,6 +62,7 @@ const allowedFiles = new Map([
   ['CODEX-SCREENING-PROMPT.v7.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v8.md', ['text/markdown', 16384]],
   ['CODEX-SCREENING-PROMPT.v9.md', ['text/markdown', 16384]],
+  ['CODEX-SCREENING-PROMPT.v10.md', ['text/markdown', 16384]],
   ['CONTRIBUTING.md', ['text/markdown', 8192]],
   ['LICENSE', ['text/plain', 32768]],
   ['LICENSES/THIRD-PARTY-NOTICES.md', ['text/markdown', 8192]],
@@ -68,6 +73,7 @@ const allowedFiles = new Map([
   ['commitments/locomo-evidence-rescreen-2026-08-24/commitment.json', ['application/json', 8192]],
   ['commitments/locomo-evidence-rescreen-2026-08-24/post-output-normalization.json', ['application/json', 8192]],
   ['commitments/locomo-evidence-rescreen-2026-08-24/prompt-binding.json', ['application/json', 8192]],
+  ['commitments/locomo-evidence-rescreen-v10-audit-2026-08-26/prompt-binding.json', ['application/json', 8192]],
   ['commitments/locomo-screening-2026-08-24/README.md', ['text/markdown', 8192]],
   ['commitments/locomo-screening-2026-08-24/candidate-identity-digests.json', ['application/json', 65536]],
   ['commitments/locomo-screening-2026-08-24/commitment-event.json', ['application/json', 8192]],
@@ -173,6 +179,23 @@ const allowedFiles = new Map([
   ['records/real-run-v9-2026-08-25/whole-run-audit-remediation.json', ['application/json', 4096]],
   ['records/real-run-v9-2026-08-25/tool-policy-audit.json', ['application/json', 4096]],
   ['records/real-run-v9-2026-08-25/workflow-disposition.json', ['application/json', 8192]],
+  ['records/real-run-v9-2026-08-25/compact-process-audit-input.json', ['application/json', 16384]],
+  ['records/real-run-v9-2026-08-25/process-audit-attempt-1-events.jsonl', ['application/x-ndjson', 4096]],
+  ['records/real-run-v9-2026-08-25/process-audit-attempt-1-stderr.log', ['text/plain', 4096]],
+  ['records/real-run-v9-2026-08-25/process-audit-attempt-2-events.jsonl', ['application/x-ndjson', 4096]],
+  ['records/real-run-v9-2026-08-25/process-audit-attempt-2-stderr.log', ['text/plain', 4096]],
+  ['records/real-run-v9-2026-08-25/process-audit-dispatch.txt', ['text/plain', 32768]],
+  ['records/real-run-v9-2026-08-25/process-audit-output.json', ['application/json', 4096]],
+  ['records/real-run-v9-2026-08-25/process-audit-preparation.json', ['application/json', 4096]],
+  ['records/real-run-v9-2026-08-25/process-audit-terminal.json', ['application/json', 4096]],
+  ['records/real-run-v10-audit-2026-08-26/README.md', ['text/markdown', 4096]],
+  ['records/real-run-v10-audit-2026-08-26/compact-process-audit-input.json', ['application/json', 16384]],
+  ['records/real-run-v10-audit-2026-08-26/process-audit-dispatch.txt', ['text/plain', 32768]],
+  ['records/real-run-v10-audit-2026-08-26/process-audit-preparation.json', ['application/json', 4096]],
+  ['records/real-run-v10-audit-2026-08-26/process-audit-events.jsonl', ['application/x-ndjson', 4096]],
+  ['records/real-run-v10-audit-2026-08-26/process-audit-stderr.log', ['text/plain', 4096]],
+  ['records/real-run-v10-audit-2026-08-26/process-audit-output.json', ['application/json', 4096]],
+  ['records/real-run-v10-audit-2026-08-26/process-audit-terminal.json', ['application/json', 4096]],
   ['schemas/compact-process-audit-input.v1.schema.json', ['application/json', 16384]],
   ['schemas/compact-process-audit-input.v2.schema.json', ['application/json', 32768]],
   ['schemas/compact-process-audit-input.v3.schema.json', ['application/json', 32768]],
@@ -223,6 +246,11 @@ const allowedFiles = new Map([
   ['scripts/validate-real-sampling-commitment.mjs', ['application/javascript', 16384]],
   ['scripts/validate-evidence-rescreen-v9-commitment.mjs', ['application/javascript', 16384]],
   ['scripts/validate-real-screening-v9.mjs', ['application/javascript', 32768]],
+  ['scripts/build-real-screening-v9-process-audit.mjs', ['application/javascript', 32768]],
+  ['scripts/build-real-screening-v10-process-audit.mjs', ['application/javascript', 16384]],
+  ['scripts/render-evidence-rescreen-v10-audit-invocation.mjs', ['application/javascript', 8192]],
+  ['scripts/validate-prompted-screening-audit-findings-v2.mjs', ['application/javascript', 8192]],
+  ['scripts/validate-real-screening-v10-audit.mjs', ['application/javascript', 16384]],
   ['scripts/validate-synthetic-pilot-run-record.mjs', ['application/javascript', 24576]],
   ['scripts/validate-synthetic-pilot-v2-run-record.mjs', ['application/javascript', 32768]],
   ['scripts/validate-synthetic-pilot-v3-run-record.mjs', ['application/javascript', 24576]],

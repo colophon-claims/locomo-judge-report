@@ -60,5 +60,5 @@
   "protocol": "locomo-public-evidence-aware-screening-outcome/v1",
   "runId": "locomo-evidence-rescreen-v9-completion-2026-08-25",
   "sharedCandidateRecords": "records/real-run-v8-2026-08-24",
-  "status": "screening-complete-admitted-not-frozen"
+  "status": "screening-and-human-review-complete-audit-gate-pending-not-frozen"
 }

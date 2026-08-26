@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parsePromptedScreeningAuditFindingsV2 } from './validate-prompted-screening-audit-findings-v2.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const recordRoot = join(root, 'records/real-run-v9-2026-08-25');
@@ -32,10 +33,19 @@ const expectedDigests = {
   'registered-sampling-commitment.json': 'sha256:55e47494fd234321dbd47b147337ff1a51b9e364476f84363b9648a5a677fe35',
   'screening-pool.json': 'sha256:d72109cf77683231017f8d7259cafb40ad452538fd563f9155ec7d473e7ce0f7',
   'screening-procedure.json': 'sha256:c9fb10e28154df44f553752fd0be40e08d845bdfd61e58a9f4cb7e460928e085',
+  'compact-process-audit-input.json': 'sha256:0c9aabdde110bf7facda82e345b44d3e31dfd9c71ffe610d58cbab764572894d',
+  'process-audit-attempt-1-events.jsonl': 'sha256:05187c077bb0a44ded65b9f79a02d3ae8106c037eb471a6884454e4d61528b6f',
+  'process-audit-attempt-1-stderr.log': 'sha256:bfc93d06f2078e69b730882398632627bbcea80e4cabe827d76f4a041cca564c',
+  'process-audit-attempt-2-events.jsonl': 'sha256:67ff544b95b0bb897d7f9bab35c620168daf39c80896f332572ce9ccf311763c',
+  'process-audit-attempt-2-stderr.log': 'sha256:a346316947b173ddc664ba180f8ba3e47bfa2e29d355b199100090ba4a4d2479',
+  'process-audit-dispatch.txt': 'sha256:395ce21aca79d8d67ae654556691a02ec586dcad64cb33519d354368788663dc',
+  'process-audit-output.json': 'sha256:6413d00c46ddc8ea63d0ed4ce17af7308679121d46168df5aca199a516bdb4f3',
+  'process-audit-preparation.json': 'sha256:14393a0054d77abaac243045ebe79c9f04252ba8d0ac71dc240d70f62ffb1348',
+  'process-audit-terminal.json': 'sha256:d1dbf7a43cd1f5f2a155754a2b44e1ed4bb6e3bce461226c3d901f5815bdfc37',
   'transcript.jsonl': 'sha256:43e5ea6d5fa37825ba08f3ad4edef820b9b83bee9881838102af799c1156e642',
   'tool-policy-audit.json': 'sha256:1100b2adbdfef7a386655e9266e74b7cf795cf7ef1a338b65d4fe80733897158',
   'whole-run-audit-remediation.json': 'sha256:12e47164346aa068a2774b455366eb0d76c37f1094bf652c342ff890340f63d5',
-  'workflow-disposition.json': 'sha256:f2915f5e9624f8357cdffb08fbdcac600948e0eac799a1092deba74434586683',
+  'workflow-disposition.json': 'sha256:d092878860c41ec1492ffdba0b08b373c0648190e565bbbc4c3187a243bf159a',
 };
 for (const [name, expected] of Object.entries(expectedDigests)) exactDigest(name, expected);
 
@@ -128,10 +138,24 @@ invariant(escalationDecisions.filter((row) => row.decision === 'CONFIRM').length
 invariant(toolPolicyAudit.status === 'PASS' && toolPolicyAudit.falsePositiveCountFromSupersededSubstringScanner === 1, 'supplemental tool-policy audit is not closed');
 invariant(toolPolicyAudit.rows.length === 17 && toolPolicyAudit.rows.every((row) => row.exactToolCallCount === 0), 'exact supplemental tool-call audit drift');
 invariant(toolPolicyAudit.rows.reduce((count, row) => count + row.historicalRecordedCount, 0) === 1, 'historical supplemental count reconciliation drift');
-invariant(workflowDisposition.status === 'AUDIT_REMEDIATED_ADMISSION_COMPLETE_NOT_FROZEN', 'workflow disposition is not closed');
+invariant(workflowDisposition.status === 'JUDGMENTS_AND_HUMAN_REVIEW_COMPLETE_AUDIT_GATE_PENDING_NOT_FROZEN', 'workflow disposition does not retain the pending audit gate');
 invariant(workflowDisposition.screeningVerdictAuthority === 'Luna' && workflowDisposition.supplementalEvidenceStages.nonLoadBearing === true, 'workflow disposition changes verdict authority');
-invariant(workflowDisposition.audit.remediation.operatorReviewedAllEscalations === true && workflowDisposition.audit.remediation.unresolvedMaterialFinding === false, 'workflow disposition leaves a material audit finding open');
+invariant(workflowDisposition.audit.remediation.operatorReviewedAllEscalations === true && workflowDisposition.audit.remediation.unresolvedMaterialFinding === false, 'workflow disposition leaves a remediated finding open');
 invariant(workflowDisposition.transcriptSha256 === expectedDigests['transcript.jsonl'] && workflowDisposition.audit.remediation.operatorDecisionsSha256 === expectedDigests['operator-decisions.json'], 'workflow disposition binding drift');
+invariant(workflowDisposition.registeredAuditGate.admissionGatePassed === false && workflowDisposition.registeredAuditGate.v9Status === 'NON_CONFORMANT_TRANSPORT_FRAMING' && workflowDisposition.registeredAuditGate.v10Status === 'PREPARED_NOT_RUN', 'registered audit gate status drift');
+
+const v9AuditOutput = bytes('process-audit-output.json');
+invariant(v9AuditOutput.at(-1) !== 10, 'version 9 audit output unexpectedly carries the required terminal LF');
+const v9SemanticOutput = parsePromptedScreeningAuditFindingsV2(v9AuditOutput, { expectedAuditInvocationSha256: 'sha256:2cf867299c4c87a160dff6733543c43b55bbd0f32ed845042f39ccb46fd38a55' });
+invariant(v9SemanticOutput.assessment === 'PASS' && v9SemanticOutput.materialFindings.length === 0, 'version 9 retained semantic output drift');
+const v9Attempt1 = bytes('process-audit-attempt-1-events.jsonl').toString('utf8').trim().split('\n').map((line) => JSON.parse(line));
+const v9Attempt2 = bytes('process-audit-attempt-2-events.jsonl').toString('utf8').trim().split('\n').map((line) => JSON.parse(line));
+invariant(v9Attempt1.some((event) => event.type === 'turn.failed') && !v9Attempt1.some((event) => event.type === 'item.completed' && event.item?.type === 'agent_message'), 'version 9 first audit attempt was not a no-output infrastructure failure');
+const v9AgentMessages = v9Attempt2.filter((event) => event.type === 'item.completed' && event.item?.type === 'agent_message');
+invariant(v9AgentMessages.length === 1 && Buffer.from(v9AgentMessages[0].item.text).equals(v9AuditOutput), 'version 9 retry output is not bound to its event stream');
+invariant(v9Attempt2.every((event) => !['command_execution', 'mcp_tool_call', 'web_search'].includes(event.item?.type)), 'version 9 audit used a tool');
+const v9AuditTerminal = json('process-audit-terminal.json');
+invariant(v9AuditTerminal.status === 'NON_CONFORMANT_TRANSPORT_FRAMING' && v9AuditTerminal.rawOutputReused === false && v9AuditTerminal.attempts.length === 2, 'version 9 audit terminal status drift');
 
 const finalBank = json('final-bank.json');
 invariant(finalBank.status === 'admitted-not-frozen' && finalBank.admissionClosure === 'complete', 'final bank is not admitted and closed');
@@ -182,7 +206,7 @@ for (const name of sharedSources) {
 }
 
 const summary = json('summary.json');
-invariant(summary.status === 'screening-complete-admitted-not-frozen', 'public status drift');
+invariant(summary.status === 'screening-and-human-review-complete-audit-gate-pending-not-frozen', 'public status drift');
 invariant(summary.counts.handCheckedCount === 255 && summary.counts.replacementCount === 52, 'public counts drift');
 invariant(summary.finalBankSha256 === expectedDigests['final-bank.json'], 'public final-bank digest drift');
 invariant(Object.values(summary.capabilityBoundary).every((claim) => claim === false), 'capability boundary overclaims verification');
