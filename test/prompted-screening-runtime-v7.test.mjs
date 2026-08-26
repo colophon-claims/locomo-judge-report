@@ -40,6 +40,8 @@ function temporaryProductionCheckout() {
   execFileSync('git', ['init', '-q'], { cwd: directory });
   execFileSync('git', ['config', 'user.name', 'Synthetic Test'], { cwd: directory });
   execFileSync('git', ['config', 'user.email', 'synthetic@example.invalid'], { cwd: directory });
+  execFileSync('git', ['config', 'gc.auto', '0'], { cwd: directory });
+  execFileSync('git', ['config', 'maintenance.auto', 'false'], { cwd: directory });
   execFileSync('git', ['add', '.'], { cwd: directory });
   execFileSync('git', ['commit', '-q', '-m', 'synthetic exact source'], { cwd: directory });
   return { directory: realpathSync(directory), parent, revision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: directory, encoding: 'utf8' }).trim() };
@@ -212,7 +214,9 @@ test('production-shaped exact Git path reaches pending Ritsu only with exact bou
     assert.equal(finalized.result.admissionEligible, false);
     rmSync(join(checkout.directory, 'CODEX-SCREENING-PROMPT.v7.md'));
     assert.throws(() => resolveProductionSourceRevisionV7({ repoRoot: checkout.directory, expectedPublicCommit: checkout.revision, sources }), /tracked-clean/u);
-  } finally { rmSync(checkout.parent, { recursive: true, force: true }); }
+  } finally {
+    rmSync(checkout.parent, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+  }
 });
 
 test('v6 evidence remains exact, nonconformant, decision-free, and rejected by v7', () => {

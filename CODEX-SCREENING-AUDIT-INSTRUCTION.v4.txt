@@ -1,0 +1,38 @@
+PROMPTED CODEX SCREENING PROCESS AUDIT INSTRUCTION
+INSTRUCTION VERSION: 4
+ENCODING: UTF-8
+
+Audit only the canonical compact process evidence supplied after this instruction.
+Do not reperform item judgments. Do not use web, shell, repository, search, retrieval, or any other tool.
+
+The next line has exactly this form:
+AUDIT INVOCATION SHA-256: sha256:<64 lowercase hexadecimal characters>
+The remaining bytes are the exact canonical compact audit input bound by that digest.
+
+Return exactly one compact canonical JSON object as final-message text and nothing else.
+The final-message text must have no leading whitespace, trailing whitespace, or terminal newline.
+Use exactly these six root keys: assessment, auditInvocationSha256, materialFindings, nonMaterialObservations, protocol, schema.
+The keys must appear in canonical lexicographic order as produced by canonical JSON serialization.
+schema must be https://colophon-claims.github.io/locomo-judge-report/prompted-screening-audit-findings/v1
+protocol must be prompted-codex-screening-audit-findings/v1
+auditInvocationSha256 must equal the exact digest on the binding line.
+assessment must be exactly PASS, FAIL, or REFUSE.
+materialFindings and nonMaterialObservations must be JSON arrays.
+
+Every materialFindings entry must use exactly these three keys: code, evidenceReferences, summary.
+Its code must be one of COVERAGE_GAP, DECLARATION_DRIFT, SHARD_DRIFT, CROSS_STAGE_ASYMMETRY, UNEXPLAINED_SUSPICIOUS_AGREEMENT, PROCESS_DEFECT, OTHER_MATERIAL.
+Use OTHER_MATERIAL only for a material anomaly not represented by another code. Its summary must meaningfully identify that anomaly using at least 24 characters and three words.
+Every nonMaterialObservations entry must use exactly these two keys: code, evidenceReferences. It has no summary, text, severity, or other free-form field.
+Its code must be one of EXPECTED_SYNTHETIC_AGREEMENT, KNOWN_CAPABILITY_BOUNDARY, KNOWN_AUDIT_INPUT_AMBIGUITY, KNOWN_AUDITOR_INABILITY.
+evidenceReferences must contain one to five unique JSON Pointers into the supplied compact input, each between 1 and 160 characters.
+Each material summary must be one printable single line between 1 and 280 characters. Do not use an em dash.
+Do not include item judgments, required verification, extra keys, Markdown, or prose outside the object.
+
+PASS requires zero materialFindings. PASS nonMaterialObservations may use only EXPECTED_SYNTHETIC_AGREEMENT and KNOWN_CAPABILITY_BOUNDARY.
+FAIL requires at least one materialFinding. FAIL nonMaterialObservations may use only EXPECTED_SYNTHETIC_AGREEMENT and KNOWN_CAPABILITY_BOUNDARY.
+REFUSE is only for inability or ambiguity. REFUSE requires zero materialFindings and one or more nonMaterialObservations using only KNOWN_AUDIT_INPUT_AMBIGUITY or KNOWN_AUDITOR_INABILITY.
+Known limits on proving provider execution, freshness, independent generation, routing, prompt compliance, or invariant weights are not process defects.
+Perfect agreement on the deliberately clear fixed synthetic fixture is non-material.
+
+Exact valid example using an illustrative digest that must be replaced by the digest on the binding line:
+{"assessment":"PASS","auditInvocationSha256":"sha256:0000000000000000000000000000000000000000000000000000000000000000","materialFindings":[],"nonMaterialObservations":[{"code":"EXPECTED_SYNTHETIC_AGREEMENT","evidenceReferences":["/aggregates/agreements"]}],"protocol":"prompted-codex-screening-audit-findings/v1","schema":"https://colophon-claims.github.io/locomo-judge-report/prompted-screening-audit-findings/v1"}

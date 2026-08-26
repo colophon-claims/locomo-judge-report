@@ -1,0 +1,31 @@
+{
+  "attempts": [
+    {
+      "attempt": 1,
+      "eventsSha256": "sha256:05187c077bb0a44ded65b9f79a02d3ae8106c037eb471a6884454e4d61528b6f",
+      "failureCode": "INVALID_JSON_SCHEMA",
+      "modelOutputProduced": false,
+      "retryPermitted": true,
+      "stderrSha256": "sha256:bfc93d06f2078e69b730882398632627bbcea80e4cabe827d76f4a041cca564c"
+    },
+    {
+      "attempt": 2,
+      "assessmentIfOneLfWereAppended": "PASS",
+      "eventsSha256": "sha256:67ff544b95b0bb897d7f9bab35c620168daf39c80896f332572ce9ccf311763c",
+      "frozenParserResult": "REJECTED_MISSING_TERMINAL_LF",
+      "materialFindingCount": 0,
+      "modelOutputProduced": true,
+      "outputSha256": "sha256:6413d00c46ddc8ea63d0ed4ce17af7308679121d46168df5aca199a516bdb4f3",
+      "retryPermitted": false,
+      "stderrSha256": "sha256:a346316947b173ddc664ba180f8ba3e47bfa2e29d355b199100090ba4a4d2479",
+      "toolCallCount": 0
+    }
+  ],
+  "auditDispatchSha256": "sha256:395ce21aca79d8d67ae654556691a02ec586dcad64cb33519d354368788663dc",
+  "auditInputSha256": "sha256:0c9aabdde110bf7facda82e345b44d3e31dfd9c71ffe610d58cbab764572894d",
+  "auditInvocationSha256": "sha256:2cf867299c4c87a160dff6733543c43b55bbd0f32ed845042f39ccb46fd38a55",
+  "protocol": "locomo-public-v9-process-audit-terminal/v1",
+  "rawOutputReused": false,
+  "status": "NON_CONFORMANT_TRANSPORT_FRAMING",
+  "terminalReason": "The registered parser requires one terminal LF, while the pinned Codex final-message transport returns the exact assistant message text without a terminal LF. The observed PASS payload is retained but not accepted or normalized."
+}

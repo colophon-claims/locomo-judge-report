@@ -1,0 +1,23 @@
+{
+  "assessment": "PASS",
+  "auditDispatchSha256": "sha256:a53e2618ccae1b074248fd55d5ded4137a5b5e16a3b334fa2a75ea66c2d4b11e",
+  "auditInputSha256": "sha256:0c9aabdde110bf7facda82e345b44d3e31dfd9c71ffe610d58cbab764572894d",
+  "auditInvocationSha256": "sha256:478b8ea86ec1c29ef2143e3221f429a95e2ff20434d5149d582213d0febf73ed",
+  "eventsSha256": "sha256:e30b798cac1d203f010f4d877f4273f47a6994bcdf4de5bf032bd31149f439f0",
+  "materialFindingCount": 0,
+  "model": "gpt-5.6-sol",
+  "outputSha256": "sha256:1c82684b6f17f3087ac14d4eb28cbe98cf2b6a024fdda99d2b1b7a744e5c25bd",
+  "preOutputCommit": "91e2ad3bb1ef9694576d4bddff61bb467f538396",
+  "protocol": "locomo-public-v10-process-audit-terminal/v1",
+  "reasoningEffort": "high",
+  "retryCount": 0,
+  "status": "PASS_ZERO_MATERIAL_FINDINGS",
+  "stderrSha256": "sha256:7f9b3c5df5eb3af090cb8a40fd429204e5bba085c653500ba15b436a7b12d302",
+  "toolCallCount": 0,
+  "usage": {
+    "cachedInputTokens": 9984,
+    "inputTokens": 22852,
+    "outputTokens": 1037,
+    "reasoningOutputTokens": 907
+  }
+}

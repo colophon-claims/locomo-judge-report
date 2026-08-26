@@ -1,0 +1,109 @@
+{
+  "audit": {
+    "clarification": {
+      "artifactSha256": "sha256:92a89b2e2a9571263f39a7d3bc02f50e75766b231e2e1a308427efc998fddcb4",
+      "findingCode": "suspicious-agreement-unreviewed",
+      "materialFinding": true
+    },
+    "initial": {
+      "artifactSha256": "sha256:8c5b16ea2cab5f70b87e0a4000030ef872dfde81d36b14642c448f1a20887d98",
+      "findingCode": "luna-shard-drift",
+      "materialFinding": true
+    },
+    "remediation": {
+      "artifactSha256": "sha256:12e47164346aa068a2774b455366eb0d76c37f1094bf652c342ff890340f63d5",
+      "auditEscalationCount": 9,
+      "auditEscalationIds": [
+        "0c9641f09627c2fa0571bbc8fe624252",
+        "12481317fc0a2a6fdc5372363c8ad7bc",
+        "20d7c2efa2437830ce092ac92c909f84",
+        "228526ef9fecdbc18a65be25342a92cc",
+        "52cb68138d13bdffb5df7f8712a8e8fa",
+        "d878057b8546dcb5b6a645c12e15a251",
+        "f47d3eb39cb028dd637f784c6f4d2ff4",
+        "f7f504790725a33724e53eaded40c3ec",
+        "f8d1efeb3e5916b554f57b0b31de46dd"
+      ],
+      "operatorDecisionCounts": {
+        "CONFIRM": 7,
+        "EXCLUDE": 2
+      },
+      "operatorDecisionsSha256": "sha256:cc77aa4659497eb4df9aca0d90a44f0b511f1bfeb2b37f57077a102c166be9e4",
+      "operatorReviewedAllEscalations": true,
+      "unresolvedMaterialFinding": false
+    }
+  },
+  "capabilityBoundary": {
+    "promptComplianceMachineVerified": false,
+    "providerExecutionMachineVerified": false
+  },
+  "protocol": "locomo-public-evidence-aware-screening-workflow-disposition/v1",
+  "registeredAuditGate": {
+    "admissionGatePassed": true,
+    "v10OutputSha256": "sha256:1c82684b6f17f3087ac14d4eb28cbe98cf2b6a024fdda99d2b1b7a744e5c25bd",
+    "v10Status": "PASS_ZERO_MATERIAL_FINDINGS",
+    "v9Status": "NON_CONFORMANT_TRANSPORT_FRAMING"
+  },
+  "registeredJudgmentStages": {
+    "eventType": "judgment-output-recorded",
+    "source": "transcript.jsonl#executionEventsBase64",
+    "stages": [
+      {
+        "batchCount": 21,
+        "stage": "Luna",
+        "toolCallCount": 0
+      },
+      {
+        "batchCount": 15,
+        "stage": "Terra",
+        "toolCallCount": 0
+      },
+      {
+        "batchCount": 13,
+        "stage": "Sol",
+        "toolCallCount": 0
+      }
+    ]
+  },
+  "screeningVerdictAuthority": "Luna",
+  "status": "V10_AUDIT_PASS_ADMISSION_COMPLETE_NOT_FROZEN",
+  "supplementalEvidenceStages": {
+    "eventType": "model-output-recorded",
+    "nonLoadBearing": true,
+    "purpose": "Evidence used to complete independent review and Ritsu's final human decisions; these stages did not replace the registered Luna screeningVerdict.",
+    "source": "transcript.jsonl#completionEventsBase64",
+    "stages": [
+      {
+        "batchCount": 3,
+        "stage": "TerraSupplement"
+      },
+      {
+        "batchCount": 3,
+        "stage": "SolSupplement"
+      },
+      {
+        "batchCount": 8,
+        "stage": "LunaAdvisory"
+      },
+      {
+        "batchCount": 1,
+        "stage": "SolDrift"
+      },
+      {
+        "batchCount": 1,
+        "stage": "SolDriftClarification"
+      },
+      {
+        "batchCount": 1,
+        "stage": "LunaAdvisoryAuditEscalation"
+      }
+    ],
+    "toolPolicyAudit": {
+      "artifactSha256": "sha256:1100b2adbdfef7a386655e9266e74b7cf795cf7ef1a338b65d4fe80733897158",
+      "exactToolCallCount": 0,
+      "historicalRecordedCount": 1,
+      "historicalRecordedCountDisposition": "False positive from a superseded substring scanner; exact Codex event item types contain no tool call."
+    }
+  },
+  "transcriptSha256": "sha256:43e5ea6d5fa37825ba08f3ad4edef820b9b83bee9881838102af799c1156e642"
+}

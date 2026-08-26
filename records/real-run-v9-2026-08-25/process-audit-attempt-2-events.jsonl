@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"01a03d79-8672-79f2-b434-8717d8d19385"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"{\"assessment\":\"PASS\",\"auditInvocationSha256\":\"sha256:2cf867299c4c87a160dff6733543c43b55bbd0f32ed845042f39ccb46fd38a55\",\"materialFindings\":[],\"nonMaterialObservations\":[{\"code\":\"KNOWN_CAPABILITY_BOUNDARY\",\"evidenceReferences\":[\"/capabilityBoundary\"]}],\"protocol\":\"prompted-codex-screening-audit-findings/v1\",\"schema\":\"https://colophon-claims.github.io/locomo-judge-report/prompted-screening-audit-findings/v1\"}"}}
+{"type":"turn.completed","usage":{"input_tokens":19418,"cached_input_tokens":9984,"cache_write_input_tokens":0,"output_tokens":2314,"reasoning_output_tokens":2185}}
