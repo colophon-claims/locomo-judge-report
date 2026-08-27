@@ -1,0 +1,13 @@
+{
+  "amendedRecord": "AMENDMENTS/2026-08-27-neutral-verdict-delivery-correction.md",
+  "appendKind": "software-heritage-archival-confirmation",
+  "archivedCommit": "9d63ff317e204bf5f2b604cc16f4262dc34ae60f",
+  "protocol": "locomo-append-only-public-record-correction/v1",
+  "revisionSwhid": "swh:1:rev:9d63ff317e204bf5f2b604cc16f4262dc34ae60f",
+  "runSha256": "481c9680e005eb7814f7120a56ef2242ba8167802571416ec363f6a743a6730e",
+  "saveRequestId": 2454952,
+  "saveRequestUrl": "https://archive.softwareheritage.org/api/1/origin/save/2454952/",
+  "snapshotSwhid": "swh:1:snp:d4cfb9cb64a5216e17c49a55227542af36460d22",
+  "status": "appended-without-rewriting-source",
+  "tag": "locomo-judge-report-second-superseding-lock-2026-08-27"
+}
