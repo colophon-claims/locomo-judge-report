@@ -47,6 +47,7 @@ const allowedFiles = new Map([
   ['AMENDMENTS/2026-08-26-official-lock.md', ['text/markdown', 8192]],
   ['AMENDMENTS/2026-08-27-superseding-execution-lock.md', ['text/markdown', 8192]],
   ['AMENDMENTS/2026-08-27-superseding-lock-swhid.json', ['application/json', 4096]],
+  ['AMENDMENTS/2026-08-27-neutral-verdict-delivery-correction.md', ['text/markdown', 8192]],
   ['ATTRIBUTION.md', ['text/markdown', 8192]],
   ['CITATION.cff', ['text/yaml', 4096]],
   ['CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt', ['text/plain', 8192]],
