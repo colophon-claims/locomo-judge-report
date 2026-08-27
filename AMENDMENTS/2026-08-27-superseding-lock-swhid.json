@@ -1,0 +1,13 @@
+{
+  "amendedRecord": "AMENDMENTS/2026-08-27-superseding-execution-lock.md",
+  "appendKind": "software-heritage-archival-confirmation",
+  "archivedCommit": "277575024c102275e8e5f0db94dd55710966ab71",
+  "protocol": "locomo-append-only-public-record-correction/v1",
+  "revisionSwhid": "swh:1:rev:277575024c102275e8e5f0db94dd55710966ab71",
+  "runSha256": "6f50c521671c7c988476493ef844bc1ab555d87a89acfe42d0696a82bd200290",
+  "saveRequestId": 2454732,
+  "saveRequestUrl": "https://archive.softwareheritage.org/api/1/origin/save/2454732/",
+  "snapshotSwhid": "swh:1:snp:10ed73bd392b5f2313dcdb21b14902f3a3f6c41b",
+  "status": "appended-without-rewriting-source",
+  "tag": "locomo-judge-report-superseding-lock-2026-08-27"
+}
