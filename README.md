@@ -1,12 +1,15 @@
 # LoCoMo judge report registration
 
-## SCREENING COMPLETE / NOT FROZEN
+## RUN COMPLETE / REPORT PUBLISHED
 
-This public repository is the operator-owned registration record for a future
-LoCoMo judge report. The evidence-aware 664-item prompted screen and the 255
+This public repository is the operator-owned registration record for the LoCoMo
+judge report, and the report itself is now published here as
+[REPORT.md](REPORT.md). The locked run graded 4,320 of 4,320 cells on 27 to 28
+August 2026 with no lost cells, and the two companion modules that accompany it
+graded 900 more. All five questions posted in the public experiment design are
+answered. The evidence-aware 664-item prompted screen and the 255
 required Ritsu checks are complete, and Colophon has admitted the balanced
-240-item bank. It
-is not a benchmark freeze or benchmark result, and it authorizes no judge run.
+240-item bank.
 The pre-outcome 664-identity commitment and deterministic 72-identity sample
 remain under [`commitments/`](commitments/). The exact outcome evidence,
 candidate item bytes, source rows, replacement lineage, final bank, and signed
