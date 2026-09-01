@@ -1,0 +1,12 @@
+{
+  "amendedRecord": "AMENDMENTS/2026-09-01-run-completion.md",
+  "appendKind": "software-heritage-archival-confirmation",
+  "archivedCommit": "d515074e99d7f0be618008e8cd6f886d0bc58c9c",
+  "protocol": "locomo-append-only-public-record-correction/v1",
+  "revisionSwhid": "swh:1:rev:d515074e99d7f0be618008e8cd6f886d0bc58c9c",
+  "saveRequestId": 2460606,
+  "saveRequestUrl": "https://archive.softwareheritage.org/api/1/origin/save/2460606/",
+  "snapshotSwhid": "swh:1:snp:bca5e72642e3a11de437721adee85ad136d61efb",
+  "status": "appended-without-rewriting-source",
+  "tag": "locomo-judge-report-run-completion-2026-09-01"
+}
