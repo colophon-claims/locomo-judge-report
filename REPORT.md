@@ -166,82 +166,51 @@ agreement measure different properties.
 
 ## Recommendations
 
-### What these results imply for future LoCoMo judging
+### Six actions for more reliable LoCoMo judging
 
-1. **Fix the answer keys first, then be strict.** Strictness was nearly free when the
-   key was right: across the whole panel, there was one false rejection in 479 scored
-   right answers. The material downside appeared under broken keys, where the
-   strictest grader followed the key against a true answer 70% of the time. A stricter
-   judge only helps when the answer key is reliable. A future benchmark should adopt
-   the audit's corrected keys, after checking them, so that a strict judge loses almost
-   all of its observed downside.
+1. **Audit answer keys before tightening the judge.** Strict grading caused only one
+   false rejection across 479 right answers when the key was correct, but the strictest
+   grader rejected 70% of true answers paired with broken keys. Adopt the audit's
+   corrected keys, verify them, then standardize a stricter judge.
 
-2. **Treat vague-answer acceptance as an underspecified task, not a model limit.**
-   Every grader was nearly perfect on right answers and much weaker on vague, on-topic
-   answers. Even the strictest configuration accepted 32.5% of them. The prompts do
-   not define what answering requires precisely enough. The structural fix to test is
-   to make the judge first identify the exact value the answer gives for the requested
-   fact, then compare that value with the reference. An answer that gives no value
-   would fail by rule, not by judgment. The strictest prompt's lead is consistent with
-   this account because it forces the answer to make a commitment.
+2. **Require answers to state the requested fact.** Every judge struggled more with
+   vague, on-topic answers; even the strictest accepted 32.5%. Test a judge that first
+   identifies the exact value an answer gives, then compares it with the reference. If
+   no value is given, the answer fails.
 
-3. **Give the judge a third verdict when the reference appears wrong.** Every grader
-   accepted all 20 true answers once the key was corrected. On these items, the graders
-   could recognize the true answer but rejected it under a broken key because the
-   instructions told them to compare against that key. A candidate that contradicts
-   the reference but appears well-grounded should become a separately counted,
-   reviewable outcome rather than a rejection.
+3. **Add a third verdict for a likely broken key.** Every grader accepted all 20 true
+   answers once the key was corrected. When an answer contradicts the reference but is
+   supported by evidence, send it to review instead of automatically marking it wrong.
 
-4. **Include cases that should be rejected in the consistency test.** The two graders
-   that passed this run's test did so by accepting every probe, while the grader with
-   the highest agreement on the main bank failed both tested operations. As designed,
-   the test cannot separate consistency from indiscriminate leniency. A replacement
-   set must include probes where rejection is the consistent answer.
+4. **Test consistency with both accept and reject cases.** The two graders that passed
+   the current test accepted every probe, so it rewarded leniency as well as
+   consistency. A replacement should include cases where rejection is the only
+   consistent decision.
 
-5. **Spend the next evaluation resources on items and key auditing, not more repeated
-   calls.** Repeat disagreement was 1.6% overall and 2.9% at worst, against a 27.1-point
-   grader effect. On this bank and model snapshot, more items and better keys are likely
-   to buy more measurement quality than more calls per item.
+5. **Spend evaluation effort on more items and better keys.** Repeat disagreement was
+   1.6% overall and 2.9% at worst, while grader choice moved agreement by 27.1 points.
+   On this bank, broader coverage and key auditing are more valuable than additional
+   repeated calls.
 
-6. **Force evidence through the grading task instead of offering it as context.**
-   Adding evidence to a prompt that did not require comparison made the judge accept
-   7.7 percentage points more answers, with nearly all of the increase coming from
-   wrong answers, and lowered agreement from 78.3% to 70.0%. Simply adding evidence
-   changed the score even though the grading instructions stayed the same. A reference
-   judge should specify how evidence must be used rather than merely placing it in the
-   prompt.
+6. **Tell the judge how to use evidence.** Simply adding source evidence raised
+   acceptance by 7.7 points and lowered agreement from 78.3% to 70.0%; almost all extra
+   acceptances were wrong. A reference prompt should require explicit comparison with
+   the evidence, not merely include it as context.
 
-Together, these results support one versioned reference judge for LoCoMo, run over
-audited answer keys. It should first identify the exact fact an answer commits to and
-then compare that fact with the reference. It should also allow a third, reviewable
-verdict when the reference appears wrong. Before adoption, it should be tested for
-false acceptance by wrong-answer class, false rejection, repeat stability,
-consistency on both accept and reject cases, and behavior under broken keys. Results
-produced by another judge should use the disclosure standard below.
+**The practical recommendation is one versioned LoCoMo reference judge, used with
+audited answer keys.** It should identify the fact an answer commits to, compare that
+fact with the reference, and allow review when the key appears wrong. These design
+changes remain proposals for a follow-up benchmark, not findings of this run.
 
-These proposed changes require a follow-up experiment. This run did not test the new
-comparison task or the third verdict. It used one model snapshot and one diagnostic
-bank.
+### How to use LoCoMo scores today
 
-### Until then: comparing and publishing scores today
-
-For people comparing benchmark results:
-
-- Do not compare LoCoMo scores unless the grading configuration is the same or the
-  difference is explicitly modeled.
-- Ask for the judge model, judge prompt, parser, aggregation rule, and whether the
-  judge received source evidence.
-- Look for separate false-accept rates for specific wrong and vague wrong answers.
-  A pooled rate conceals a major behavior difference.
-- Treat small score gaps cautiously when the grader effect can be much larger than the
-  reported gap.
-
-For people publishing LoCoMo results, mark an unknown choice as not reported rather
-than omitting or inferring it. Publish the parser behavior, repeated-call aggregation
-rule, and treatment of invalid or missing outputs as well as the judge model, prompt,
-and input shape.
-
-The disclosure standard below makes that comparison discipline explicit.
+- Compare scores only when the grading configuration matches; otherwise, do not treat
+  the difference as a memory-system effect.
+- Require the judge model, prompt, evidence input, parser behavior, and repeated-call
+  rule.
+- Publish error rates separately for specific wrong and vague wrong answers.
+- Treat small score gaps cautiously when grader choice can move agreement by 27.1
+  points.
 
 ## The disclosure standard this benchmark supports
 
@@ -312,10 +281,6 @@ Four entries are marked not reported. That is the honest description of a grader
 benchmark that used candidate answers produced elsewhere. This report makes no claim
 about upstream choices that its source materials cannot establish.
 
-Colophon defines these same six fields in a machine-readable disclosure format. This
-report's evidence package predates that format, so the declaration above is published
-with the report rather than inside the verified package.
-
 ## How the benchmark was run
 
 ### Benchmark bank
@@ -366,17 +331,19 @@ the explanatory preamble would move that configuration's agreement from 70.0% to
 70.4%, within its interval. The sensitivity check is not reported as a benchmark
 result.
 
-### Companion tests
+### Additional tests
 
-The consistency test used 12 probes, five applicable configurations, and three calls
-per probe, for 180 calls. The corrupt-key test used 20 questions, two key conditions,
-six configurations, and three calls, for 720 calls. Both completed without lost cells.
+Two smaller tests checked grader behavior that the main 240-answer comparison could
+not isolate. The consistency test used 12 probes, five applicable configurations, and
+three calls per probe, for 180 calls. The wrong-key test used 20 questions, two key
+conditions, six configurations, and three calls, for 720 calls. Both completed without
+lost cells.
 
-The companion fixtures in the original experiment package could not execute because
-one configuration required an evidence field those fixtures did not contain. They
-were not silently repaired. The results in this report come from successor companion
-tests with documented designs and source data. This distinction affects provenance,
-not the main 4,320-call comparison.
+The original additional-test fixtures could not execute because one configuration
+required an evidence field those fixtures did not contain. They were not silently
+repaired. The results in this report come from successor tests with documented designs
+and source data. This distinction affects provenance, not the main 4,320-call
+comparison.
 
 ### Analysis
 
