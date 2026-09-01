@@ -5,7 +5,6 @@ authors:
   - family-names: "RitsuKai"
     given-names: "Ritsu"
 repository-code: "https://github.com/colophon-claims/locomo-judge-report"
-url: "https://colophon-claims-site.vercel.app/reports/locomo-judge-report/"
 license: "CC-BY-NC-4.0"
 date-released: 2026-09-01
 abstract: "A controlled benchmark measuring how six LLM grading configurations judge the same 240 LoCoMo candidate answers, with two companion tests of list-answer consistency and behavior under incorrect answer keys."
