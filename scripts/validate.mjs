@@ -72,6 +72,7 @@ const allowedFiles = new Map([
   ['LICENSE', ['text/plain', 32768]],
   ['LICENSES/THIRD-PARTY-NOTICES.md', ['text/markdown', 8192]],
   ['README.md', ['text/markdown', 24576]],
+  ['REPORT.md', ['text/markdown', 32768]],
   ['docs/sampling-commitment.md', ['text/markdown', 8192]],
   ['docs/software-heritage.md', ['text/markdown', 8192]],
   ['commitments/LEDGER.jsonl', ['application/x-ndjson', 4096]],
