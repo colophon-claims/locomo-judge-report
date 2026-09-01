@@ -22,6 +22,11 @@ vague, on-topic wrong answer than a specific wrong answer. Three of five graders
 internally inconsistent on basic set-answer cases. When the answer key was wrong,
 graders followed the broken key against a true answer between 10% and 70% of the time.
 
+The spread caused by changing the grader was 27.1 percentage points on the same
+answers. That is larger than many of the differences used to compare memory systems.
+Two scores produced by different graders are measurements from different instruments.
+Their numerical difference cannot be attributed to the memory systems alone.
+
 This is a benchmark of graders, not memory systems. It does not rank or re-score any
 memory product, and it cannot establish which published system is better.
 
@@ -41,61 +46,6 @@ before the benchmark ran.
 
 A separate consistency gate found that three of five applicable graders did not treat
 equivalent set-answer operations consistently.
-
-## Why this matters
-
-### Published LoCoMo scores are not directly comparable without grader disclosure
-
-The spread caused by changing the grader was 27.1 percentage points on the same
-answers. That is larger than many of the differences used to compare memory systems.
-A score without its judge model, judge prompt, and judge input shape is therefore not
-a complete measurement description.
-
-This does not mean that any particular published score is wrong. It means that two
-scores produced by different graders are measurements from different instruments.
-Their numerical difference cannot be attributed to the memory systems alone.
-
-### Vague answers are a scoring advantage
-
-Every grader accepted vague wrong answers much more often than specific wrong
-answers. A system can therefore improve its apparent score by staying on topic while
-avoiding the fact the question asks for. Pooling the two kinds of wrong answer would
-hide this behavior and make the reported false-accept rate depend on their mixture.
-
-Benchmark reports should keep specific wrong and vague wrong answers separate.
-
-### Stricter is not the same as more reliable
-
-The strictest configuration had the highest agreement with the benchmark labels, but
-it also failed the consistency gate on both tested set operations and followed a
-broken answer key most often. Replacing a lenient prompt with the strictest available
-prompt does not solve the whole evaluation problem.
-
-Accuracy against a clean key, internal consistency, and resistance to a bad key are
-different properties. A useful default judge needs to be evaluated on all three.
-
-### Evidence changes the instrument
-
-Adding source evidence to the Mem0 prompt changed decisions materially. On the 233
-items that could be compared directly, the evidence-fed configuration accepted 7.7
-percentage points more answers (95% interval 4.3 to 11.2). The change was concentrated
-in vague wrong answers, where acceptance rose by 21.8 points (95% interval 12.8 to
-30.8). It did not change decisions on right answers.
-
-In this setup, evidence made the judge more permissive rather than more accurate. The
-result does not show that evidence is generally harmful. It shows that the information
-shown to the judge is part of the grading instrument and must be reported alongside
-the prompt.
-
-### Bad answer keys do not fail safely
-
-When a reference answer was wrong, some graders rejected a true candidate because it
-contradicted the key. Once the key was corrected, every grader accepted every true
-candidate. This demonstrates the mechanism by which an erroneous key can punish a
-correct system or make a benchmark result exceed an assumed ceiling.
-
-The 20-item check demonstrates that the mechanism exists. It does not estimate how
-often bad keys affect any published score.
 
 ## Results
 
@@ -215,7 +165,65 @@ agreement measure different properties.
 
 ## Recommendations
 
-### For people comparing benchmark results
+### What these results imply for future LoCoMo judging
+
+1. **Fix the answer keys first, then be strict.** Strictness was nearly free when the
+   key was right: across the whole panel, there was one false rejection in 479 scored
+   right answers. The material downside appeared under broken keys, where the
+   strictest grader followed the key against a true answer 70% of the time. Key quality
+   and judge strictness are complements. A future benchmark should adopt the audit's
+   corrected keys, after checking them, so that a strict judge loses almost all of its
+   observed downside.
+
+2. **Treat vague-answer acceptance as an underspecified task, not a model limit.**
+   Every grader was nearly perfect on right answers and much weaker on vague, on-topic
+   answers. Even the strictest configuration accepted 32.5% of them. The prompts do
+   not define what answering requires precisely enough. The structural fix to test is
+   to make the judge first extract the candidate's committed value for the requested
+   fact, then compare values. An answer that commits to no value would fail by rule,
+   not by judgment. The strictest prompt's lead is consistent with this account because
+   it forces the answer to make a commitment.
+
+3. **Give the judge a third verdict for key conflicts.** Every grader accepted all 20
+   true answers once the key was corrected. On these items, the graders could recognize
+   the true answer but rejected it under a broken key because the instructions told
+   them to compare against that key. A candidate that contradicts the reference but
+   appears well-grounded should become a separately counted, reviewable outcome rather
+   than a rejection.
+
+4. **Include rejection cases in the consistency battery.** The two graders that passed
+   this run's gate did so by accepting every probe, while the grader with the highest
+   agreement on the main bank failed both tested operations. As designed, the gate
+   cannot separate consistency from indiscriminate leniency. A replacement battery
+   must include probes where rejection is the consistent answer.
+
+5. **Spend the next call budget on items and key auditing, not more replicas.** Repeat
+   disagreement was 1.6% overall and 2.9% at worst, against a 27.1-point grader effect.
+   On this bank and model snapshot, more items and better keys are likely to buy more
+   measurement quality than more calls per item.
+
+6. **Force evidence through the grading task instead of offering it as context.**
+   Adding evidence to a prompt that did not require comparison made the judge accept
+   7.7 percentage points more answers, with nearly all of the increase coming from
+   wrong answers, and lowered agreement from 78.3% to 70.0%. Extra input without a
+   changed task is a lever on the score. A reference judge should specify how evidence
+   must be used rather than merely placing it in the prompt.
+
+Together, these results support one versioned reference judge for LoCoMo: an
+extract-then-compare task with a key-conflict flag channel, run over audited answer
+keys. It should be validated on published measurements of false acceptance by
+wrong-answer class, false rejection, repeat stability, rejection-inclusive
+consistency, and behavior under broken keys. The disclosure standard should then be
+the fallback for any result not produced by that reference judge, rather than the
+whole ask.
+
+The extract-then-compare task and the key-conflict channel are implications that point
+to a follow-up experiment. This run did not test either design. It used one model
+snapshot and one diagnostic bank.
+
+### Until then: comparing and publishing scores today
+
+For people comparing benchmark results:
 
 - Do not compare LoCoMo scores unless the grading configuration is the same or the
   difference is explicitly modeled.
@@ -226,21 +234,12 @@ agreement measure different properties.
 - Treat small score gaps cautiously when the grader effect can be much larger than the
   reported gap.
 
-### For people publishing LoCoMo results
+For people publishing LoCoMo results, report an unknown choice as undisclosed rather
+than omitting or inferring it. Publish the parser behavior, repeated-call aggregation
+rule, and treatment of invalid or missing outputs as well as the judge model, prompt,
+and input shape.
 
-Use the disclosure standard below. If a choice is unknown, report it as undisclosed
-rather than omitting or inferring it. Also publish the parser behavior, repeated-call
-aggregation rule, and treatment of invalid or missing outputs.
-
-### For benchmark maintainers
-
-- Ship one reference grading specification with the benchmark instead of leaving every
-  publisher to choose a different judge.
-- Test the reference grader for false acceptance, false rejection, repeat stability,
-  set-answer consistency, and behavior under known-bad keys.
-- Audit answer keys. A bad key can turn a correct system answer into an apparent error.
-- Keep grader evaluations separate from system evaluations. Improving the judge does
-  not retroactively make scores from different judges comparable.
+The disclosure standard below makes that comparison discipline explicit.
 
 ## The disclosure standard this benchmark supports
 
