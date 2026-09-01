@@ -13,7 +13,7 @@ to one another as though the grading instrument had stayed fixed.
 This benchmark measures how much that choice matters. Six grading configurations
 judged the same 240 answers on the same model snapshot. The configurations varied the
 judge prompt; one paired configuration also varied whether the judge received source
-evidence. Two companion tests examined consistency and behavior when the official
+evidence. Two additional tests examined consistency and behavior when the official
 answer key is wrong.
 
 **The central finding is simple: changing only the grader moved agreement with the
@@ -127,6 +127,10 @@ agreement.
 
 ### 5. Behavior when the answer key is wrong
 
+This test directly answers Question 5 and explains the exception in Question 2:
+strict grading creates little cost when the key is correct, but can reject true
+answers when the key itself is wrong.
+
 The corrupt-key test used 20 questions whose official LoCoMo answers had been
 identified as wrong by the community audit. For each question, a true candidate answer
 was graded twice: once against the broken official key and once against the corrected
@@ -146,6 +150,9 @@ accepted all 20 true answers. Showing source evidence barely changed broken-key
 following: 12/20 for Mem0 without evidence and 11/20 with evidence.
 
 ### Consistency test
+
+This is a separate diagnostic rather than an answer to one of the five questions. It
+tests whether a grader gives the same verdict to equivalent list answers.
 
 The test used 12 list-answer probes: six subset cases and six superset cases. It
 included the four examples that opened the public LoCoMo discussion. The evidence-fed
