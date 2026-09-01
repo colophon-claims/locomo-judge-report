@@ -1,249 +1,167 @@
-# LoCoMo judge report registration
+# Judging the LoCoMo judges
 
-## RUN COMPLETE / REPORT PUBLISHED
+This repository contains the report, frozen inputs, evidence records, and public
+verification trail for a controlled benchmark of the LLM graders used with LoCoMo.
 
-This public repository is the operator-owned registration record for the LoCoMo
-judge report, and the report itself is now published here as
-[REPORT.md](REPORT.md). The locked run graded 4,320 of 4,320 cells on 27 to 28
-August 2026 with no lost cells, and the two companion modules that accompany it
-graded 900 more. All five questions posted in the public experiment design are
-answered. The evidence-aware 664-item prompted screen and the 255
-required Ritsu checks are complete, and Colophon has admitted the balanced
-240-item bank.
-The pre-outcome 664-identity commitment and deterministic 72-identity sample
-remain under [`commitments/`](commitments/). The exact outcome evidence,
-candidate item bytes, source rows, replacement lineage, final bank, and signed
-Colophon admission records are under
-[`records/real-run-v8-2026-08-24/`](records/real-run-v8-2026-08-24/). The
-append-only corrective record, including its 52 replacements and signed
-Colophon admission, is under
-[`records/real-run-v9-2026-08-25/`](records/real-run-v9-2026-08-25/).
-No full conversation, credential, private note, or unrelated dataset byte is
-published. Versioned Colophon-authored prompt and instruction bytes define the
-procedure. Clearly named synthetic fixtures
-and the preserved synthetic pilots are permanently ineligible for admission.
-The first two pilots are non-conformant. The process-green third pilot is an
-acceptance candidate but remains `NOT-APPROVED` because its raw-material audit
-shape was rejected for excessive usage pending Ritsu. The fourth pilot remains
-`NON-CONFORMANT / PROCESS_AUDIT_MATERIAL_FLAG`; the append-only amendment does
-not change its returned audit. The fifth attempt is `NON-CONFORMANT /
-PUBLIC_V5_EXECUTABLE_BUILDER_REJECTS_FRESH_PREFIX` and stopped before any
-dispatch. The sixth pilot is `NON_CONFORMANT / AUDIT_OUTPUT_SCHEMA_REJECTED`:
-its judgment dispatches were mechanically green, but its exact nested Sol
-response did not match the underspecified version 2 audit-output shape. The
-raw response remains rejected and no Ritsu decision was recorded. The clean
-version 7 pilot is separately confirmed by Ritsu, but its synthetic cases are
-permanently excluded and remain ineligible for admission. None of the synthetic
-runs is a real-screening result or a freeze.
+Six grading configurations judged the same 240 candidate answers. Changing only the
+grader moved agreement with the same correctness labels from **60.8% to 87.9%**.
+Every grader was also much more likely to accept a vague, on-topic wrong answer than a
+specific wrong answer.
 
-The sole repository operator is `ritsukai`. Published records follow the
-append-only process in [CONTRIBUTING.md](CONTRIBUTING.md). The version 8
-screening record remains complete and public. The corrective evidence-aware
-version 9 re-screen is also complete because the version 8 agent payload
-omitted the registered evidence excerpt. Version 9 reuses the original pool,
-seed, sample, item bytes, and source-record bytes. Neither record is the
-benchmark freeze.
+**[Read the report online](https://colophon-claims-site.vercel.app/reports/locomo-judge-report/)**
+· **[Read it in this repository](REPORT.md)**
+· **[Download the evidence bundles](https://github.com/colophon-claims/locomo-judge-report/releases/tag/locomo-judge-report-run-completion-2026-09-01)**
 
-## Scope
+This is a benchmark of graders, not memory systems. It does not rank or re-score any
+memory product, and it cannot establish which published system is better.
 
-- [source-register.json](source-register.json) is the canonical source register.
-- [CODEX-SCREENING-PROMPT.v1.md](CODEX-SCREENING-PROMPT.v1.md) records the
-  immutable procedure source used by the non-conformant pilot. Version 1 is
-  superseded for future dispatches, not rewritten.
-- [CODEX-SCREENING-PROMPT.v2.md](CODEX-SCREENING-PROMPT.v2.md) records the
-  immutable procedure source used by the non-conformant 2026-08-23 synthetic
-  pilot. Version 2 is superseded for future dispatches, not rewritten.
-- [CODEX-SCREENING-PROMPT.v3.md](CODEX-SCREENING-PROMPT.v3.md) records the
-  immutable procedure used by the process-green but not-approved third
-  synthetic pilot. It introduced opaque judgment identities, non-grouped
-  order, and mandatory byte-exact rendering.
-- [CODEX-SCREENING-PROMPT.v4.md](CODEX-SCREENING-PROMPT.v4.md) records the
-  immutable procedure used by the non-conformant fourth synthetic pilot. It
-  retains the v3 judgment path and limits Sol process-audit input to a closed
-  canonical summary no larger than 65,536 bytes.
-- [CODEX-SCREENING-PROMPT.v5.md](CODEX-SCREENING-PROMPT.v5.md) records the
-  normative future coordinator procedure. It names content and transcript
-  event identities in-band, closes synthetic and real selection semantics, and
-  retains the strict unqualified `PASS` with zero material flags gate. The
-  audit cannot reperform item judgments or prove provider execution.
-- [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v1.txt)
-  is the independent exact judgment-agent instruction used by coordinator
-  prompt versions 2, 3, 4, 5, and 6.
-- [fixtures/prompted-screening-pilot-v1.json](fixtures/prompted-screening-pilot-v1.json)
-  contains only 24 synthetic, permanently excluded validation cases and no
-  model output or operator decision.
-- [fixtures/prompted-screening-pilot-v2.json](fixtures/prompted-screening-pilot-v2.json)
-  preserves the same 24 synthetic cases while assigning fixed opaque judgment
-  identities and a sealed non-grouped dispatch order. Outer metadata remains
-  outside blinded dispatch bytes.
-- [fixtures/prompted-screening-pilot-v4-compact-audit.json](fixtures/prompted-screening-pilot-v4-compact-audit.json)
-  preserves the initial 8,235-byte compact process-audit fixture bound by the
-  append-only third-pilot record.
-- [fixtures/prompted-screening-pilot-v4-joint-compact-audit.json](fixtures/prompted-screening-pilot-v4-joint-compact-audit.json)
-  is the immutable version 4 no-run fixture. Each ordered cell carries an exact 27-count
-  Luna/Terra/Sol verdict contingency from which every marginal, agreement,
-  pairwise disagreement, asymmetry, and all-different count is derived. It
-  renders to 9,159 bytes; the synthetic 664-item capacity probe renders to
-  48,766 bytes. Usage remains explicitly unmeasured and no model was run.
-- [fixtures/prompted-screening-pilot-v5-compact-audit.json](fixtures/prompted-screening-pilot-v5-compact-audit.json)
-  is the current no-run fixture. Its compact input renders to 11,825 bytes. The
-  deterministic 664-item, 146-batch capacity probe renders to 42,754 bytes,
-  leaving 22,782 bytes below the unchanged 65,536-byte cap. It derives event
-  identities from the preserved version 4 judgment prefix without running any
-  model or creating new judgment output.
-- [CODEX-SCREENING-PROMPT.v6.md](CODEX-SCREENING-PROMPT.v6.md) separates exact
-  pre-dispatch planning from generic post-judgment replay. The planner records
-  the clean checkout's exact `HEAD`, optionally requires an operator-supplied
-  expected commit, and joins every normative artifact to its Git object bytes.
-  The runtime builder accepts a new closed fourteen-event prefix, derives
-  `recorded-model-run` only from all six exact distinct pairs, and retains the
-  provider-execution and freshness capability boundary.
-- [CODEX-SCREENING-AUDIT-INSTRUCTION.v2.txt](CODEX-SCREENING-AUDIT-INSTRUCTION.v2.txt)
-  and its closed output schema require the Sol audit output to echo the exact
-  run, plan, prefix, compact input, instruction, task, source revision, and
-  model profile bindings. Audit-policy PASS is separate from production
-  finalization.
-- [CODEX-SCREENING-PROMPT.v7.md](CODEX-SCREENING-PROMPT.v7.md) and
-  [CODEX-SCREENING-AUDIT-INSTRUCTION.v3.txt](CODEX-SCREENING-AUDIT-INSTRUCTION.v3.txt)
-  define the current no-run audit interface. The recorder owns every mechanical
-  binding and the full audit envelope. Sol returns only one invocation digest,
-  `PASS`, `FAIL`, or `REFUSE`. Material anomalies have their own closed codes,
-  evidence references, and bounded summaries. Non-material observations use a
-  separate predefined code set with evidence references and no free-form text.
-  The complete closed shape and exact example are supplied in-band.
-- [fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl](fixtures/prompted-screening-runtime-v6-simulation-prefix.jsonl)
-  and its exact output fixture provide a deterministic no-model, test-only
-  reachability simulation. They are not a run, acceptance, admission record,
-  Ritsu decision, reusable result, or authorization to screen.
-- [records/synthetic-pilot-v5-2026-08-23/NON-CONFORMANT.json](records/synthetic-pilot-v5-2026-08-23/NON-CONFORMANT.json)
-  preserves the exact process-v5 zero-dispatch stop. Its append-only correction
-  explains that static refusal safety was validated while fresh-prefix runtime
-  reachability was not.
-- [records/synthetic-pilot-v6-2026-08-23/NON-CONFORMANT.json](records/synthetic-pilot-v6-2026-08-23/NON-CONFORMANT.json)
-  preserves the exact sixth-pilot stop, raw outputs, recorder states, judgment
-  prefix, rejected nested claimed PASS, handoff, and usage.
-  It records 72 mechanically valid judgments, no audit-output event, no final
-  transcript, and zero Ritsu decisions.
-- [records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json](records/synthetic-pilot-2026-08-22/NON-CONFORMANT.json)
-  preserves the failed synthetic pilot, its privacy-safe raw evidence, exact
-  artifact identities, zero Ritsu decisions, and non-acceptance.
-- [records/synthetic-pilot-v2-2026-08-23/NON-CONFORMANT.json](records/synthetic-pilot-v2-2026-08-23/NON-CONFORMANT.json)
-  preserves the second failed synthetic pilot and its privacy-safe raw results,
-  audit, and transcript. The record is `NON-CONFORMANT` with
-  `PROCESS_DEFECT`, records zero Ritsu decisions, and separates the pre-audit
-  judgment transcript identity from the final append-only transcript identity.
-- [records/synthetic-pilot-v3-2026-08-23/NOT-APPROVED.json](records/synthetic-pilot-v3-2026-08-23/NOT-APPROVED.json)
-  preserves the exact corrected third-pilot evidence and derivative history.
-  It records 72 valid judgments, 24 of 24 three-model agreement, zero judgment
-  errors, retries, tools, or Ritsu decisions, and the exact 586,847 observable
-  token total. The separate Sol process audit made 11 tool calls and consumed
-  464,147 observable tokens, so that audit shape is rejected. The record is not
-  accepted or reusable.
-- [records/synthetic-pilot-v4-2026-08-23/NON-CONFORMANT.json](records/synthetic-pilot-v4-2026-08-23/NON-CONFORMANT.json)
-  preserves the exact fourth-pilot evidence, 72 valid judgments, 24 of 24
-  agreement, zero errors, retries, tools, or Ritsu decisions, and the raw
-  `qualified-pass` audit with one material flag. Its append-only mechanical
-  correction narrows an overclaim about process freshness without rewriting
-  the returned audit or accepting the run.
-- [schemas/compact-process-audit-input.v1.schema.json](schemas/compact-process-audit-input.v1.schema.json)
-  and its renderer define the closed process-only summary used by prompt v4.
-  The current reviewed source revision requires the joint cell contingencies.
-  Sol relies on machine validation flags and digests for raw-byte integrity; the
-  later public artifact verifier must resolve and hash published artifacts.
-- [schemas/compact-process-audit-input.v2.schema.json](schemas/compact-process-audit-input.v2.schema.json)
-  and its renderer define the version 5 closed, self-describing keyed-column
-  summary. The schema distinguishes content digests from exact dispatch/output
-  transcript event identities and states the provider capability boundary
-  in-band.
-- [schemas/sampling-commitment.schema.json](schemas/sampling-commitment.schema.json)
-  defines a validation interface, not a commitment instance.
-- [docs/software-heritage.md](docs/software-heritage.md) records the successful
-  Software Heritage archive of the pre-outcome sampling commitment.
-- [records/real-run-v8-2026-08-24/](records/real-run-v8-2026-08-24/) preserves
-  the exact completed screening evidence and Colophon admission receipt. The
-  verifier checks artifact integrity and admission closure; it does not prove
-  provider execution, prompt compliance, or immutable weights behind the
-  declared model names.
-- [records/real-run-v9-2026-08-25/](records/real-run-v9-2026-08-25/) preserves
-  the completed evidence-aware corrective screen, all 255 required Ritsu
-  decisions, deterministic 52-item replacement lineage, balanced final bank,
-  module confirmations, and signed Colophon admission records. It references
-  the byte-identical item and source-record files already retained by version 8.
-- [CODEX-SCREENING-PROMPT.v9.md](CODEX-SCREENING-PROMPT.v9.md) and
-  [CODEX-SCREENING-JUDGMENT-INSTRUCTION.v3.txt](CODEX-SCREENING-JUDGMENT-INSTRUCTION.v3.txt)
-  bind the exact evidence-aware corrective workflow before any version 9 model
-  output. The correction reuses the original pool, seed, and sample and can
-  amend admission only through a new append-only public record.
+## What the benchmark found
 
-Run the local checks with:
+- **Grader choice materially changes the score.** Agreement on identical answers
+  ranged from 60.8% to 87.9%, a spread of 27.1 percentage points.
+- **Vague wrong answers are the main weakness.** Specific wrong answers were accepted
+  2.5% to 28.8% of the time; vague, on-topic wrong answers were accepted 32.5% to
+  88.8% of the time.
+- **Adding evidence did not improve agreement in the tested setup.** It increased
+  acceptance by 7.7 percentage points, almost entirely by accepting more wrong
+  answers.
+- **A bad answer key can defeat a strict grader.** Against a true answer, graders
+  followed a broken key between 10% and 70% of the time. All accepted the same answers
+  once the keys were corrected.
+- **Consistency and accuracy are separate properties.** Three of five applicable
+  graders treated equivalent list-answer cases inconsistently.
+
+The report gives the complete results, uncertainty intervals, limitations, disclosure
+standard, and recommendations.
+
+## Start here
+
+| If you want to… | Open… |
+| --- | --- |
+| Understand the findings | [REPORT.md](REPORT.md) or the [rendered report](https://colophon-claims-site.vercel.app/reports/locomo-judge-report/) |
+| Download the exact result data | The [run-completion release](https://github.com/colophon-claims/locomo-judge-report/releases/tag/locomo-judge-report-run-completion-2026-09-01) |
+| See what was fixed before and during execution | [The run-completion record](AMENDMENTS/2026-09-01-run-completion.md) |
+| Inspect the 240-answer bank and its selection trail | [The evidence-aware screening record](records/real-run-v9-2026-08-25/README.md) |
+| Inspect the frozen experiment design | [The official lock](records/official-lock-2026-08-26/) |
+| Trace source provenance and licensing | [source-register.json](source-register.json), [ATTRIBUTION.md](ATTRIBUTION.md), and [LICENSES](LICENSES/) |
+| Re-run the repository checks | [Verify this repository](#verify-this-repository) |
+
+## Experiment at a glance
+
+| Module | What it tested | Size | Status |
+| --- | --- | ---: | --- |
+| Main benchmark | Six grading configurations on the same balanced answer bank | 240 answers, 4,320 judge calls | 4,320/4,320 complete |
+| Consistency test | Equivalent subset and superset list answers | 12 probes, 180 judge calls | 180/180 complete |
+| Corrupt-key test | True answers graded against broken and corrected references | 20 questions, 720 judge calls | 720/720 complete |
+
+Each cell in these counts was graded three times and reduced by majority verdict. The
+main run used one dated judge-model snapshot and fixed settings. See the
+[method section](REPORT.md#how-the-benchmark-was-run) for the complete design and the
+[limitations in the report](REPORT.md) for what the design
+cannot establish.
+
+## How the repository is organized
+
+The repository keeps reader-facing conclusions separate from the records that make
+those conclusions auditable.
+
+| Path | Purpose | Reader status |
+| --- | --- | --- |
+| [`REPORT.md`](REPORT.md) | Published benchmark report | Start here |
+| [`records/official-lock-2026-08-26/`](records/official-lock-2026-08-26/) | Frozen benchmark design, instruments, selection, and run specification | Scientific input |
+| [`records/real-run-v8-2026-08-24/`](records/real-run-v8-2026-08-24/) | Original candidate-screening record and exact source rows | Input-construction evidence |
+| [`records/real-run-v9-2026-08-25/`](records/real-run-v9-2026-08-25/) | Evidence-aware corrective screening, final bank, operator decisions, and signed admission records | Canonical input-construction record |
+| [`records/real-run-v10-audit-2026-08-26/`](records/real-run-v10-audit-2026-08-26/) | Audit-only transport correction; no screening or human decision changed | Process evidence |
+| [`commitments/`](commitments/) | Pre-outcome commitments and deterministic sampling records | Registration evidence |
+| [`AMENDMENTS/`](AMENDMENTS/) | Append-only corrections, superseding locks, and completion record | Chronology and disclosure |
+| [`CODEX-SCREENING-PROMPT.v*.md`](CODEX-SCREENING-PROMPT.v10.md) | Preserved versions of the screening procedure | Historical process source |
+| [`fixtures/`](fixtures/) and [`records/synthetic-*`](records/) | Test-only pilots used to harden the procedure | Not benchmark results |
+| [`scripts/`](scripts/) and [`test/`](test/) | Validators, renderers, and automated checks | Verification tooling |
+
+The many versioned prompts and stopped synthetic pilots are deliberately retained.
+They show how the procedure changed and which failures were rejected; they are not
+additional benchmark results and should not be combined with the published run.
+
+## The evidence bundles
+
+The Git repository records the design, input construction, and append-only history.
+The exact result bundles are attached to the
+[run-completion release](https://github.com/colophon-claims/locomo-judge-report/releases/tag/locomo-judge-report-run-completion-2026-09-01).
+
+The primary canonical bundle has this identity:
+
+```text
+sha256:de169c04a24bbb4d9d5b52e398b8bfe92e939ba4d8a8c9e6e3e551cf10aa3774
+```
+
+The release also contains the pairwise-disagreement and paired-majority analyses, plus
+the canonical bundles and additional analyses for both companion tests. Each archive
+unpacks to a directory named by the identity of the bundle it contains.
+
+`ARCHIVE-DIGESTS.sha256` verifies the downloaded archives. The identity above verifies
+the canonical bundle itself; the archive checksum only verifies the transport file.
+
+## How integrity is preserved
+
+The benchmark evidence is protected at several levels:
+
+1. **The bundle is content-addressed.** Changing a byte changes its SHA-256 identity.
+2. **The completed repository state is tagged.** The tag
+   [`locomo-judge-report-run-completion-2026-09-01`](https://github.com/colophon-claims/locomo-judge-report/tree/locomo-judge-report-run-completion-2026-09-01)
+   preserves the report, registration trail, and repository manifest at publication.
+3. **Every tracked file is listed in [`MANIFEST.sha256`](MANIFEST.sha256).** The local
+   validator recomputes the manifest and rejects additions, removals, or changed bytes
+   that have not been explicitly registered.
+4. **Corrections are append-only.** A correction adds a dated record and, where
+   necessary, a superseding lock. Earlier records and tags remain available.
+5. **External anchors are recorded.** The registration trail includes Software
+   Heritage identifiers and OpenTimestamps records where available.
+
+Reader-facing documentation may be clarified after publication. That does not rewrite
+the tagged completion state or change a result bundle's content identity. The current
+manifest is updated whenever current documentation changes; the manifest stored at
+each historical tag remains unchanged.
+
+## Verify this repository
+
+Clone the repository and check out the publication tag:
 
 ```sh
+git clone https://github.com/colophon-claims/locomo-judge-report.git
+cd locomo-judge-report
+git checkout locomo-judge-report-run-completion-2026-09-01
 node scripts/validate.mjs
-node scripts/validate-prompted-screening-pilot.mjs
-node scripts/render-prompted-screening-dispatch-v2.mjs
-node scripts/render-prompted-screening-dispatch-v3.mjs
-node scripts/render-compact-process-audit-input-v1.mjs
-node scripts/render-compact-process-audit-input-v2.mjs
-node scripts/validate-synthetic-pilot-run-record.mjs
-node scripts/validate-synthetic-pilot-v2-run-record.mjs
-node scripts/validate-synthetic-pilot-v3-run-record.mjs
-node scripts/validate-synthetic-pilot-v4-run-record.mjs
-node scripts/validate-synthetic-pilot-v5-stop.mjs
-node scripts/validate-prompted-screening-v5-fixture.mjs
-node scripts/plan-prompted-screening-v6.mjs --repo . --expected-public-commit <exact-public-commit>
-node scripts/build-prompted-screening-runtime-v6.mjs --repo . --expected-public-commit <exact-public-commit> --prefix <fresh-prefix-path>
-node scripts/simulate-prompted-screening-runtime-v6.mjs
-node scripts/validate-synthetic-pilot-v6-stop.mjs
-node scripts/simulate-prompted-screening-runtime-v7.mjs
 node --test test/*.test.mjs
 ```
 
-The callable production recorder owns append-only local state but never
-dispatches an agent. Run it only from a tracked-clean exact public checkout.
-Its `init` command requires exactly one `--mode`, whose value is either
-`production-recording` or `test-only`; omission, duplication, or any other
-value refuses before the state directory is created.
-The operator separately obtains each returned output byte file and records it
-with the matching planned stage, batch, task, model, reasoning, and zero-tool
-declarations:
+The first command checks the registered paths, file boundaries, source commitments,
+real-screening records, and complete SHA-256 manifest. The test suite exercises the
+validators, renderers, recorder behavior, sampling logic, and preserved pilot states.
+
+To verify downloaded release archives, place the archives and
+`ARCHIVE-DIGESTS.sha256` in the same directory, then run:
 
 ```sh
-node scripts/record-prompted-screening-v6.mjs init --state <state-dir> --owner <owner> --mode production --repo . --expected-public-commit <exact-public-commit>
-node scripts/record-prompted-screening-v6.mjs export --state <state-dir> --owner <owner> --artifact plan
-node scripts/record-prompted-screening-v6.mjs record-judgment --state <state-dir> --owner <owner> --stage <Luna-or-Terra-or-Sol> --batch <ordinal> --task <unique-task-id> --model <exact-alias> --reasoning <exact-level> --tools none --output <raw-output-file> --failures 0 --retries 0 --tool-calls 0
-node scripts/record-prompted-screening-v6.mjs seal-judgments --state <state-dir> --owner <owner> --run-id <run-id> --attested-by <operator-id>
-node scripts/record-prompted-screening-v6.mjs prepare-audit --state <state-dir> --owner <owner> --task <unique-audit-task-id>
-node scripts/record-prompted-screening-v6.mjs export --state <state-dir> --owner <owner> --artifact audit-dispatch
-node scripts/record-prompted-screening-v6.mjs record-audit --state <state-dir> --owner <owner> --output <raw-bound-audit-output-file> --failures 0 --retries 0 --tool-calls 0
-node scripts/record-prompted-screening-v6.mjs finalize --state <state-dir> --owner <owner>
-node scripts/record-prompted-screening-v6.mjs validate-final --state <state-dir> --owner <owner>
-node scripts/record-prompted-screening-v6.mjs export --state <state-dir> --owner <owner> --artifact final-transcript
+shasum -a 256 -c ARCHIVE-DIGESTS.sha256
 ```
 
-`record-judgment` is invoked exactly six times in the exported plan order.
-Every state artifact is create-once under one owner. Test-only or no-model
-state can pass the pure audit policy but `finalize` returns a nonzero status and
-the terminal `TEST_ONLY_NON_ADMISSIBLE`; it can never emit `PENDING_RITSU`.
+## What Colophon verification does and does not establish
 
-Version 7 uses the same command sequence through
-`scripts/record-prompted-screening-v7.mjs`. The `prepare-audit` output includes
-the recorder-owned `auditInvocationSha256`. The audit dispatch contains only
-the self-contained version 3 instruction, that digest binding line, and the
-exact compact input. `record-audit` preserves the raw semantic payload bytes
-and deterministically composes the full audit envelope. It never repairs a
-malformed output.
+The records verify the supplied bytes, commitments, deterministic selection and
+replacement rules, signatures, run completeness, and internal relationships declared
+by the published formats.
 
-Before any real 664-row commitment or screening, the operator must create and
-seal a distinct opaque screening identity mapping and a non-grouped dispatch
-order. Current private slot and source identifiers leak hidden metadata and are
-not valid judgment identities.
+They do not prove provider-side model execution, immutable weights behind a mutable
+model name, organizational independence, or that a model followed instructions except
+through the observable outputs. The report's [limitations](REPORT.md)
+state the full boundary.
 
-## License boundary
+## Citation, attribution, and contributions
 
-Colophon-authored material in this repository is licensed under CC BY-NC 4.0.
-The authorized LoCoMo-derived screening material is recorded under
-`records/real-run-v8-2026-08-24` and retains the upstream CC BY-NC 4.0 terms.
-Colophon-authored additions are also licensed under CC BY-NC 4.0. Third-party
-material retains its recorded terms.
-Third-party material retains its own terms; see [LICENSES](LICENSES) and
-[ATTRIBUTION.md](ATTRIBUTION.md).
+- Citation metadata: [CITATION.cff](CITATION.cff)
+- Source and license boundary: [ATTRIBUTION.md](ATTRIBUTION.md)
+- Third-party notices: [LICENSES/THIRD-PARTY-NOTICES.md](LICENSES/THIRD-PARTY-NOTICES.md)
+- Contribution and append-only amendment policy: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+Colophon-authored material is licensed under CC BY-NC 4.0. Third-party material
+retains its recorded terms.
