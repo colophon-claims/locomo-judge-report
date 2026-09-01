@@ -17,10 +17,11 @@ evidence. Two companion tests examined consistency and behavior when the officia
 answer key is wrong.
 
 **The central finding is simple: changing only the grader moved agreement with the
-same screened labels from 60.8% to 87.9%.** Every grader was much more likely to accept a
-vague, on-topic wrong answer than a specific wrong answer. Three of five graders were
-internally inconsistent on basic set-answer cases. When the answer key was wrong,
-graders followed the broken key against a true answer between 10% and 70% of the time.
+same correctness labels from 60.8% to 87.9%.** Every grader was much more likely to
+accept a vague, on-topic wrong answer than a specific wrong answer. Three of five
+graders were internally inconsistent on list-answer cases involving subsets and
+supersets. When the answer key was wrong, graders followed the broken key against a
+true answer between 10% and 70% of the time.
 
 The spread caused by changing the grader was 27.1 percentage points on the same
 answers. That is larger than many of the differences used to compare memory systems.
@@ -40,12 +41,12 @@ before the benchmark ran.
 | --- | --- |
 | 1. How often does each judge accept a known-wrong answer, and does the type of wrong answer matter? | A great deal. Acceptance ranged from 2.5% to 28.8% for specific wrong answers and from 32.5% to 88.8% for vague, on-topic wrong answers. Every judge was substantially more forgiving of vagueness. |
 | 2. What does a stricter judge cost in rejected right answers? | Very little when the reference answer is correct. Across 479 scored right answers, there was one rejection. The tradeoff appears when the reference answer itself is wrong. |
-| 3. Is "the LoCoMo score" one stable instrument or several? | Several. On identical answers, agreement with the labels ranged from 60.8% to 87.9% depending only on the grader. |
+| 3. Does changing the grader change the LoCoMo score? | Yes. On identical answers, agreement with the labels ranged from 60.8% to 87.9% depending only on the grader. |
 | 4. Does showing the judge the source evidence matter? | Yes. In this setup, evidence made the judge more permissive, not more accurate. The evidence-fed configuration accepted 7.7 percentage points more answers overall, with nearly all of the increase coming from vague wrong answers. Its overall agreement was lower, not higher. |
 | 5. When the answer key is wrong, does the judge follow the key or the truth? | It depends on the grader. Against a true answer, broken-key following ranged from 10% to 70%. Every grader accepted all 20 true answers once the key was corrected. |
 
-A separate consistency gate found that three of five applicable graders did not treat
-equivalent set-answer operations consistently.
+A separate consistency test found that three of five applicable graders did not treat
+equivalent list-answer cases consistently.
 
 ## Results
 
@@ -87,7 +88,7 @@ stable. The larger source of variation was the choice of grader.
 
 ### 3. Agreement varies by grader
 
-The table below summarizes agreement with the screened labels across right, specific
+The table below summarizes agreement with the correctness labels across right, specific
 wrong, and vague wrong answers. It is useful for showing the size of the grader effect,
 not for ranking vendors or memory systems.
 
@@ -144,9 +145,9 @@ The key was the only changed input. With the corrected key, all six configuratio
 accepted all 20 true answers. Showing source evidence barely changed broken-key
 following: 12/20 for Mem0 without evidence and 11/20 with evidence.
 
-### Consistency gate
+### Consistency test
 
-The gate tested 12 set-answer probes: six subset cases and six superset cases. It
+The test used 12 list-answer probes: six subset cases and six superset cases. It
 included the four examples that opened the public LoCoMo discussion. The evidence-fed
 configuration was not applicable because these constructed probes have no dataset
 evidence to provide.
@@ -170,56 +171,57 @@ agreement measure different properties.
 1. **Fix the answer keys first, then be strict.** Strictness was nearly free when the
    key was right: across the whole panel, there was one false rejection in 479 scored
    right answers. The material downside appeared under broken keys, where the
-   strictest grader followed the key against a true answer 70% of the time. Key quality
-   and judge strictness are complements. A future benchmark should adopt the audit's
-   corrected keys, after checking them, so that a strict judge loses almost all of its
-   observed downside.
+   strictest grader followed the key against a true answer 70% of the time. A stricter
+   judge only helps when the answer key is reliable. A future benchmark should adopt
+   the audit's corrected keys, after checking them, so that a strict judge loses almost
+   all of its observed downside.
 
 2. **Treat vague-answer acceptance as an underspecified task, not a model limit.**
    Every grader was nearly perfect on right answers and much weaker on vague, on-topic
    answers. Even the strictest configuration accepted 32.5% of them. The prompts do
    not define what answering requires precisely enough. The structural fix to test is
-   to make the judge first extract the candidate's committed value for the requested
-   fact, then compare values. An answer that commits to no value would fail by rule,
-   not by judgment. The strictest prompt's lead is consistent with this account because
-   it forces the answer to make a commitment.
+   to make the judge first identify the exact value the answer gives for the requested
+   fact, then compare that value with the reference. An answer that gives no value
+   would fail by rule, not by judgment. The strictest prompt's lead is consistent with
+   this account because it forces the answer to make a commitment.
 
-3. **Give the judge a third verdict for key conflicts.** Every grader accepted all 20
-   true answers once the key was corrected. On these items, the graders could recognize
-   the true answer but rejected it under a broken key because the instructions told
-   them to compare against that key. A candidate that contradicts the reference but
-   appears well-grounded should become a separately counted, reviewable outcome rather
-   than a rejection.
+3. **Give the judge a third verdict when the reference appears wrong.** Every grader
+   accepted all 20 true answers once the key was corrected. On these items, the graders
+   could recognize the true answer but rejected it under a broken key because the
+   instructions told them to compare against that key. A candidate that contradicts
+   the reference but appears well-grounded should become a separately counted,
+   reviewable outcome rather than a rejection.
 
-4. **Include rejection cases in the consistency battery.** The two graders that passed
-   this run's gate did so by accepting every probe, while the grader with the highest
-   agreement on the main bank failed both tested operations. As designed, the gate
-   cannot separate consistency from indiscriminate leniency. A replacement battery
-   must include probes where rejection is the consistent answer.
+4. **Include cases that should be rejected in the consistency test.** The two graders
+   that passed this run's test did so by accepting every probe, while the grader with
+   the highest agreement on the main bank failed both tested operations. As designed,
+   the test cannot separate consistency from indiscriminate leniency. A replacement
+   set must include probes where rejection is the consistent answer.
 
-5. **Spend the next call budget on items and key auditing, not more replicas.** Repeat
-   disagreement was 1.6% overall and 2.9% at worst, against a 27.1-point grader effect.
-   On this bank and model snapshot, more items and better keys are likely to buy more
-   measurement quality than more calls per item.
+5. **Spend the next evaluation resources on items and key auditing, not more repeated
+   calls.** Repeat disagreement was 1.6% overall and 2.9% at worst, against a 27.1-point
+   grader effect. On this bank and model snapshot, more items and better keys are likely
+   to buy more measurement quality than more calls per item.
 
 6. **Force evidence through the grading task instead of offering it as context.**
    Adding evidence to a prompt that did not require comparison made the judge accept
    7.7 percentage points more answers, with nearly all of the increase coming from
-   wrong answers, and lowered agreement from 78.3% to 70.0%. Extra input without a
-   changed task is a lever on the score. A reference judge should specify how evidence
-   must be used rather than merely placing it in the prompt.
+   wrong answers, and lowered agreement from 78.3% to 70.0%. Simply adding evidence
+   changed the score even though the grading instructions stayed the same. A reference
+   judge should specify how evidence must be used rather than merely placing it in the
+   prompt.
 
-Together, these results support one versioned reference judge for LoCoMo: an
-extract-then-compare task with a key-conflict flag channel, run over audited answer
-keys. It should be validated on published measurements of false acceptance by
-wrong-answer class, false rejection, repeat stability, rejection-inclusive
-consistency, and behavior under broken keys. The disclosure standard should then be
-the fallback for any result not produced by that reference judge, rather than the
-whole ask.
+Together, these results support one versioned reference judge for LoCoMo, run over
+audited answer keys. It should first identify the exact fact an answer commits to and
+then compare that fact with the reference. It should also allow a third, reviewable
+verdict when the reference appears wrong. Before adoption, it should be tested for
+false acceptance by wrong-answer class, false rejection, repeat stability,
+consistency on both accept and reject cases, and behavior under broken keys. Results
+produced by another judge should use the disclosure standard below.
 
-The extract-then-compare task and the key-conflict channel are implications that point
-to a follow-up experiment. This run did not test either design. It used one model
-snapshot and one diagnostic bank.
+These proposed changes require a follow-up experiment. This run did not test the new
+comparison task or the third verdict. It used one model snapshot and one diagnostic
+bank.
 
 ### Until then: comparing and publishing scores today
 
@@ -234,7 +236,7 @@ For people comparing benchmark results:
 - Treat small score gaps cautiously when the grader effect can be much larger than the
   reported gap.
 
-For people publishing LoCoMo results, report an unknown choice as undisclosed rather
+For people publishing LoCoMo results, mark an unknown choice as not reported rather
 than omitting or inferring it. Publish the parser behavior, repeated-call aggregation
 rule, and treatment of invalid or missing outputs as well as the judge model, prompt,
 and input shape.
@@ -262,20 +264,20 @@ Whether the judge receives source evidence belongs in the judge-prompt entry bec
 it changes the judge's input. Parser behavior and repeated-call aggregation should be
 reported alongside the judge configuration.
 
-### The three disclosure states
+### Three ways to report each variable
 
 Each of the six variables must have one of three states:
 
-| State | Meaning |
+| State shown in a report | Meaning |
 | --- | --- |
-| `measured-here` | The experiment fixed and recorded the variable itself |
-| `disclosed-by-publisher` | The publisher stated the choice, but this experiment did not measure or independently establish it |
-| `undisclosed` | The choice is unknown, not stated, or not applicable |
+| Measured in this benchmark | The experiment fixed and recorded the variable itself |
+| Reported by the publisher | The publisher stated the choice, but this experiment did not measure or independently establish it |
+| Not reported | The choice is unknown, not stated, or not applicable |
 
-Unknown information must be reported as `undisclosed`, not omitted or inferred from a
+Unknown information must be reported as not reported, not omitted or inferred from a
 repository name, model family, or surrounding context. Evidence belongs only with a
-`measured-here` entry. A publisher statement may be cited, but it should not be
-presented as an independent measurement.
+choice measured in the benchmark. A publisher statement may be cited, but it should
+not be presented as an independent measurement.
 
 ### Why the benchmark supports this standard
 
@@ -299,23 +301,22 @@ directly comparable.**
 
 | Variable | State | Declaration |
 | --- | --- | --- |
-| Ingestion model | `undisclosed` (`not-stated`) | The published source materials do not identify what produced the upstream memories or indexes |
-| Retrieval configuration | `undisclosed` (`not-stated`) | The published source materials do not identify the retrieval settings used upstream |
-| Answer model | `undisclosed` (`not-stated`) | The candidate-answer files do not identify the model that wrote every answer |
-| Answer prompt | `undisclosed` (`not-stated`) | The candidate-answer files do not identify the complete answering instructions |
-| Judge model | `measured-here` | All grading calls used `gpt-4o-mini-2024-07-18` at temperature zero |
-| Judge prompt | `measured-here` | The six grading configurations and their input shapes were fixed and recorded by this benchmark |
+| Ingestion model | Not reported | The published source materials do not identify what produced the upstream memories or indexes |
+| Retrieval configuration | Not reported | The published source materials do not identify the retrieval settings used upstream |
+| Answer model | Not reported | The candidate-answer files do not identify the model that wrote every answer |
+| Answer prompt | Not reported | The candidate-answer files do not identify the complete answering instructions |
+| Judge model | Measured in this benchmark | All grading calls used `gpt-4o-mini-2024-07-18` at temperature zero |
+| Judge prompt | Measured in this benchmark | The six grading configurations and their input shapes were fixed and recorded by this benchmark |
 
-Four undisclosed entries are not a defect hidden by the report. They are the honest
-description of a grader benchmark that used candidate answers produced elsewhere.
-This report makes no claim about upstream choices that its source materials cannot
-establish.
+Four entries are marked not reported. That is the honest description of a grader
+benchmark that used candidate answers produced elsewhere. This report makes no claim
+about upstream choices that its source materials cannot establish.
 
-The evidence package carries the full machine-readable declaration and verification
-rules. The benchmark report states the human-readable standard, the result that
-supports it, and the report's own disclosure.
+Colophon defines these same six fields in a machine-readable disclosure format. This
+report's evidence package predates that format, so the declaration above is published
+with the report rather than inside the verified package.
 
-## Methodology
+## How the benchmark was run
 
 ### Benchmark bank
 
@@ -353,10 +354,11 @@ discussion:
 | mem0-evidence | The Mem0 prompt with the dataset's source evidence added |
 
 All six used `gpt-4o-mini-2024-07-18` at temperature zero. Each answer was graded
-three times, and a strict majority determined the item decision. The main run contained
-240 items x 6 configurations x 3 calls, or 4,320 grading calls.
+three times under each configuration. The final verdict was the majority of those
+three calls. The main run contained 240 items x 6 configurations x 3 calls, or 4,320
+grading calls.
 
-Unparseable responses were recorded as neutral rather than converted into rejections.
+Responses that could not be parsed were treated as neither correct nor incorrect.
 Twenty-two of 4,320 calls were unparseable, all in the evidence-fed configuration.
 Seven evidence-fed items consequently had no valid majority and appear as explicit
 exclusions. A sensitivity check found that accepting the well-formed verdict behind
@@ -366,7 +368,7 @@ result.
 
 ### Companion tests
 
-The consistency gate used 12 probes, five applicable configurations, and three calls
+The consistency test used 12 probes, five applicable configurations, and three calls
 per probe, for 180 calls. The corrupt-key test used 20 questions, two key conditions,
 six configurations, and three calls, for 720 calls. Both completed without lost cells.
 
@@ -384,41 +386,40 @@ use 95% Wilson intervals. The evidence contrast used a paired bootstrap over the
 items with valid majorities in both configurations. Pairwise disagreement was computed
 on identical items.
 
-### Execution and reproducibility
+### Run completeness
 
-The benchmark was executed through Colophon. It recorded the exact bank, grading
-configurations, model profile, raw verdicts, majority decisions, exclusions, result
-matrix, and machine-generated reports. The main run completed 4,320 of 4,320 calls;
-the two companion tests completed 180 of 180 and 720 of 720. No call was lost.
-
-The resulting bundles can be verified offline. This is evidence that the published
-files are internally consistent with the recorded run. It is not independent proof of
-the model provider's execution environment or immutable model weights.
+All 4,320 planned judge calls completed. Twenty-two responses could not be parsed,
+which excluded seven evidence-fed items from that comparison. Across repeated calls,
+23 of 1,433 scored item-configuration pairs had at least one call disagree with the
+others. The main run and both companion tests completed without lost calls.
 
 ## What this benchmark does not establish
 
 - It does not evaluate or rank memory systems.
-- It does not say which historical LoCoMo score is the correct one.
-- It does not reproduce any publisher's complete private harness. Prompts, parsers,
-  judge models, and surrounding code may differ.
-- It tests one dated judge-model snapshot. Results may differ on another model or
-  snapshot.
-- It measures behavior on a balanced diagnostic bank, not the prevalence of these
-  answer types in ordinary benchmark runs.
-- The 20 corrupt-key items and 12 consistency probes demonstrate mechanisms; they do
-  not estimate population prevalence.
-- Labels were model-screened and selectively hand-reviewed, not independently labelled
-  by multiple human annotators.
-- Majority-of-three reduces but does not remove stochastic variation.
-- The run was locally operated. Artifact verification cannot establish organizational
-  independence or the provider's internal execution conditions.
+- It tests one dated judge-model snapshot on a balanced 240-answer diagnostic bank.
+  Rates may differ on another model, snapshot, or answer distribution.
+- The correctness labels were model-screened and selectively reviewed by the authors,
+  not independently labelled by multiple human annotators.
+- The 20 broken-key items and 12 consistency probes demonstrate mechanisms; they do
+  not estimate how common those problems are in ordinary benchmark runs.
+- The authors operated the experiment themselves. Colophon verifies the published
+  files and their internal consistency, but not the provider's internal execution or
+  the authors' organizational independence.
 
-## Reproducibility identifiers
+## Data and verification
 
-SHA-256 identifiers for the machine-readable results follow. Bundle identifiers refer
-to the currently verified offline bundles and may be replaced only if publication
-packaging adds sealed presentation or disclosure members; such a packaging change does
-not alter the result matrix or any number in this report.
+Download the full result data, grading outputs, prompts, and analysis files from the
+published evidence package. Colophon packages these materials and checks that the
+files used by this report have not changed since publication.
+
+File verification confirms the integrity of the published materials. It does not
+prove that the correctness labels are right or independently verify the model
+provider's internal execution. Independent timestamping is pending.
+
+### Technical verification details
+
+The SHA-256 identifiers below allow an exact file-level comparison with the published
+package.
 
 Main benchmark:
 
@@ -428,7 +429,7 @@ Main benchmark:
 - Machine report: `7869bab3a30defb29f171d7f572e68020edca789cfa7695ebe0a4621a9be5edd`
 - Current bundle: `de169c04a24bbb4d9d5b52e398b8bfe92e939ba4d8a8c9e6e3e551cf10aa3774`
 
-Consistency gate:
+Consistency test:
 
 - Run: `06ae9e458b12562015296228297828e22f291ec0c73ec6833eec4288f0511be6`
 - Result matrix: `aaeddc612a8625d598ccce4ffa03318ed546cce3854912244baa4cce91a79d60`
