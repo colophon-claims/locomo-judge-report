@@ -1,10 +1,16 @@
 cff-version: 1.2.0
-message: "If you use this preparation scaffold, please cite it as follows."
-title: "LoCoMo judge report registration scaffold"
+message: "If you use this benchmark, report, or evidence, please cite it as follows."
+title: "Judging the LoCoMo judges: A controlled benchmark of grading prompts"
 authors:
   - family-names: "RitsuKai"
     given-names: "Ritsu"
 repository-code: "https://github.com/colophon-claims/locomo-judge-report"
+url: "https://colophon-claims-site.vercel.app/reports/locomo-judge-report/"
 license: "CC-BY-NC-4.0"
-date-released: 2026-08-21
-abstract: "Preparation-only public registration scaffold; not a frozen benchmark record."
+date-released: 2026-09-01
+abstract: "A controlled benchmark measuring how six LLM grading configurations judge the same 240 LoCoMo candidate answers, with two companion tests of list-answer consistency and behavior under incorrect answer keys."
+keywords:
+  - "LoCoMo"
+  - "LLM-as-a-judge"
+  - "benchmark evaluation"
+  - "reproducible research"
