@@ -8,8 +8,7 @@ grader moved agreement with the same correctness labels from **60.8% to 87.9%**.
 Every grader was also much more likely to accept a vague, on-topic wrong answer than a
 specific wrong answer.
 
-**[Read the report online](https://colophon-claims-site.vercel.app/reports/locomo-judge-report/)**
-· **[Read it in this repository](REPORT.md)**
+**[Read the report](REPORT.md)**
 · **[Download the evidence bundles](https://github.com/colophon-claims/locomo-judge-report/releases/tag/locomo-judge-report-run-completion-2026-09-01)**
 
 This is a benchmark of graders, not memory systems. It does not rank or re-score any
@@ -38,7 +37,7 @@ standard, and recommendations.
 
 | If you want to… | Open… |
 | --- | --- |
-| Understand the findings | [REPORT.md](REPORT.md) or the [rendered report](https://colophon-claims-site.vercel.app/reports/locomo-judge-report/) |
+| Understand the findings | [REPORT.md](REPORT.md) |
 | Download the exact result data | The [run-completion release](https://github.com/colophon-claims/locomo-judge-report/releases/tag/locomo-judge-report-run-completion-2026-09-01) |
 | See what was fixed before and during execution | [The run-completion record](AMENDMENTS/2026-09-01-run-completion.md) |
 | Inspect the 240-answer bank and its selection trail | [The evidence-aware screening record](records/real-run-v9-2026-08-25/README.md) |
